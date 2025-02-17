@@ -13,7 +13,6 @@ STEP2 = 23  # Step pin for motor 2
 # Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
 # DM860T Stepper Driver
 # Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
-STEP_DELAY = 0.001  # Delay between steps (adjust for speed)
 
 # Setup GPIO
 GPIO.setmode(GPIO.BCM)
@@ -22,13 +21,14 @@ GPIO.setup(STEP1, GPIO.OUT)
 GPIO.setup(DIR2, GPIO.OUT)
 GPIO.setup(STEP2, GPIO.OUT)
 
-def move_motor(direction_pin, step_pin, steps, direction):
+def move_motor(direction_pin, step_pin, STEP_DELAY, steps, direction):
     """
     Moves a stepper motor a specified number of steps.
 
     Args:
         direction_pin (int): GPIO pin for direction control.
         step_pin (int): GPIO pin for step control.
+        STEP_DELAY (int): Delay between steps
         steps (int): Number of steps to move.
         direction (bool): True for one direction, False for the other.
     """
@@ -44,27 +44,31 @@ def move_motor(direction_pin, step_pin, steps, direction):
         # Example: Move motor 1 forward 200 steps and motor 2 backward 200 steps
 
 while True:
+    try:
         print("Get Ready!  Moving motors...")
         #time.sleep(5)
-        steps = 200
+        RPM = 90
+        Run_time = 30 # seconds
+        STEP_DELAY = 1/(RPM / 60 * 200)
+        steps = 200 * 90 / 60 * Run_time
+        #STEP_DELAY = 0.001  # Delay between steps (adjust for speed)
+        move_motor(DIR1, STEP1, STEP_DELAY, steps, True)  # Motor 1 forward
 
-        move_motor(DIR1, STEP1, steps, True)  # Motor 1 forward
 
-
-        move_motor(DIR2, STEP2, 200, False)  # Motor 2 backward
+        move_motor(DIR2, STEP2, STEP_DELAY, steps, False)  # Motor 2 backward
 
         # Example: Move both motors together
-        for _ in range(200):
-            GPIO.output(STEP1, GPIO.HIGH)
-            GPIO.output(STEP2, GPIO.HIGH)
-            time.sleep(STEP_DELAY)
-            GPIO.output(STEP1, GPIO.LOW)
-            GPIO.output(STEP2, GPIO.LOW)
-            time.sleep(STEP_DELAY)
+        # for _ in range(200):
+        #     GPIO.output(STEP1, GPIO.HIGH)
+        #     GPIO.output(STEP2, GPIO.HIGH)
+        #     time.sleep(STEP_DELAY)
+        #     GPIO.output(STEP1, GPIO.LOW)
+        #     GPIO.output(STEP2, GPIO.LOW)
+        #     time.sleep(STEP_DELAY)
 
-except KeyboardInterrupt:
+    except KeyboardInterrupt:
         print("\nOperation stopped by user.")
-finally:
+    finally:
         GPIO.cleanup()
 
 #if __name__ == "__main__":
