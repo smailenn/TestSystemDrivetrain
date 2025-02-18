@@ -53,26 +53,8 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
         step_pin.off()
         time.sleep(STEP_DELAY)
 
+#####################################################
 while True:
-    # Function to stop the loop
-    def stop():
-        global running
-        running = False
-
-        def start():
-        global running
-        running = True
-
-    # Create GUI
-    root = Tk()
-    root.title("Motor Control")
-    stop_button = Button(root, text="Stop", command=stop)
-    stop_button.pack()
-
-    running = True
-
-    while running:
-        root.update()
         try:
             print("Get Ready!  Moving motors...")
             time.sleep(3)
@@ -91,5 +73,5 @@ while True:
             print("\Operation stopped by user.")
             break
 
-    root.destroy()
+
 
