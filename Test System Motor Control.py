@@ -1,13 +1,14 @@
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
+import gpiozero as GPIO
 import time
 
 # Pin configuration for motor 1 - Drivetrain
-DIR1 = 13   # Direction pin for motor 1
-STEP1 = 11  # Step pin for motor 1
+DIR1 = 27   # Direction pin for motor 1
+STEP1 = 22  # Step pin for motor 1
 
 # Pin configuration for motor 2 - Vibration
-DIR2 = 18   # Direction pin for motor 2
-STEP2 = 16  # Step pin for motor 2
+DIR2 = 24   # Direction pin for motor 2
+STEP2 = 23  # Step pin for motor 2
 
 # Motor parameters
 # Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
@@ -15,7 +16,7 @@ STEP2 = 16  # Step pin for motor 2
 # Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
 
 # Setup GPIO
-GPIO.setmode(GPIO.BOARD)
+#GPIO.setmode(GPIO.BOARD)
 GPIO.setup(DIR1, GPIO.OUT)
 GPIO.setup(STEP1, GPIO.OUT)
 GPIO.setup(DIR2, GPIO.OUT)
