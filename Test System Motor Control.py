@@ -2,12 +2,12 @@ import RPi.GPIO as GPIO
 import time
 
 # Pin configuration for motor 1 - Drivetrain
-DIR1 = 27   # Direction pin for motor 1
-STEP1 = 17  # Step pin for motor 1
+DIR1 = 13   # Direction pin for motor 1
+STEP1 = 11  # Step pin for motor 1
 
 # Pin configuration for motor 2 - Vibration
-DIR2 = 24   # Direction pin for motor 2
-STEP2 = 23  # Step pin for motor 2
+DIR2 = 18   # Direction pin for motor 2
+STEP2 = 16  # Step pin for motor 2
 
 # Motor parameters
 # Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
@@ -15,7 +15,7 @@ STEP2 = 23  # Step pin for motor 2
 # Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
 
 # Setup GPIO
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(DIR1, GPIO.OUT)
 GPIO.setup(STEP1, GPIO.OUT)
 GPIO.setup(DIR2, GPIO.OUT)
@@ -49,13 +49,16 @@ while True:
         #time.sleep(5)
         RPM = 90
         Run_time = 30 # seconds
-        STEP_DELAY = 1/(RPM / 60 * 200)
-        steps = 200 * 90 / 60 * Run_time
+        STEP_DELAY = .003 #1/(RPM / 60 * 200)
+        print("STEP_DELAY: ", STEP_DELAY)
+
+        steps = int(200 * 90 / 60 * Run_time)
+        print("steps: ", steps)
         #STEP_DELAY = 0.001  # Delay between steps (adjust for speed)
         move_motor(DIR1, STEP1, STEP_DELAY, steps, True)  # Motor 1 forward
+        GPIO.cleanup
 
-
-        move_motor(DIR2, STEP2, STEP_DELAY, steps, False)  # Motor 2 backward
+        #move_motor(DIR2, STEP2, STEP_DELAY, steps, False)  # Motor 2 backward
 
         # Example: Move both motors together
         # for _ in range(200):
