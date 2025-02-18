@@ -34,6 +34,7 @@ def move_motor(direction_pin, step_pin, STEP_DELAY, steps, direction):
         direction (bool): True for one direction, False for the other.
     """
     direction_pin.value = direction  # Set direction
+    print(f"Direction set to {'HIGH' if direction else 'LOW'} on pin {direction_pin.pin}")
 
     for _ in range(steps):
         step_pin.on()
@@ -51,13 +52,12 @@ while True:
         #time.sleep(5)
         RPM = 90
         Run_time = 30 # seconds
-        STEP_DELAY = .003 #1/(RPM / 60 * 200)
+        STEP_DELAY = 0.003 #1/(RPM / 60 * 200)
         steps = int(200 * 90 / 60 * Run_time) # Calculated Steps
 
         print(f"STEP_DELAY: {STEP_DELAY}, Steps: {steps}")
-        print("steps: ", steps)
-
-        move_motor(DIR1, STEP1, STEP_DELAY, steps, True)  # Motor 1 forward
+        
+        move_motor(dir1, step1, STEP_DELAY, steps, True)  # Motor 1 forward
         
         #move_motor(DIR2, STEP2, STEP_DELAY, steps, False)  # Motor 2 backward
 
