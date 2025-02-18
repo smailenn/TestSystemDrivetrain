@@ -40,9 +40,9 @@ def move_motor(direction_pin, step_pin, STEP_DELAY, steps, direction):
     """
     GPIO.output(direction_pin, GPIO.HIGH if direction else GPIO.LOW)
     for _ in range(steps):
-        GPIO.output(step_pin, GPIO.HIGH)
+        GPIO.OutputDevice.on(step_pin)
         time.sleep(STEP_DELAY)
-        GPIO.output(step_pin, GPIO.LOW)
+        GPIO.OutputDevice.off(step_pin)
         time.sleep(STEP_DELAY)
 
 #def main():
@@ -62,8 +62,7 @@ while True:
         print("steps: ", steps)
         #STEP_DELAY = 0.001  # Delay between steps (adjust for speed)
         move_motor(DIR1, STEP1, STEP_DELAY, steps, True)  # Motor 1 forward
-        GPIO.cleanup
-
+        
         #move_motor(DIR2, STEP2, STEP_DELAY, steps, False)  # Motor 2 backward
 
         # Example: Move both motors together
@@ -77,8 +76,8 @@ while True:
 
     except KeyboardInterrupt:
         print("\nOperation stopped by user.")
-    finally:
-        GPIO.cleanup()
+    #finally:
+
 
 #if __name__ == "__main__":
 #    main()
