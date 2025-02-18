@@ -13,6 +13,7 @@ STEP2 = 23  # Step pin for motor 2
 # Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
 # DM860T Stepper Driver
 # Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
+Pulses_rev = 800 #Pulses per revolution, set on driver
 
 # Setup GPIO
 dir1 = GPIO.OutputDevice(DIR1)
@@ -50,9 +51,9 @@ while True:
     try:
         print("Get Ready!  Moving motors...")
         #time.sleep(5)
-        RPM = 90
-        Run_time = 30 # seconds
-        STEP_DELAY = 0.003 #1/(RPM / 60 * 200)
+        RPM = 60
+        Run_time = 20 # seconds
+        STEP_DELAY = 60 / ( Pulses_rev * RPM) # Delay between steps in seconds  (60 seconds / (Pulses/Rev * RPM))   
         steps = int(200 * 90 / 60 * Run_time) # Calculated Steps
 
         print(f"STEP_DELAY: {STEP_DELAY}, Steps: {steps}")
