@@ -1,4 +1,3 @@
-# import RPi.GPIO as GPIO
 import gpiozero as GPIO
 import time
 
@@ -16,15 +15,11 @@ STEP2 = 23  # Step pin for motor 2
 # Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
 
 # Setup GPIO
-#GPIO.setmode(GPIO.BOARD)
-GPIO.OutputDevice(DIR1)
-GPIO.OutputDevice(STEP1)    
-GPIO.OutputDevice(DIR2) 
-GPIO.OutputDevice(STEP2)    
-# GPIO.setup(DIR1, GPIO.OUT)
-# GPIO.setup(STEP1, GPIO.OUT)
-# GPIO.setup(DIR2, GPIO.OUT)
-# GPIO.setup(STEP2, GPIO.OUT)
+dir1 = GPIO.OutputDevice(DIR1)
+step1 = GPIO.OutputDevice(STEP1)
+
+dir2 = GPIO.OutputDevice(DIR2)
+step2 = GPIO.OutputDevice(STEP2)
 
 
 def move_motor(direction_pin, step_pin, STEP_DELAY, steps, direction):
@@ -32,17 +27,18 @@ def move_motor(direction_pin, step_pin, STEP_DELAY, steps, direction):
     Moves a stepper motor a specified number of steps.
 
     Args:
-        direction_pin (int): GPIO pin for direction control.
-        step_pin (int): GPIO pin for step control.
-        STEP_DELAY (int): Delay between steps
+        direction_pin (OutputDevice): GPIO pin for direction control.
+        step_pin (OutputDevice): GPIO pin for step control.
+        STEP_DELAY (float): Delay between steps.
         steps (int): Number of steps to move.
         direction (bool): True for one direction, False for the other.
     """
-    GPIO.output(direction_pin, GPIO.HIGH if direction else GPIO.LOW)
+    direction_pin.value = direction  # Set direction
+
     for _ in range(steps):
-        GPIO.OutputDevice.on(step_pin)
+        step_pin.on()
         time.sleep(STEP_DELAY)
-        GPIO.OutputDevice.off(step_pin)
+        step_pin.off()
         time.sleep(STEP_DELAY)
 
 #def main():
@@ -56,11 +52,11 @@ while True:
         RPM = 90
         Run_time = 30 # seconds
         STEP_DELAY = .003 #1/(RPM / 60 * 200)
-        print("STEP_DELAY: ", STEP_DELAY)
+        steps = int(200 * 90 / 60 * Run_time) # Calculated Steps
 
-        steps = int(200 * 90 / 60 * Run_time)
+        print(f"STEP_DELAY: {STEP_DELAY}, Steps: {steps}")
         print("steps: ", steps)
-        #STEP_DELAY = 0.001  # Delay between steps (adjust for speed)
+
         move_motor(DIR1, STEP1, STEP_DELAY, steps, True)  # Motor 1 forward
         
         #move_motor(DIR2, STEP2, STEP_DELAY, steps, False)  # Motor 2 backward
@@ -76,7 +72,7 @@ while True:
 
     except KeyboardInterrupt:
         print("\nOperation stopped by user.")
-    #finally:
+    break
 
 
 #if __name__ == "__main__":
