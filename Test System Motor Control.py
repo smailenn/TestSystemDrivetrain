@@ -17,10 +17,15 @@ STEP2 = 23  # Step pin for motor 2
 
 # Setup GPIO
 #GPIO.setmode(GPIO.BOARD)
-GPIO.setup(DIR1, GPIO.OUT)
-GPIO.setup(STEP1, GPIO.OUT)
-GPIO.setup(DIR2, GPIO.OUT)
-GPIO.setup(STEP2, GPIO.OUT)
+GPIO.outputdevice(DIR1)
+GPIO.outputdevice(STEP1)    
+GPIO.outputdevice(DIR2) 
+GPIO.outputdevice(STEP2)    
+# GPIO.setup(DIR1, GPIO.OUT)
+# GPIO.setup(STEP1, GPIO.OUT)
+# GPIO.setup(DIR2, GPIO.OUT)
+# GPIO.setup(STEP2, GPIO.OUT)
+
 
 def move_motor(direction_pin, step_pin, STEP_DELAY, steps, direction):
     """
