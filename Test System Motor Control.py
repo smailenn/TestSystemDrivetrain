@@ -17,10 +17,10 @@ STEP2 = 23  # Step pin for motor 2
 
 # Setup GPIO
 #GPIO.setmode(GPIO.BOARD)
-GPIO.outputdevice(DIR1)
-GPIO.outputdevice(STEP1)    
-GPIO.outputdevice(DIR2) 
-GPIO.outputdevice(STEP2)    
+GPIO.OutputDevice(DIR1)
+GPIO.OutputDevice(STEP1)    
+GPIO.OutputDevice(DIR2) 
+GPIO.OutputDevice(STEP2)    
 # GPIO.setup(DIR1, GPIO.OUT)
 # GPIO.setup(STEP1, GPIO.OUT)
 # GPIO.setup(DIR2, GPIO.OUT)
