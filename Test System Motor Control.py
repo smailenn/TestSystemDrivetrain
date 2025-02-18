@@ -22,19 +22,28 @@ step1 = GPIO.OutputDevice(STEP1)
 dir2 = GPIO.OutputDevice(DIR2)
 step2 = GPIO.OutputDevice(STEP2)
 
+# Initial settings
+RPM = 85
+Run_time = 20 # seconds
 
-def move_motor(direction_pin, step_pin, STEP_DELAY, steps, direction):
-    """
-    Moves a stepper motor a specified number of steps.
+# Function for motor movement
+def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
+    # Moves a stepper motor a specified number of steps.
 
-    Args:
-        direction_pin (OutputDevice): GPIO pin for direction control.
-        step_pin (OutputDevice): GPIO pin for step control.
-        STEP_DELAY (float): Delay between steps.
-        steps (int): Number of steps to move.
-        direction (bool): True for one direction, False for the other.
-    """
+    #Args:
+        #  direction_pin (OutputDevice): GPIO pin for direction control.
+        #  step_pin (OutputDevice): GPIO pin for step control.
+        #  STEP_DELAY (float): Delay between steps.
+        #  steps (int): Number of steps to move.
+        #  RPM (int): Motor speed in revolutions per minute.    
+        #  Run_time (int): Time in seconds to run motor.    
+        #  direction (bool): True for one direction, False for the other.
+    
     direction_pin.value = direction  # Set direction
+    STEP_DELAY = 60 / (2 * Pulses_rev * RPM) # Delay between steps in seconds  (60 seconds / (Pulses/Rev * RPM))   
+    steps = int(200 * RPM / 60 * Run_time) # Calculated Steps
+
+    print(f"STEP_DELAY: {STEP_DELAY}, Steps: {steps}")
     print(f"Direction set to {'HIGH' if direction else 'LOW'} on pin {direction_pin.pin}")
 
     for _ in range(steps):
@@ -47,14 +56,7 @@ while True:
     try:
         print("Get Ready!  Moving motors...")
         time.sleep(2)
-        RPM = 85
-        Run_time = 20 # seconds
-        STEP_DELAY = 60 / (2 * Pulses_rev * RPM) # Delay between steps in seconds  (60 seconds / (Pulses/Rev * RPM))   
-        steps = int(200 * RPM / 60 * Run_time) # Calculated Steps
-
-        print(f"STEP_DELAY: {STEP_DELAY}, Steps: {steps}")
-        
-        move_motor(dir1, step1, STEP_DELAY, steps, True)  # Motor 1 forward
+        move_motor(dir1, step1, 90, 20, True)  # Motor 1 forward
         
         #move_motor(DIR2, STEP2, STEP_DELAY, steps, False)  # Motor 2 backward
 
