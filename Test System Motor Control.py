@@ -43,8 +43,8 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
     STEP_DELAY = 60 / (2 * Pulses_rev * RPM) # Delay between steps in seconds  (60 seconds / (Pulses/Rev * RPM))   
     steps = int(2 * 200 * RPM / 60 * Run_time) # Calculated Steps
 
-    print(f"STEP_DELAY: {STEP_DELAY}, Steps: {steps}")
-    print(f"Direction set to {'HIGH' if direction else 'LOW'} on pin {direction_pin.pin}")
+    print(f"STEP_DELAY: {STEP_DELAY}, Steps: {steps}, RPM: {RPM}, Run_time: {Run_time}")    
+    #print(f"Direction set to {'HIGH' if direction else 'LOW'} on pin {direction_pin.pin}")
 
     for _ in range(steps):
         step_pin.on()
@@ -55,32 +55,18 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
 while True:
     try:
         print("Get Ready!  Moving motors...")
-        time.sleep(2)
+        time.sleep(3)
+        print("Motors GO!")
         move_motor(dir1, step1, 90, 10, True)  # Motor 1 forward
-        time.sleep(1)
-        move_motor(dir1, step1, 10, 3, False)  # Motor 1 backward   
-        move_motor(dir1, step1, 75, 10, True)  # Motor 1 forward    
-        move_motor(dir1, step1, 80, 10, True)   # Motor 1 forward
-        move_motor(dir1, step1, 100, 6, True)   # Motor 1 forward
-        time.sleep(1.6)
-        move_motor(dir1, step1, 10, 1, False)  # Motor 1 backward   
-        move_motor(dir1, step1, 80, 20, True)   # Motor 1 forward
-
-        #move_motor(DIR2, STEP2, STEP_DELAY, steps, False)  # Motor 2 backward
-
-        # Example: Move both motors together
-        # for _ in range(200):
-        #     GPIO.output(STEP1, GPIO.HIGH)
-        #     GPIO.output(STEP2, GPIO.HIGH)
-        #     time.sleep(STEP_DELAY)
-        #     GPIO.output(STEP1, GPIO.LOW)
-        #     GPIO.output(STEP2, GPIO.LOW)
-        #     time.sleep(STEP_DELAY)
+        time.sleep(1)                          # Pause
+        move_motor(dir1, step1, 160, 0.5, False)  # Motor 1 backward, backpedal   
+        move_motor(dir1, step1, 105, 4, True)  # Motor 1 forward    
+        move_motor(dir1, step1, 85, 10, True)  # Motor 1 forward
+        move_motor(dir1, step1, 100, 6, True)  # Motor 1 forward
+        time.sleep(1.6)                        # Pause
+        move_motor(dir1, step1, 90, 4, False)  # Motor 1 backward, backpedal
+        move_motor(dir1, step1, 80, 10, True)  # Motor 1 forward
 
     except KeyboardInterrupt:
-        print("\nOperation stopped by user.")
+        print("\Operation stopped by user.")
     break
-
-
-#if __name__ == "__main__":
-#    main()
