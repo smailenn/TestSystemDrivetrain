@@ -47,7 +47,7 @@ while True:
     try:
         print("Get Ready!  Moving motors...")
         time.sleep(2)
-        RPM = 60
+        RPM = 85
         Run_time = 20 # seconds
         STEP_DELAY = 60 / (2 * Pulses_rev * RPM) # Delay between steps in seconds  (60 seconds / (Pulses/Rev * RPM))   
         steps = int(200 * RPM / 60 * Run_time) # Calculated Steps
