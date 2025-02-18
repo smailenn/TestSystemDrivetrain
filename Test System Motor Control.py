@@ -1,5 +1,6 @@
 import gpiozero as GPIO
 import time
+from tkinter import Tk, Button
 
 # Pin configuration for motor 1 - Drivetrain
 DIR1 = 27   # Direction pin for motor 1
@@ -53,20 +54,42 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
         time.sleep(STEP_DELAY)
 
 while True:
-    try:
-        print("Get Ready!  Moving motors...")
-        time.sleep(3)
-        print("Motors GO!")
-        move_motor(dir1, step1, 90, 10, True)  # Motor 1 forward
-        time.sleep(1)                          # Pause
-        move_motor(dir1, step1, 160, 0.5, False)  # Motor 1 backward, backpedal   
-        move_motor(dir1, step1, 105, 4, True)  # Motor 1 forward    
-        move_motor(dir1, step1, 85, 10, True)  # Motor 1 forward
-        move_motor(dir1, step1, 100, 6, True)  # Motor 1 forward
-        time.sleep(1.6)                        # Pause
-        move_motor(dir1, step1, 90, 4, False)  # Motor 1 backward, backpedal
-        move_motor(dir1, step1, 80, 10, True)  # Motor 1 forward
+    # Function to stop the loop
+    def stop():
+        global running
+        running = False
 
-    except KeyboardInterrupt:
-        print("\Operation stopped by user.")
-    break
+        def start():
+        global running
+        running = True
+
+    # Create GUI
+    root = Tk()
+    root.title("Motor Control")
+    stop_button = Button(root, text="Stop", command=stop)
+    stop_button.pack()
+
+    running = True
+
+    while running:
+        root.update()
+        try:
+            print("Get Ready!  Moving motors...")
+            time.sleep(3)
+            print("Motors GO!")
+            move_motor(dir1, step1, 90, 10, True)  # Motor 1 forward
+            time.sleep(1)                          # Pause
+            move_motor(dir1, step1, 160, 0.5, False)  # Motor 1 backward, backpedal   
+            move_motor(dir1, step1, 105, 4, True)  # Motor 1 forward    
+            move_motor(dir1, step1, 85, 10, True)  # Motor 1 forward
+            move_motor(dir1, step1, 100, 6, True)  # Motor 1 forward
+            time.sleep(1.6)                        # Pause
+            move_motor(dir1, step1, 90, 4, False)  # Motor 1 backward, backpedal
+            move_motor(dir1, step1, 80, 10, True)  # Motor 1 forward
+
+        except KeyboardInterrupt:
+            print("\Operation stopped by user.")
+            break
+
+    root.destroy()
+
