@@ -41,7 +41,7 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
     
     direction_pin.value = direction  # Set direction
     STEP_DELAY = 60 / (2 * Pulses_rev * RPM) # Delay between steps in seconds  (60 seconds / (Pulses/Rev * RPM))   
-    steps = int(200 * RPM / 60 * Run_time) # Calculated Steps
+    steps = int(2 * 200 * RPM / 60 * Run_time) # Calculated Steps
 
     print(f"STEP_DELAY: {STEP_DELAY}, Steps: {steps}")
     print(f"Direction set to {'HIGH' if direction else 'LOW'} on pin {direction_pin.pin}")
@@ -56,8 +56,16 @@ while True:
     try:
         print("Get Ready!  Moving motors...")
         time.sleep(2)
-        move_motor(dir1, step1, 90, 20, True)  # Motor 1 forward
-        
+        move_motor(dir1, step1, 90, 10, True)  # Motor 1 forward
+        time.sleep(1)
+        move_motor(dir1, step1, 10, 3, False)  # Motor 1 backward   
+        move_motor(dir1, step1, 75, 10, True)  # Motor 1 forward    
+        move_motor(dir1, step1, 80, 10, True)   # Motor 1 forward
+        move_motor(dir1, step1, 100, 6, True)   # Motor 1 forward
+        time.sleep(1.6)
+        move_motor(dir1, step1, 10, 1, False)  # Motor 1 backward   
+        move_motor(dir1, step1, 80, 20, True)   # Motor 1 forward
+
         #move_motor(DIR2, STEP2, STEP_DELAY, steps, False)  # Motor 2 backward
 
         # Example: Move both motors together
