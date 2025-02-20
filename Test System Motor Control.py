@@ -1,5 +1,6 @@
 import gpiozero as GPIO
 import time
+import threading
 from tkinter import Tk, Button
 
 # Pin configuration for motor 1 - Drivetrain
@@ -17,15 +18,14 @@ STEP2 = 23  # Step pin for motor 2
 Pulses_rev = 400 #Pulses per revolution, set on driver
 
 # Setup GPIO
-dir1 = GPIO.OutputDevice(DIR1)
-step1 = GPIO.OutputDevice(STEP1)
+dir1 = GPIO.DigitalOutputDevice(DIR1)
+step1 = GPIO.DigitalOutputDevice(STEP1)
 
-dir2 = GPIO.OutputDevice(DIR2)
-step2 = GPIO.OutputDevice(STEP2)
+dir2 = GPIO.DigitalOutputDevice(DIR2)
+step2 = GPIO.DigitalOutputDevice(STEP2)
 
-# Initial settings
-RPM = 85
-Run_time = 20 # seconds
+#threading
+run = True
 
 # Function for motor movement
 def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
@@ -42,7 +42,7 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
     
     direction_pin.value = direction  # Set direction
     STEP_DELAY = 60 / (2 * Pulses_rev * RPM) # Delay between steps in seconds  (60 seconds / (Pulses/Rev * RPM))   
-    steps = int(2 * 200 * RPM / 60 * Run_time) # Calculated Steps
+    steps = int(Pulses_rev * RPM / 60 * Run_time) # Calculated Steps
 
     print(f"STEP_DELAY: {STEP_DELAY}, Steps: {steps}, RPM: {RPM}, Run_time: {Run_time}")    
     #print(f"Direction set to {'HIGH' if direction else 'LOW'} on pin {direction_pin.pin}")
@@ -54,24 +54,34 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
         time.sleep(STEP_DELAY)
 
 #####################################################
-while True:
-        try:
-            print("Get Ready!  Moving motors...")
-            time.sleep(3)
-            print("Motors GO!")
-            move_motor(dir1, step1, 90, 10, True)  # Motor 1 forward
-            time.sleep(1)                          # Pause
-            move_motor(dir1, step1, 160, 0.5, False)  # Motor 1 backward, backpedal   
-            move_motor(dir1, step1, 105, 4, True)  # Motor 1 forward    
-            move_motor(dir1, step1, 85, 10, True)  # Motor 1 forward
-            move_motor(dir1, step1, 100, 6, True)  # Motor 1 forward
-            time.sleep(1.6)                        # Pause
-            move_motor(dir1, step1, 90, 4, False)  # Motor 1 backward, backpedal
-            move_motor(dir1, step1, 80, 10, True)  # Motor 1 forward
+try:
+    print("Get Ready!  Moving motors...")
+    time.sleep(3)
+    print("Motors GO!")
 
-        except KeyboardInterrupt:
-            print("\Operation stopped by user.")
-            break
+    # Oscillator, Start motor 2 in a separate thread
+    motor2_thread = threading.Thread(target=move_motor, args=(dir2, step2, 180, 30, True))
+    motor2_thread.start()
+    time.sleep(5)   # Motor 2 running, pause before starting Motor #1
+
+    # Drivetrain, Motor 1
+    move_motor(dir1, step1, 90, 10, True)  # Motor 1 forward
+    time.sleep(1)                          # Pause
+    move_motor(dir1, step1, 160, 0.5, False)  # Motor 1 backward, backpedal   
+    move_motor(dir1, step1, 105, 4, True)  # Motor 1 forward    
+    move_motor(dir1, step1, 85, 10, True)  # Motor 1 forward
+    move_motor(dir1, step1, 100, 6, True)  # Motor 1 forward
+    time.sleep(1.6)                        # Pause
+    move_motor(dir1, step1, 90, 4, False)  # Motor 1 backward, backpedal
+    move_motor(dir1, step1, 80, 10, True)  # Motor 1 forward
+
+    motor2_thread.join() #Wait for motor 2 thread to finish
+
+except KeyboardInterrupt:
+    print("\Operation stopped by user.")
+
+finally: 
+    print("Testing has concluded")
 
 
 
