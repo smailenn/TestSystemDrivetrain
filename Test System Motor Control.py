@@ -1,7 +1,7 @@
 import gpiozero as GPIO
 import time
 import threading
-from tkinter import Tk, Button
+import tkinter as tk 
 
 # Pin configuration for motor 1 - Drivetrain
 DIR1 = 27   # Direction pin for motor 1
@@ -59,6 +59,9 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
 # Function for Motor 1 Drivetrain Movement
 def Motor1_sequence():
     global run_flag
+    if not run_flag:
+        return # Prevent starting if stopped
+
     print("Starting Motor 1 sequence...")
     move_motor(dir1, step1, 90, 10, True)   # Motor 1 forward
     time.sleep(1)                           # Pause
@@ -73,13 +76,18 @@ def Motor1_sequence():
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     global run_flag
+    if not run_flag:
+        return
     print("Starting Motor 2 sequence...")
     move_motor(dir2, step2, 180, 30, True)  # Motor 2 forward
     move_motor(dir2, step2, 300, 30, True)  # Motor 2 forward
 
 
 #####################################################
-try:
+#try:
+def start_motors():
+    global run_flag
+    run_flag = True #Enable motor movement
     print("Get Ready!  Moving motors in sequence...")
     for i in range(3, 0, -1):
         print(f"Moving in {i} . . .")
@@ -99,12 +107,26 @@ try:
     # Wait for both threads to finish
     motor1_thread.join()
     motor2_thread.join()
-    
-except KeyboardInterrupt:
-    print("\Operation stopped by user.")
 
-finally: 
     print("Testing has concluded")
+
+def stop_motors():
+    global run_flag
+    run_flag = False #Stop motors
+    print("Stopping motors . . . ")
+
+# Create Tkinter GUI
+root = tk.Tk()
+root.title("Motor Controller")
+
+start_button = tk.Button(root, text="Start", command=start_motors, height=2, width=10, bg="green", fg="white")
+start_button.pack(pady=10)
+
+stop_button = tk.Button(root, text="Stop", command=stop_motors, height=2, width=10, bg="red", fg="white")
+stop_button.pack(pady=10)
+
+# Run Tkinter event loop
+root.mainloop()
 
 
 
