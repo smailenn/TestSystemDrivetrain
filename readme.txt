@@ -9,50 +9,32 @@
 Describe your project
 
 A drivetrain test system utilizing two Nema 34 motors and a pivoting test structure.  One motor drives a drivetrain while the other motor is heavily imbalanced to provide large displacement
-vibration
+oscillations
 
 == Step 1: Installation
-Please describe the steps to install this project.
-
-For example:
-
-1. Open this file
-2. Edit as you like
-3. Release to the World!
+Code is found on Raspberry Pi and can be run from any programmer
 
 == Step 2: Assemble the circuit
 
-Assemble the circuit following the diagram layout.png attached to the sketch
+Assemble the circuit following diagram in Test System Drivetrain .xlsx
 
 == Step 3: Load the code
 
-Upload the code contained in this sketch on to your board
+Code is on Raspberry Pi /Test System Drivetrain
+- ssh into Raspberry Pi and run Python Code in chosen programmer, my choice is VSC
 
 === Folder structure
-
 ....
- sketch123                => Arduino sketch folder
-  ├── sketch123.ino       => main Arduino file
-  ├── schematics.png      => (optional) an image of the required schematics
-  ├── layout.png          => (optional) an image of the layout
+ Test System Drivetrain   => Python Folder
+  ├── Test System Motor Control.py
   └── ReadMe.adoc         => this file
 ....
 
 === License
-This project is released under a {License} License.
-
-=== Contributing
-To contribute to this project please contact: 
+No license
 
 === BOM
-Add the bill of the materials you need for this project.
-
-|===
-| ID | Part name      | Part number | Quantity
-| R1 | 10k Resistor   | 1234-abcd   | 10       
-| L1 | Red LED        | 2345-asdf   | 5        
-| A1 | Arduino Zero   | ABX00066    | 1        
-|===
+See Test Systen Drivetrain .xlsx
 
 
 === Help
