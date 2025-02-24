@@ -6,6 +6,13 @@ import tkinter as tk
 import sys
 import os
 
+# Test System Drivetrain Motor control
+# Look at test system drivetrain.xlsx in Engineering Project folder for more information including motion analysis and variables
+# Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
+# ssh 192.168.1.134 ip of Raspberry Pi
+# typical is mailman@SeanPi.local
+# Password currently:  MRP!
+
 # check if 
 #if os.environ.get('DISPLAY','') == '':
 #    print('no display found. Using :0.0')
@@ -36,10 +43,11 @@ step2 = GPIO.DigitalOutputDevice(STEP2)
 run = True
 
 #Global flag for stopping motors
-# run_flag = False
+run_flag = True
 
 # Function for motor movement
 def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
+    global run_flag
     # Moves a stepper motor a specified number of steps.
 
     #Args:
@@ -52,13 +60,20 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
         #  direction (bool): True for one direction, False for the other.
     
     direction_pin.value = direction  # Set direction
+
+    # Let me know what motors are running what function
+    Motor_ID = "Motor 1" if direction_pin == dir1 else "Motor 2"    
+
     STEP_DELAY = 60 / (2 * Pulses_rev * RPM) # Delay between steps in seconds  (60 seconds / (Pulses/Rev * RPM))   
     steps = int(Pulses_rev * RPM / 60 * Run_time) # Calculated Steps
 
-    print(f"STEP_DELAY: {STEP_DELAY}, Steps: {steps}, RPM: {RPM}, Run_time: {Run_time}")    
-    #print(f"Direction set to {'HIGH' if direction else 'LOW'} on pin {direction_pin.pin}")
-
+    print(f"Motor: {Motor_ID}, RPM: {RPM}, Run_time: {Run_time}")  
+    #print(f"Motor: {Motor_ID}, STEP_DELAY: {STEP_DELAY}, Steps: {steps}, RPM: {RPM}, Run_time: {Run_time}")    
+   
     for _ in range(steps):
+        if not run_flag: # Stop if flag is set
+            print(f"Stopping {Motor_ID}")
+            return
         step_pin.on()
         time.sleep(STEP_DELAY)
         step_pin.off()
@@ -66,15 +81,18 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
 
 # Function for Motor 1 Drivetrain Movement
 def Motor1_sequence():
-    global run_flag
-    # if not run_flag:
-        # return # Prevent starting if stopped
-
     print("Starting Motor 1 sequence...")
-    move_motor(dir1, step1, 90, 10, True)   # Motor 1 forward
-    time.sleep(1)                           # Pause
+    #slow start
+    print("Soft Start Cycle")
+    move_motor(dir1, step1, 10, 5, True)   # Motor 1 forward
+    move_motor(dir1, step1, 30, 5, True)   # Motor 1 forward
+    move_motor(dir1, step1, 70, 5, True)   # Motor 1 forward
+    # "pedaling" cycling start
+    print("Running Pedaling Cycle")
+    move_motor(dir1, step1, 80, 10, True)   # Motor 1 forward
+    time.sleep(0.7)                           # Pause
     move_motor(dir1, step1, 160, 0.5, False)  # Motor 1 backward, backpedal
-    move_motor(dir1, step1, 105, 4, True)   # Motor 1 forward    
+    move_motor(dir1, step1, 125, 3, True)   # Motor 1 forward    
     move_motor(dir1, step1, 85, 10, True)   # Motor 1 forward
     move_motor(dir1, step1, 100, 6, True)   # Motor 1 forward
     time.sleep(1.6)                         # Pause
@@ -83,50 +101,51 @@ def Motor1_sequence():
 
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
-    global run_flag
-    # if not run_flag:
-        # return
     print("Starting Motor 2 sequence...")
-    move_motor(dir2, step2, 180, 30, True)  # Motor 2 forward
-    move_motor(dir2, step2, 300, 30, True)  # Motor 2 forward
+    move_motor(dir2, step2, 180, 40, True)  # Motor 2 forward
+    #move_motor(dir2, step2, 300, 30, True)  # Motor 2 forward
 
 
 #####################################################
-try:
-    def start_motors():
-        global run_flag
-        # run_flag = True #Enable motor movement
-        print("Get Ready!  Moving motors in sequence...")
-        for i in range(3, 0, -1):
-            print(f"Moving in {i} . . .")
-            time.sleep(1)
-        print("Motors GO!")
+def start_motors():
+    global run_flag
+    run_flag = True #Enable motor movement
+    print("Get Ready!  Moving motors in sequence...")
+    print("Press Ctrl+C to stop!!!")
+    for i in range(3, 0, -1):
+        print(f"Moving in {i} . . .")
+        time.sleep(1)
+    print("Motors GO!")
 
-        # Start Motor 2 Oscillator in its own thread
-        motor2_thread = threading.Thread(target=Motor2_sequence)
+    # Start Motor 2 Oscillator in its own thread
+    motor2_thread = threading.Thread(target=Motor2_sequence)
 
-        # Start Motor 1 Drivetrain in its own thread
-        motor1_thread = threading.Thread(target=Motor1_sequence)
+    # Start Motor 1 Drivetrain in its own thread
+    motor1_thread = threading.Thread(target=Motor1_sequence)
 
-        # Start them
-        motor2_thread.start()
-        motor1_thread.start()
+    # Start them
+    motor2_thread.start()
+    motor1_thread.start()
 
-        # Wait for both threads to finish
+    # Wait for both threads to finish
+    try:
         motor1_thread.join()
         motor2_thread.join()
+    except KeyboardInterrupt:
+        print("\nKeyboardInterrupt detected!  Stopping motors . . . ")
+    stop_motors()
 
-finally:
-    print("Testing has concluded")
+def stop_motors():
+    global run_flag
+    run_flag = False
+    print("Stopping Motors . . . ")  
 
 if __name__ == "__main__":
-    start_motors()
-
-    
-#def stop_motors():
-    # global run_flag
-    # run_flag = False #Stop motors
-    # print("Stopping motors . . . ")
+    try:
+        start_motors()
+    except KeyboardInterrupt:
+        stop_motors()
+        print('\nTesting has concluded')
 
 # Create Tkinter GUI
 #root = tk.Tk()
