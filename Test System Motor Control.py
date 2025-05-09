@@ -92,7 +92,7 @@ def move_motor_with_ramp_up(direction_pin, step_pin, current_RPM, target_RPM, Ru
     Motor_ID = "Motor 1" if direction_pin == dir1 else "Motor 2"
 
     full_delay = 60 / (2 * Pulses_rev * target_RPM)
-    current_delay = 60 / (2 * Pulses_rev * current_RPM)
+    current_delay = 60 / (2 * Pulses_rev * current_RPM) 
     total_steps = int(Pulses_rev * target_RPM / 60 * Run_time)
 
     if ramp_steps > total_steps:
@@ -151,36 +151,36 @@ def move_motor_with_ramp_down(direction_pin, step_pin, current_RPM, target_RPM, 
 def Motor1_sequence():
     print("Starting Motor 1 sequence...")
     print("Running Pedaling Cycle")
-    move_motor_with_ramp_up(dir1, step1, 0, 80, 2, True, ramp_steps=100)   # Motor 1 forward
+    move_motor_with_ramp_up(dir1, step1, 1, 80, 2, True, ramp_steps=100)   # Motor 1 forward
     move_motor(dir1, step1, 80, 120, 1, True)   # Motor 1 forward
     time.sleep(0.5)
     move_motor(dir1, step1, 120, 160, 1, False)  # Motor 1 backward, backpedal
     move_motor(dir1, step1, 160, 100, 3, True)   # Motor 1 forward
     time.sleep(2)                           # Pause
-    move_motor(dir1, step1, 100, 120, 1, False)  # Motor 1 backward, backpedal
+    move_motor(dir1, step1, 130, 120, 1, False)  # Motor 1 backward, backpedal
     move_motor_with_ramp_up(dir1, step1, 120, 125, 3, True, ramp_steps=200)   # Motor 1 forward 
-    move_motor(dir1, step1, 120, 120, 3, False)  # Motor 1 backward, backpedal   
+    move_motor(dir1, step1, 140, 120, 3, False)  # Motor 1 backward, backpedal   
     move_motor(dir1, step1, 120, 85, 2, True)   # Motor 1 forward
     move_motor(dir1, step1, 85, 120, 2, False)  # Motor 1 backward, backpedal
     move_motor(dir1, step1, 120, 100, 3, True)   # Motor 1 forward
-    move_motor(dir1, step1, 100, 120, 2, False)  # Motor 1 backward, backpedal
+    move_motor(dir1, step1, 150, 120, 2, False)  # Motor 1 backward, backpedal
     time.sleep(0.5)                         # Pause
-    move_motor(dir1, step1, 120, 100, 1, False)   # Motor 1 backward, backpedal
+    move_motor(dir1, step1, 140, 100, 1, False)   # Motor 1 backward, backpedal
     move_motor(dir1, step1, 100, 110, 2, True)   # Motor 1 forward
 
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     print("Starting Motor 2 sequence with ramp...")
-    move_motor_with_ramp_up(dir2, step2, 0, 50, 5, True, ramp_steps=1000) 
-    move_motor_with_ramp_up(dir2, step2, 50, 100, 10, True, ramp_steps=1000)
-    move_motor_with_ramp_up(dir2, step2, 100, 160, 10, True, ramp_steps=1400)
-    move_motor_with_ramp_up(dir2, step2, 160, 200, 10, True, ramp_steps=1400)  # Motor 2 forward
-    move_motor_with_ramp_up(dir2, step2, 200, 220, 10, True, ramp_steps=1400)  # Motor 2 forward
+    move_motor_with_ramp_up(dir2, step2, 1, 50, 5, True, ramp_steps=400) 
+    move_motor_with_ramp_up(dir2, step2, 50, 100, 10, True, ramp_steps=400)
+    move_motor_with_ramp_up(dir2, step2, 100, 160, 10, True, ramp_steps=400)
+    move_motor_with_ramp_up(dir2, step2, 160, 200, 10, True, ramp_steps=400)  # Motor 2 forward
+    move_motor_with_ramp_up(dir2, step2, 200, 220, 10, True, ramp_steps=400)  # Motor 2 forward
     #move_motor_with_ramp_up(dir2, step2, 200, 40, True, ramp_steps=20000)  # Motor 2 backward
     #move_motor_with_ramp_up(dir2, step2, 260, 15, True, ramp_steps=400)
     #move_motor(dir2, step2, 260, 5, True)
     time.sleep(1)
-    move_motor_with_ramp_down(dir2, step2, 220, 0, 15, True, ramp_steps=10000)
+    move_motor_with_ramp_down(dir2, step2, 220, 1, 15, True, ramp_steps=400)
     
     
 #####################################################
