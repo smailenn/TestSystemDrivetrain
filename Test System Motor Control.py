@@ -31,7 +31,7 @@ STEP2 = 23  # Step pin for motor 2
 # Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
 # DM860T Stepper Driver
 # Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
-Pulses_rev = 400 #Pulses per revolution, set on driver
+Pulses_rev = 800 #Pulses per revolution, set on driver
 
 # Setup GPIO
 dir1 = GPIO.DigitalOutputDevice(DIR1)
@@ -75,6 +75,8 @@ def move_motor(direction_pin, step_pin, current_RPM, target_RPM, Run_time, direc
         if not run_flag: # Stop if flag is set
             print(f"Stopping {Motor_ID}")
             return
+        
+        #print(f"[{time.strftime('%H:%M:%S')}] Step {step}/{total_steps} | Delay: {delay:.6f}s")
         step_pin.on()
         time.sleep(STEP_DELAY)
         step_pin.off()
@@ -83,6 +85,10 @@ def move_motor(direction_pin, step_pin, current_RPM, target_RPM, Run_time, direc
 # Function for motor movement with slow ramp for motor control
 def interpolate_delay_sine(progress, start_delay, end_delay):
     return start_delay - (start_delay - end_delay) * math.sin(progress * (math.pi / 2))
+
+# Function for motor movement with linear ramp  
+def interpolate_delay_linear(progress, start_delay, end_delay):
+    return start_delay - (start_delay - end_delay) * progress
 
 # Function for motor movement with Ramp-Up
 def move_motor_with_ramp_up(direction_pin, step_pin, current_RPM, target_RPM, Run_time, direction, ramp_steps=100):
@@ -107,9 +113,11 @@ def move_motor_with_ramp_up(direction_pin, step_pin, current_RPM, target_RPM, Ru
 
         if step < ramp_steps:  # Ramp-up phase
             progress = step / ramp_steps
-            delay = interpolate_delay_sine(progress, current_delay, full_delay)
+            delay = interpolate_delay_linear(progress, current_delay, full_delay)
         else:  # Constant speed phase
             delay = full_delay
+
+        #print(f"[{time.strftime('%H:%M:%S')}] Step {step}/{total_steps} | Delay: {delay:.6f}s")
 
         step_pin.on()
         time.sleep(delay)
@@ -142,6 +150,8 @@ def move_motor_with_ramp_down(direction_pin, step_pin, current_RPM, target_RPM, 
         else:  # Constant speed phase
             delay = full_delay
 
+        #print(f"[{time.strftime('%H:%M:%S')}] Step {step}/{total_steps} | Delay: {delay:.6f}s")
+
         step_pin.on()
         time.sleep(delay)
         step_pin.off()
@@ -151,7 +161,7 @@ def move_motor_with_ramp_down(direction_pin, step_pin, current_RPM, target_RPM, 
 def Motor1_sequence():
     print("Starting Motor 1 sequence...")
     print("Running Pedaling Cycle")
-    move_motor_with_ramp_up(dir1, step1, 1, 80, 2, True, ramp_steps=100)   # Motor 1 forward
+    move_motor_with_ramp_up(dir1, step1, 5, 80, 2, True, ramp_steps=100)   # Motor 1 forward
     move_motor(dir1, step1, 80, 120, 1, True)   # Motor 1 forward
     time.sleep(0.5)
     move_motor(dir1, step1, 120, 160, 1, False)  # Motor 1 backward, backpedal
@@ -171,16 +181,16 @@ def Motor1_sequence():
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     print("Starting Motor 2 sequence with ramp...")
-    move_motor_with_ramp_up(dir2, step2, 1, 50, 5, True, ramp_steps=400) 
-    move_motor_with_ramp_up(dir2, step2, 50, 100, 10, True, ramp_steps=400)
-    move_motor_with_ramp_up(dir2, step2, 100, 160, 10, True, ramp_steps=400)
-    move_motor_with_ramp_up(dir2, step2, 160, 200, 10, True, ramp_steps=400)  # Motor 2 forward
-    move_motor_with_ramp_up(dir2, step2, 200, 220, 10, True, ramp_steps=400)  # Motor 2 forward
-    #move_motor_with_ramp_up(dir2, step2, 200, 40, True, ramp_steps=20000)  # Motor 2 backward
-    #move_motor_with_ramp_up(dir2, step2, 260, 15, True, ramp_steps=400)
-    #move_motor(dir2, step2, 260, 5, True)
+    move_motor_with_ramp_up(dir2, step2, 5, 220, 40, True, ramp_steps=12000) 
+    #move_motor_with_ramp_up(dir2, step2, 50, 100, 10, True, ramp_steps=100)
+    #move_motor_with_ramp_up(dir2, step2, 100, 120, 10, True, ramp_steps=100)
+    #move_motor_with_ramp_up(dir2, step2, 120, 130, 10, True, ramp_steps=100)  # Motor 2 forward
+    #move_motor_with_ramp_up(dir2, step2, 130, 140, 10, True, ramp_steps=100)  # Motor 2 forward
+    #move_motor_with_ramp_up(dir2, step2, 160, 170, 10, True, ramp_steps=100)  # Motor 2 backward
+    #move_motor_with_ramp_up(dir2, step2, 180, 200, 10, True, ramp_steps=100)
+    #move_motor(dir2, step2, 1, 100, 5, True)
     time.sleep(1)
-    move_motor_with_ramp_down(dir2, step2, 220, 1, 15, True, ramp_steps=400)
+    move_motor_with_ramp_down(dir2, step2, 220, 5, 15, True, ramp_steps=800)
     
     
 #####################################################
@@ -202,6 +212,7 @@ def start_motors():
 
     # Start them
     motor2_thread.start()
+    time.sleep(15)
     motor1_thread.start()
 
     # Wait for both threads to finish
