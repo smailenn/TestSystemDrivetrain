@@ -1,5 +1,6 @@
 import gpiozero as GPIO
 from gpiozero import DigitalOutputDevice
+import pigpio
 import time
 import threading
 import tkinter as tk 
@@ -31,7 +32,14 @@ STEP2 = 23  # Step pin for motor 2
 # Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
 # DM860T Stepper Driver
 # Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
-Pulses_rev = 800 #Pulses per revolution, set on driver
+Pulses_rev = 400 #Pulses per revolution, set on driver
+
+buffer_time = 0.000 # Add a small buffer to the delay
+
+pi = pigpio.pi()
+if not pi.connected:
+    print("Failed to connect to pigpio daemon. Make sure it's running.")
+    sys.exit(1)
 
 # Setup GPIO
 dir1 = GPIO.DigitalOutputDevice(DIR1)
@@ -46,8 +54,51 @@ run = True
 #Global flag for stopping motors
 run_flag = True
 
+# Function for motor movement with slow ramp for motor control
+def interpolate_delay_sine(progress, start_delay, end_delay):
+    return start_delay - (start_delay - end_delay) * math.sin(progress * (math.pi / 2))
+
+# Function for motor movement with linear ramp  
+def interpolate_delay_linear(progress, start_delay, end_delay):
+    return start_delay - (start_delay - end_delay) * progress
+
+def generate_steps_with_pigpio(step_pin, num_steps, delay):
+    # Extract the GPIO pin number if step_pin is a DigitalOutputDevice
+    if isinstance(step_pin, GPIO.DigitalOutputDevice):
+        step_pin = step_pin.pin.number
+
+    if delay <= 0:
+        raise ValueError(f"Invalid delay value: {delay}. Delay must be greater than 0.")
+    
+    pi.wave_clear()  # Clear existing waveforms
+
+    # Create a waveform for the step pulses
+    pulses = []
+    for _ in range(num_steps):
+        pulse_duration = int(delay * 1e6)
+        if pulse_duration <= 0:
+            raise ValueError(f"Invalid pulse duration: {pulse_duration}. Delay must result in a positive duration.")
+        pulses.append(pigpio.pulse(1 << step_pin, 0, pulse_duration))  # High pulse
+        pulses.append(pigpio.pulse(0, 1 << step_pin, pulse_duration))  # Low pulse
+
+    if not pulses:
+        raise ValueError("No pulses generated. Check the delay value.")
+
+    pi.wave_add_generic(pulses)
+    wave_id = pi.wave_create()
+
+    if wave_id < 0:
+        raise RuntimeError("Failed to create waveform. Check pigpio configuration.")
+
+
+    # Send the waveform
+    pi.wave_send_once(wave_id)
+    while pi.wave_tx_busy():
+        time.sleep(0.01)  # Wait for the waveform to finish
+    pi.wave_clear()
+
 # Function for motor movement
-def move_motor(direction_pin, step_pin, current_RPM, target_RPM, Run_time, direction):
+def move_motor(direction_pin, step_pin, target_RPM, Run_time, direction):
     global run_flag
     # Moves a stepper motor a specified number of steps.
 
@@ -77,18 +128,8 @@ def move_motor(direction_pin, step_pin, current_RPM, target_RPM, Run_time, direc
             return
         
         #print(f"[{time.strftime('%H:%M:%S')}] Step {step}/{total_steps} | Delay: {delay:.6f}s")
-        step_pin.on()
-        time.sleep(STEP_DELAY)
-        step_pin.off()
-        time.sleep(STEP_DELAY)
-
-# Function for motor movement with slow ramp for motor control
-def interpolate_delay_sine(progress, start_delay, end_delay):
-    return start_delay - (start_delay - end_delay) * math.sin(progress * (math.pi / 2))
-
-# Function for motor movement with linear ramp  
-def interpolate_delay_linear(progress, start_delay, end_delay):
-    return start_delay - (start_delay - end_delay) * progress
+        
+        generate_steps_with_pigpio(step_pin, 1, delay)
 
 # Function for motor movement with Ramp-Up
 def move_motor_with_ramp_up(direction_pin, step_pin, current_RPM, target_RPM, Run_time, direction, ramp_steps=100):
@@ -106,6 +147,8 @@ def move_motor_with_ramp_up(direction_pin, step_pin, current_RPM, target_RPM, Ru
 
     print(f"{Motor_ID} w/ RAMP-UP: Current RPM={current_RPM}, Target RPM={target_RPM}, Time={Run_time}, Steps={total_steps}")
 
+    MIN_DELAY = 0.00001  # Minimum delay to prevent too fast stepping
+
     for step in range(total_steps):
         if not run_flag:
             print(f"Stopping {Motor_ID}")
@@ -113,19 +156,24 @@ def move_motor_with_ramp_up(direction_pin, step_pin, current_RPM, target_RPM, Ru
 
         if step < ramp_steps:  # Ramp-up phase
             progress = step / ramp_steps
-            delay = interpolate_delay_linear(progress, current_delay, full_delay)
+            #delay = interpolate_delay_linear(progress, current_delay, full_delay)
+            delay = interpolate_delay_sine(progress, current_delay, full_delay)
         else:  # Constant speed phase
             delay = full_delay
 
+        # Ensure delay is above the minimum threshold
+        if delay < MIN_DELAY:
+            delay = MIN_DELAY
+
+        # Debugging output
+        #print(f"Step {step}/{total_steps}, Delay: {delay:.6f}s")        
+
         #print(f"[{time.strftime('%H:%M:%S')}] Step {step}/{total_steps} | Delay: {delay:.6f}s")
 
-        step_pin.on()
-        time.sleep(delay)
-        step_pin.off()
-        time.sleep(delay)
+        generate_steps_with_pigpio(step_pin, 1, delay)
 
 # Function for motor movement with Ramp-Down
-def move_motor_with_ramp_down(direction_pin, step_pin, current_RPM, target_RPM, steps, direction, ramp_steps=100):
+def move_motor_with_ramp_down(direction_pin, step_pin, current_RPM, target_RPM, Run_time, direction, ramp_steps=100):
     global run_flag
 
     direction_pin.value = direction
@@ -133,64 +181,56 @@ def move_motor_with_ramp_down(direction_pin, step_pin, current_RPM, target_RPM, 
 
     full_delay = 60 / (2 * Pulses_rev * target_RPM)
     current_delay = 60 / (2 * Pulses_rev * current_RPM)
+    total_steps = int(Pulses_rev * current_RPM / 60 * Run_time)
 
-    if ramp_steps > steps:
-        ramp_steps = steps
+    if ramp_steps > total_steps:
+        ramp_steps = total_steps
 
-    print(f"{Motor_ID} w/ RAMP-DOWN: RPM={target_RPM}, Steps={steps}")
+    print(f"{Motor_ID} w/ RAMP-DOWN: Current RPM={current_RPM}, Target RPM={target_RPM}, Time={Run_time}, Steps={total_steps}")
 
-    for step in range(steps):
+    for step in range(total_steps):
         if not run_flag:
             print(f"Stopping {Motor_ID}")
             return
 
-        if step >= steps - ramp_steps:  # Ramp-down phase
-            progress = (step - (steps - ramp_steps)) / ramp_steps
-            delay = interpolate_delay_sine(1 - progress, current_delay, full_delay)
+        if step < ramp_steps:  # Ramp-down phase
+            progress = step / ramp_steps
+            delay = interpolate_delay_sine(progress, current_delay, full_delay)
         else:  # Constant speed phase
             delay = full_delay
 
         #print(f"[{time.strftime('%H:%M:%S')}] Step {step}/{total_steps} | Delay: {delay:.6f}s")
 
-        step_pin.on()
-        time.sleep(delay)
-        step_pin.off()
-        time.sleep(delay)
+        # Generate a single step with the calculated delay
+        generate_steps_with_pigpio(step_pin, 1, delay)
 
 # Function for Motor 1 Drivetrain Movement
 def Motor1_sequence():
     print("Starting Motor 1 sequence...")
     print("Running Pedaling Cycle")
-    move_motor_with_ramp_up(dir1, step1, 5, 80, 2, True, ramp_steps=100)   # Motor 1 forward
-    move_motor(dir1, step1, 80, 120, 1, True)   # Motor 1 forward
+    move_motor_with_ramp_up(dir1, step1, 5, 80, 2, True, ramp_steps=200)   # Motor 1 forward
+    move_motor_with_ramp_up(dir1, step1, 80, 120, 1, True, ramp_steps=200)   # Motor 1 forward
     time.sleep(0.5)
-    move_motor(dir1, step1, 120, 160, 1, False)  # Motor 1 backward, backpedal
-    move_motor(dir1, step1, 160, 100, 3, True)   # Motor 1 forward
-    time.sleep(2)                           # Pause
-    move_motor(dir1, step1, 130, 120, 1, False)  # Motor 1 backward, backpedal
-    move_motor_with_ramp_up(dir1, step1, 120, 125, 3, True, ramp_steps=200)   # Motor 1 forward 
-    move_motor(dir1, step1, 140, 120, 3, False)  # Motor 1 backward, backpedal   
-    move_motor(dir1, step1, 120, 85, 2, True)   # Motor 1 forward
-    move_motor(dir1, step1, 85, 120, 2, False)  # Motor 1 backward, backpedal
-    move_motor(dir1, step1, 120, 100, 3, True)   # Motor 1 forward
-    move_motor(dir1, step1, 150, 120, 2, False)  # Motor 1 backward, backpedal
+    move_motor_with_ramp_down(dir1, step1, 120, 160, 2, False, ramp_steps=100)  # Motor 1 backward, backpedal
+    move_motor_with_ramp_up(dir1, step1, 120, 100, 2, True, ramp_steps=100)   # Motor 1 forward
+    time.sleep(1)                           # Pause
+    move_motor_with_ramp_down(dir1, step1, 100, 140, 1, False, ramp_steps=100)  # Motor 1 backward, backpedal
+    move_motor_with_ramp_up(dir1, step1, 120, 125, 2, True, ramp_steps=200)   # Motor 1 forward 
+    move_motor_with_ramp_down(dir1, step1, 125, 130, 3, False, ramp_steps=100)  # Motor 1 backward, backpedal   
+    move_motor_with_ramp_up(dir1, step1, 130, 85, 1, True, ramp_steps=100)   # Motor 1 forward
+    move_motor_with_ramp_down(dir1, step1, 85, 130, 1, False, ramp_steps=100)  # Motor 1 backward, backpedal
+    move_motor_with_ramp_up(dir1, step1, 130, 100, 2, True, ramp_steps=100)   # Motor 1 forward
+    move_motor_with_ramp_down(dir1, step1, 100, 120, 1, False, ramp_steps=100)  # Motor 1 backward, backpedal
     time.sleep(0.5)                         # Pause
-    move_motor(dir1, step1, 140, 100, 1, False)   # Motor 1 backward, backpedal
-    move_motor(dir1, step1, 100, 110, 2, True)   # Motor 1 forward
+    move_motor_with_ramp_down(dir1, step1, 120, 130, 1, False, ramp_steps=100)   # Motor 1 backward, backpedal
+    move_motor_with_ramp_up(dir1, step1, 130, 120, 2, True, ramp_steps=100)   # Motor 1 forward
 
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     print("Starting Motor 2 sequence with ramp...")
-    move_motor_with_ramp_up(dir2, step2, 5, 220, 40, True, ramp_steps=12000) 
-    #move_motor_with_ramp_up(dir2, step2, 50, 100, 10, True, ramp_steps=100)
-    #move_motor_with_ramp_up(dir2, step2, 100, 120, 10, True, ramp_steps=100)
-    #move_motor_with_ramp_up(dir2, step2, 120, 130, 10, True, ramp_steps=100)  # Motor 2 forward
-    #move_motor_with_ramp_up(dir2, step2, 130, 140, 10, True, ramp_steps=100)  # Motor 2 forward
-    #move_motor_with_ramp_up(dir2, step2, 160, 170, 10, True, ramp_steps=100)  # Motor 2 backward
-    #move_motor_with_ramp_up(dir2, step2, 180, 200, 10, True, ramp_steps=100)
-    #move_motor(dir2, step2, 1, 100, 5, True)
-    time.sleep(1)
-    move_motor_with_ramp_down(dir2, step2, 220, 5, 15, True, ramp_steps=800)
+    move_motor_with_ramp_up(dir2, step2, 5, 160, 10, True, ramp_steps=200) 
+    move_motor_with_ramp_up(dir2, step2, 160, 160, 20, True, ramp_steps=200)
+    move_motor_with_ramp_down(dir2, step2, 160, 5, 7, True, ramp_steps=100)
     
     
 #####################################################
@@ -212,7 +252,7 @@ def start_motors():
 
     # Start them
     motor2_thread.start()
-    time.sleep(15)
+    time.sleep(12)
     motor1_thread.start()
 
     # Wait for both threads to finish
