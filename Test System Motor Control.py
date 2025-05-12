@@ -129,7 +129,7 @@ def move_motor(direction_pin, step_pin, target_RPM, Run_time, direction):
         
         #print(f"[{time.strftime('%H:%M:%S')}] Step {step}/{total_steps} | Delay: {delay:.6f}s")
         
-        generate_steps_with_pigpio(step_pin, 1, delay)
+        generate_steps_with_pigpio(step_pin, 1, STEP_DELAY)
 
 # Function for motor movement with Ramp-Up
 def move_motor_with_ramp_up(direction_pin, step_pin, current_RPM, target_RPM, Run_time, direction, ramp_steps=100):
