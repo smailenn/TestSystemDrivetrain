@@ -170,6 +170,7 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
 def Motor1_sequence():
     print("Starting Motor 1 sequence...")
     print("Running Pedaling Cycle")
+    time.sleep(12)
     move_motor_with_ramp(DIR1, STEP1, 5, 80, 2, True)
     move_motor_with_ramp(DIR1, STEP1, 80, 120, 1, True)
     time.sleep(0.5)
@@ -190,9 +191,9 @@ def Motor1_sequence():
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     print("Starting Motor 2 sequence with ramp...")
-    move_motor_with_ramp(DIR2, STEP2, 5, 60, 10, True, ramp_steps=400)
-    move_motor_with_ramp(DIR2, STEP2, 60, 60, 20, True, ramp_steps=400)
-    move_motor_with_ramp(DIR2, STEP2, 60, 5, 7, True, ramp_steps=400)
+    move_motor_with_ramp(DIR2, STEP2, 5, 30, 10, True, ramp_steps=400)
+    move_motor_with_ramp(DIR2, STEP2, 30, 30, 20, True, ramp_steps=400)
+    move_motor_with_ramp(DIR2, STEP2, 30, 5, 7, True, ramp_steps=400)
     
 #####################################################
 def start_motors():
@@ -205,16 +206,19 @@ def start_motors():
         time.sleep(1)
     print("Motors GO!")
 
-    # Start Motor 2 Oscillator in its own thread
+    motor1_thread = threading.Thread(target=Motor1_sequence)
     motor2_thread = threading.Thread(target=Motor2_sequence)
 
-    # Start Motor 1 Drivetrain in its own thread
-    motor1_thread = threading.Thread(target=Motor1_sequence)
-
-    # Start them
-    motor2_thread.start()
-    time.sleep(12)
+    # Start motors
     motor1_thread.start()
+    motor2_thread.start()
+
+    # Synchronize both motors' start
+    start_event.set()
+
+    # Wait for both threads to finish
+    motor1_thread.join()
+    motor2_thread.join()
 
     # Wait for both threads to finish
     try:
@@ -253,7 +257,6 @@ if __name__ == "__main__":
 
 # Run Tkinter event loop
 # root.mainloop()
-
 
 
 
