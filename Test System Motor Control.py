@@ -3,6 +3,7 @@ import time
 import threading
 import math
 import sys
+import serial
 
 pi = pigpio.pi()
 
@@ -12,6 +13,24 @@ pi = pigpio.pi()
 # ssh 192.168.1.134 ip of Raspberry Pi
 # typical is mailman@SeanPi.local
 # Password currently:  MRP! 
+
+class ArduinoMotorController:
+    def __init__(self, port='/dev/ttyACM0', baudrate=115200, timeout=2):
+        self.ser = serial.Serial(port, baudrate, timeout=timeout)
+        time.sleep(2)  # Wait for Arduino to reset
+
+    def send_pulses_per_rev(self, pulses):
+        self.ser.write(f"PPR:{pulses}\n".encode())
+
+    def send_move_command(self, start_rpm, target_rpm, run_time, direction, ramp_steps=None):
+        cmd = f"MOVE:{start_rpm},{target_rpm},{run_time},{direction}"
+        if ramp_steps is not None:
+            cmd += f",{ramp_steps}"
+        print(f"Sending command to Arduino: {cmd}")  # Add this line for debugging
+        self.ser.write((cmd + "\n").encode())
+
+    def close(self):
+        self.ser.close()
 
 # check if 
 #if os.environ.get('DISPLAY','') == '':
@@ -23,40 +42,38 @@ DIR1 = 27   # Direction pin for motor 1
 STEP1 = 22  # Step pin for motor 1
 
 # Pin configuration for motor 2 - Oscillation
-DIR2 = 24   # Direction pin for motor 2
-STEP2 = 23  # Step pin for motor 2
+# Only used if motor directly connected to Raspberry Pi GPIO pins
+# If using Arduino, use ArduinoMotorController class
+#DIR2 = 24   # Direction pin for motor 2
+#STEP2 = 23  # Step pin for motor 2
 
 pi.set_mode(STEP1, pigpio.OUTPUT)
 pi.set_mode(DIR1, pigpio.OUTPUT)
-pi.set_mode(STEP2, pigpio.OUTPUT)
-pi.set_mode(DIR2, pigpio.OUTPUT)
+#pi.set_mode(STEP2, pigpio.OUTPUT)
+#pi.set_mode(DIR2, pigpio.OUTPUT)
 
 # Set initial pin states (optional but good practice)
 pi.write(STEP1, 0)
 pi.write(DIR1, 0)
-pi.write(STEP2, 0)
-pi.write(DIR2, 0)
+#pi.write(STEP2, 0)
+#pi.write(DIR2, 0)
 
 # Motor parameters
 # Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
 # DM860T Stepper Driver
 # Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
-Pulses_rev = 400 #Pulses per revolution, set on driver
+Pulses_rev = 400 #Pulses per revolution, Motor 1, set on driver
+PULSES_PER_REV = 400 #Pulses per revolution, Motor 2, set on driver
 
 if not pi.connected:
     print("Failed to connect to pigpio daemon. Make sure it's running.")
     sys.exit(1)
 
-# Pin configuration for motor 1 - Drivetrain
-DIR1 = 27   # Direction pin for motor 1
-STEP1 = 22  # Step pin for motor 1
-
-# Pin configuration for motor 2 - Oscillation
-DIR2 = 24   # Direction pin for motor 2
-STEP2 = 23  # Step pin for motor 2
-
 #Global flag for stopping motors
 run_flag = True
+
+motor2 = ArduinoMotorController('/dev/ttyACM0')
+motor2.send_pulses_per_rev(PULSES_PER_REV)
 
 # Function for motor movement with slow ramp for motor control
 def interpolate_delay_sine(progress, start_delay, end_delay):
@@ -191,9 +208,13 @@ def Motor1_sequence():
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     print("Starting Motor 2 sequence with ramp...")
-    move_motor_with_ramp(DIR2, STEP2, 5, 30, 10, True, ramp_steps=400)
-    move_motor_with_ramp(DIR2, STEP2, 30, 30, 20, True, ramp_steps=400)
-    move_motor_with_ramp(DIR2, STEP2, 30, 5, 7, True, ramp_steps=400)
+    #move_motor_with_ramp(DIR2, STEP2, 5, 30, 10, True, ramp_steps=400)
+    #move_motor_with_ramp(DIR2, STEP2, 30, 30, 20, True, ramp_steps=400)
+    #move_motor_with_ramp(DIR2, STEP2, 30, 5, 7, True, ramp_steps=400)
+    motor2.send_move_command(5, 100, 10, 1, 400)
+    motor2.send_move_command(100, 100, 20, 1, 400)
+    motor2.send_move_command(100, 5, 7, 1, 400)
+    
     
 #####################################################
 def start_motors():
@@ -214,7 +235,7 @@ def start_motors():
     motor2_thread.start()
 
     # Synchronize both motors' start
-    start_event.set()
+    #start_event.set()
 
     # Wait for both threads to finish
     motor1_thread.join()
