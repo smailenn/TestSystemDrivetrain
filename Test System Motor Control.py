@@ -211,9 +211,9 @@ def Motor2_sequence():
     #move_motor_with_ramp(DIR2, STEP2, 5, 30, 10, True, ramp_steps=400)
     #move_motor_with_ramp(DIR2, STEP2, 30, 30, 20, True, ramp_steps=400)
     #move_motor_with_ramp(DIR2, STEP2, 30, 5, 7, True, ramp_steps=400)
-    motor2.send_move_command(5, 100, 10, 1, 400)
-    motor2.send_move_command(100, 100, 20, 1, 400)
-    motor2.send_move_command(100, 5, 7, 1, 400)
+    motor2.send_move_command(5, 100, 10, 1, 800)
+    motor2.send_move_command(100, 100, 20, 1, 800)
+    motor2.send_move_command(100, 5, 7, 1, 800)
     
     
 #####################################################
