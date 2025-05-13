@@ -11,7 +11,7 @@ pi = pigpio.pi()
 # Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
 # ssh 192.168.1.134 ip of Raspberry Pi
 # typical is mailman@SeanPi.local
-# Password currently:  MRP!
+# Password currently:  MRP! 
 
 # check if 
 #if os.environ.get('DISPLAY','') == '':
