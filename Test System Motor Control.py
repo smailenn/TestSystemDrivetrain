@@ -62,8 +62,8 @@ pi.write(DIR1, 0)
 # Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
 # DM860T Stepper Driver
 # Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
-Pulses_rev = 400 #Pulses per revolution, Motor 1, set on driver
-PULSES_PER_REV = 400 #Pulses per revolution, Motor 2, set on driver
+Pulses_rev = 400 #Pulses per revolution, Motor 1 (Drivetrain), set on driver
+PULSES_PER_REV = 1600 #Pulses per revolution, Motor 2 (Shaker), set on driver
 
 if not pi.connected:
     print("Failed to connect to pigpio daemon. Make sure it's running.")
@@ -113,7 +113,7 @@ def generate_steps_with_pigpio(step_pin, delays):
                 print("Warning: No pulses generated, skipping wave creation.")
                 continue  # Skip empty pulse lists
 
-            print(f"Generated {len(pulses)} pulses.")
+            #print(f"Generated {len(pulses)} pulses.")
             pi.wave_add_generic(pulses)
             wave_id = pi.wave_create()
             if wave_id < 0:
@@ -122,7 +122,7 @@ def generate_steps_with_pigpio(step_pin, delays):
             else:
                 print(f"Created waveform with ID {wave_id}")
 
-            print(f"Sending waveform with ID {wave_id}")
+            #print(f"Sending waveform with ID {wave_id}")
             
             if wave_id == 0:
                 print("Warning: Wave ID is 0, which may indicate an issue with waveform creation.")
@@ -155,7 +155,7 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
 
     cruise_steps = total_steps - 2 * ramp_steps
     MIN_DELAY = 0.00001
-
+    
     print(f"{Motor_ID}: {start_RPM}->{target_RPM} RPM, {run_time}s, {total_steps} steps")
 
     delays = []
@@ -182,21 +182,28 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
     #print("Generated delays:", delays)
     generate_steps_with_pigpio(step_pin, delays)
 
+def test_motor_constant_speed(step_pin, delay, steps):
+    for _ in range(steps):
+        pi.write(step_pin, 1)
+        time.sleep(delay)
+        pi.write(step_pin, 0)
+        time.sleep(delay)
+
 
 # Function for Motor 1 Drivetrain Movement
 def Motor1_sequence():
     print("Starting Motor 1 sequence...")
     print("Running Pedaling Cycle")
-    time.sleep(12)
-    move_motor_with_ramp(DIR1, STEP1, 5, 80, 2, True)
-    move_motor_with_ramp(DIR1, STEP1, 80, 120, 1, True)
+    #time.sleep(40)
+    move_motor_with_ramp(DIR1, STEP1, 5, 80, 2, False)
+    move_motor_with_ramp(DIR1, STEP1, 80, 120, 2, False)
     time.sleep(0.5)
-    move_motor_with_ramp(DIR1, STEP1, 120, 160, 2, False)
-    move_motor_with_ramp(DIR1, STEP1, 120, 100, 2, True)
+    move_motor_with_ramp(DIR1, STEP1, 120, 160, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 120, 100, 1, True)
     time.sleep(1)
     move_motor_with_ramp(DIR1, STEP1, 100, 140, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 120, 125, 2, True)
-    move_motor_with_ramp(DIR1, STEP1, 125, 130, 3, False)
+    move_motor_with_ramp(DIR1, STEP1, 125, 130, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 130, 85, 1, True)
     move_motor_with_ramp(DIR1, STEP1, 85, 130, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 130, 100, 2, True)
@@ -204,6 +211,7 @@ def Motor1_sequence():
     time.sleep(0.5)
     move_motor_with_ramp(DIR1, STEP1, 120, 130, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 130, 120, 2, True)   # Motor 1 forward
+    #test_motor_constant_speed(STEP1, 0.001, 10000)  # Test with 1ms delay
 
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
@@ -211,9 +219,10 @@ def Motor2_sequence():
     #move_motor_with_ramp(DIR2, STEP2, 5, 30, 10, True, ramp_steps=400)
     #move_motor_with_ramp(DIR2, STEP2, 30, 30, 20, True, ramp_steps=400)
     #move_motor_with_ramp(DIR2, STEP2, 30, 5, 7, True, ramp_steps=400)
-    motor2.send_move_command(5, 100, 10, 1, 800)
-    motor2.send_move_command(100, 100, 20, 1, 800)
-    motor2.send_move_command(100, 5, 7, 1, 800)
+    
+    #motor2.send_move_command(5, 60, 50, 1, 10000)
+    #motor2.send_move_command(30, 60, 20, 1, 20000)
+    #motor2.send_move_command(60, 90, 20, 1, 20000)
     
     
 #####################################################

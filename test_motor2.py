@@ -1,15 +1,21 @@
-import serial
+import pigpio
 import time
+import threading
+import math
+import sys
+import serial
 
-ser = serial.Serial('/dev/ttyACM0', 115200)
-time.sleep(2)  # Wait for the Arduino to reset
-
-ser.write(b'Hello from Pi\n')
-print("Message sent.")
-
-
+pi = pigpio.pi()
 
 
+def test_motor_constant_speed(step_pin, delay, steps):
+    for _ in range(steps):
+        pi.write(step_pin, 1)
+        time.sleep(delay)
+        pi.write(step_pin, 0)
+        time.sleep(delay)
+
+test_motor_constant_speed(STEP1, 0.001, 1000)  # Test with 1ms delay
 
 
 
