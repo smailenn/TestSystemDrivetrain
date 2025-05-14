@@ -29,6 +29,14 @@ class ArduinoMotorController:
         print(f"Sending command to Arduino: {cmd}")  # Add this line for debugging
         self.ser.write((cmd + "\n").encode())
 
+    # Function to wait for Arduino to finish
+    def wait_for_done(self):
+        while True:
+            if self.ser.in_waiting:
+                response = self.ser.readline().decode().strip()
+                if response == "DONE":
+                    break
+
     def close(self):
         self.ser.close()
 
@@ -138,7 +146,6 @@ def generate_steps_with_pigpio(step_pin, delays):
         print(f"Error while sending wave: {e}")
 
 
-
 # Function for motor movement
 # Combined ramp-up, cruise, and ramp-down
 def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_time, direction, ramp_steps=100):
@@ -230,13 +237,9 @@ def Motor1_sequence():
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     print("Starting Motor 2 sequence with ramp...")
-    #move_motor_with_ramp(DIR2, STEP2, 5, 30, 10, True, ramp_steps=4000)
-    #move_motor_with_ramp(DIR2, STEP2, 30, 30, 20, True, ramp_steps=4000)
-    #move_motor_with_ramp(DIR2, STEP2, 30, 5, 7, True, ramp_steps=4000)
-    
-    motor2.send_move_command(5, 140, 120, 1, 800)
-    time.sleep(0.2)
-    motor2.send_move_command(60, 90, 20, 1, 400)
+    motor2.send_move_command(5, 120, 50, 1, 800)
+    motor2.wait_for_done()
+    motor2.send_move_command(120, 180, 60, 1, 800)
     #motor2.send_move_command(60, 90, 20, 1, 20000)
     
     
