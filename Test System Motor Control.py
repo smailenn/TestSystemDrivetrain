@@ -44,26 +44,26 @@ STEP1 = 22  # Step pin for motor 1
 # Pin configuration for motor 2 - Oscillation
 # Only used if motor directly connected to Raspberry Pi GPIO pins
 # If using Arduino, use ArduinoMotorController class
-#DIR2 = 24   # Direction pin for motor 2
-#STEP2 = 23  # Step pin for motor 2
+DIR2 = 24   # Direction pin for motor 2
+STEP2 = 23  # Step pin for motor 2
 
 pi.set_mode(STEP1, pigpio.OUTPUT)
 pi.set_mode(DIR1, pigpio.OUTPUT)
-#pi.set_mode(STEP2, pigpio.OUTPUT)
-#pi.set_mode(DIR2, pigpio.OUTPUT)
+pi.set_mode(STEP2, pigpio.OUTPUT)
+pi.set_mode(DIR2, pigpio.OUTPUT)
 
 # Set initial pin states (optional but good practice)
 pi.write(STEP1, 0)
 pi.write(DIR1, 0)
-#pi.write(STEP2, 0)
-#pi.write(DIR2, 0)
+pi.write(STEP2, 0)
+pi.write(DIR2, 0)
 
 # Motor parameters
 # Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
 # DM860T Stepper Driver
 # Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
 Pulses_rev = 400 #Pulses per revolution, Motor 1 (Drivetrain), set on driver
-PULSES_PER_REV = 1600 #Pulses per revolution, Motor 2 (Shaker), set on driver
+PULSES_PER_REV = 400 #Pulses per revolution, Motor 2 (Shaker), set on driver
 
 if not pi.connected:
     print("Failed to connect to pigpio daemon. Make sure it's running.")
@@ -119,13 +119,13 @@ def generate_steps_with_pigpio(step_pin, delays):
             if wave_id < 0:
                 print("Failed to create waveform")
                 return
-            else:
-                print(f"Created waveform with ID {wave_id}")
+            #else:
+                #print(f"Created waveform with ID {wave_id}")
 
             #print(f"Sending waveform with ID {wave_id}")
             
-            if wave_id == 0:
-                print("Warning: Wave ID is 0, which may indicate an issue with waveform creation.")
+            #if wave_id == 0:
+                #print("Warning: Wave ID is 0, which may indicate an issue with waveform creation.")
 
             pi.wave_send_once(wave_id)
 
@@ -194,34 +194,49 @@ def test_motor_constant_speed(step_pin, delay, steps):
 def Motor1_sequence():
     print("Starting Motor 1 sequence...")
     print("Running Pedaling Cycle")
-    #time.sleep(40)
-    move_motor_with_ramp(DIR1, STEP1, 5, 80, 2, False)
-    move_motor_with_ramp(DIR1, STEP1, 80, 120, 2, False)
+    time.sleep(20)
+    move_motor_with_ramp(DIR1, STEP1, 5, 80, 6, False)
+    move_motor_with_ramp(DIR1, STEP1, 80, 140, 2, False)
     time.sleep(0.5)
-    move_motor_with_ramp(DIR1, STEP1, 120, 160, 1, True)
-    move_motor_with_ramp(DIR1, STEP1, 120, 100, 1, True)
-    time.sleep(1)
-    move_motor_with_ramp(DIR1, STEP1, 100, 140, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 120, 125, 2, True)
-    move_motor_with_ramp(DIR1, STEP1, 125, 130, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 130, 85, 1, True)
-    move_motor_with_ramp(DIR1, STEP1, 85, 130, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 130, 100, 2, True)
-    move_motor_with_ramp(DIR1, STEP1, 100, 120, 1, False)
+    print("Part 2")
+    move_motor_with_ramp(DIR1, STEP1, 80, 80, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, True)
     time.sleep(0.5)
-    move_motor_with_ramp(DIR1, STEP1, 120, 130, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 130, 120, 2, True)   # Motor 1 forward
-    #test_motor_constant_speed(STEP1, 0.001, 10000)  # Test with 1ms delay
+    print("Part 3")
+    move_motor_with_ramp(DIR1, STEP1, 80, 110, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 100, 140, 2, True)
+    move_motor_with_ramp(DIR1, STEP1, 60, 80, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, True)
+    time.sleep(0.5)
+    print("Part 4")
+    move_motor_with_ramp(DIR1, STEP1, 85, 70, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 100, 150, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 85, 70, 0.7, False)
+    move_motor_with_ramp(DIR1, STEP1, 100, 150, 0.7, True)
+    move_motor_with_ramp(DIR1, STEP1, 85, 70, 0.5, False)
+    move_motor_with_ramp(DIR1, STEP1, 100, 150, 0.5, True)
+    print("Abusive")
+    move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
+    move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
+    move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
+    move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
+    move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
+    move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
+    time.sleep(0.5)
+    print("Part 5")
+    move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 100, 80, 2, True)   # Motor 1 Backward
 
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     print("Starting Motor 2 sequence with ramp...")
-    #move_motor_with_ramp(DIR2, STEP2, 5, 30, 10, True, ramp_steps=400)
-    #move_motor_with_ramp(DIR2, STEP2, 30, 30, 20, True, ramp_steps=400)
-    #move_motor_with_ramp(DIR2, STEP2, 30, 5, 7, True, ramp_steps=400)
+    #move_motor_with_ramp(DIR2, STEP2, 5, 30, 10, True, ramp_steps=4000)
+    #move_motor_with_ramp(DIR2, STEP2, 30, 30, 20, True, ramp_steps=4000)
+    #move_motor_with_ramp(DIR2, STEP2, 30, 5, 7, True, ramp_steps=4000)
     
-    #motor2.send_move_command(5, 60, 50, 1, 10000)
-    #motor2.send_move_command(30, 60, 20, 1, 20000)
+    motor2.send_move_command(5, 140, 120, 1, 800)
+    time.sleep(0.2)
+    motor2.send_move_command(60, 90, 20, 1, 400)
     #motor2.send_move_command(60, 90, 20, 1, 20000)
     
     
