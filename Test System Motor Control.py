@@ -284,7 +284,10 @@ def stop_motors():
     global run_flag
     run_flag = False
     print("Stopping Motors . . . ")  
-    
+    try:
+        motor2.ser.write(b"STOP\n")
+    except Exception as e:
+        print(f"Failed to send STOP to Arduino: {e}")
 
 if __name__ == "__main__":
     try:
