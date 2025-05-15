@@ -22,23 +22,33 @@ class ArduinoMotorController:
     def send_pulses_per_rev(self, pulses):
         self.ser.write(f"PPR:{pulses}\n".encode())
 
-    def send_move_command(self, start_rpm, target_rpm, run_time, direction, ramp_steps=None):
-        cmd = f"MOVE:{start_rpm},{target_rpm},{run_time},{direction}"
-        if ramp_steps is not None:
-            cmd += f",{ramp_steps}"
-        print(f"Sending command to Arduino: {cmd}")  # Add this line for debugging
-        self.ser.write((cmd + "\n").encode())
+    def send_move_batch(self, commands):
+        parts = []
+        for c in commands:
+            cmd_parts = list(map(str, c[:4]))
+            if len(c) > 4 and c[4] is not None:
+                cmd_parts.append(str(c[4]))
+            parts.append(",".join(cmd_parts))
 
-    # Function to wait for Arduino to finish
-    def wait_for_done(self):
-        while True:
-            if self.ser.in_waiting:
-                response = self.ser.readline().decode().strip()
-                if response == "DONE":
-                    break
+        batch_cmd = "BATCH\n" + "\n".join(parts)
+        print(f"Sending batch command to Arduino:\n{batch_cmd}")
+        self.ser.write(batch_cmd.encode())  # REMOVE the extra + "\n"
+        self.ser.flush()
+
 
     def close(self):
         self.ser.close()
+
+def read_arduino_serial(controller):
+    while True:
+        if controller.ser.in_waiting > 0:
+            try:
+                line = controller.ser.readline().decode('utf-8', errors='replace').strip()
+                if line:
+                    print(f"[Arduino] {line}")
+            except Exception as e:
+                print(f"[Serial Read Error] {e}")
+        time.sleep(0.05)
 
 # check if 
 #if os.environ.get('DISPLAY','') == '':
@@ -83,13 +93,17 @@ run_flag = True
 motor2 = ArduinoMotorController('/dev/ttyACM0')
 motor2.send_pulses_per_rev(PULSES_PER_REV)
 
+# Start serial reader thread for debug output
+serial_thread = threading.Thread(target=read_arduino_serial, args=(motor2,), daemon=True)
+serial_thread.start()
+
 # Function for motor movement with slow ramp for motor control
 def interpolate_delay_sine(progress, start_delay, end_delay):
     return start_delay - (start_delay - end_delay) * math.sin(progress * (math.pi / 2))
 
 # Function for motor movement with linear ramp  
 def interpolate_delay_linear(progress, start_delay, end_delay):
-    return start_delay - (start_delay - end_delay) * progress
+    return start_delay - (start_delay - end_delay) * progressv
 
 # Create pigpio step waveform
 def generate_steps_with_pigpio(step_pin, delays):
@@ -237,10 +251,27 @@ def Motor1_sequence():
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     print("Starting Motor 2 sequence with ramp...")
-    motor2.send_move_command(5, 120, 50, 1, 800)
-    motor2.wait_for_done()
-    motor2.send_move_command(120, 180, 60, 1, 800)
-    #motor2.send_move_command(60, 90, 20, 1, 20000)
+    # Motor moves are sent below in a batch
+    commands = [
+        (5, 80, 20, 1, 400),
+        (80, 100, 20, 1, 400),
+        (100, 120, 20, 1, 400),
+        (120, 140, 20, 1, 400),
+        (140, 150, 20, 1, 600),
+        (150, 30, 20, 1, 500),
+    ]
+
+    motor2.send_move_batch(commands)
+    
+    # Optionally wait here for Arduino to finish batch execution by listening for "DONE"
+    while True:
+        line = motor2.ser.readline().decode().strip()
+        if line == "DONE":
+            print("Motor 2 batch complete")
+            break
+        elif line != "":
+            print(f"Arduino: {line}")
+        time.sleep(0.1)
     
     
 #####################################################
