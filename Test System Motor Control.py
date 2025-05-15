@@ -5,6 +5,8 @@ import math
 import sys
 import serial
 import queue
+import atexit
+
 
 pi = pigpio.pi()
 
@@ -33,9 +35,16 @@ class ArduinoMotorController:
 
         batch_cmd = "BATCH:\n" + "\n".join(parts)
         print(f"Sending batch command to Arduino:\n{batch_cmd}")
-        self.ser.write(batch_cmd.encode())  # REMOVE the extra + "\n"
+        # self.ser.write(batch_cmd.encode())  # REMOVE the extra + "\n"
+        self.ser.write((batch_cmd + "\n").encode())  # <- Add the newline here if Arduino expects it
         self.ser.flush()
 
+    def send_reset(self):
+        try:
+            self.ser.write(b"RESET\n")
+            print("Sent RESET command to Arduino")
+        except Exception as e:
+            print(f"Failed to send RESET to Arduino: {e}")
 
     def close(self):
         self.ser.close()
@@ -94,6 +103,7 @@ if not pi.connected:
 run_flag = True
 
 motor2 = ArduinoMotorController('/dev/ttyACM0')
+motor2.send_reset()  # Reset Arduino state at start
 motor2.send_pulses_per_rev(PULSES_PER_REV)
 
 # Start serial reader thread for debug output
@@ -219,8 +229,17 @@ def test_motor_constant_speed(step_pin, delay, steps):
 # Function for Motor 1 Drivetrain Movement
 def Motor1_sequence():
     print("Starting Motor 1 sequence...")
-    print("Running Pedaling Cycle")
     time.sleep(20)
+    print("Drivetrain Cycle 1")
+    Drivetrain_Cycle()
+    time.sleep(10)
+    print("Drivetrain Cycle 2")
+    Drivetrain_Cycle()
+    time.sleep(10)
+    print("Drivetrain Cycle 3")
+    Drivetrain_Cycle()
+
+def Drivetrain_Cycle():
     move_motor_with_ramp(DIR1, STEP1, 5, 80, 6, False)
     move_motor_with_ramp(DIR1, STEP1, 80, 140, 2, False)
     time.sleep(0.5)
@@ -242,25 +261,25 @@ def Motor1_sequence():
     move_motor_with_ramp(DIR1, STEP1, 85, 70, 0.5, False)
     move_motor_with_ramp(DIR1, STEP1, 100, 150, 0.5, True)
     print("Abusive")
-    move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
-    move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
-    move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
-    move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
-    move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
-    move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
+    #move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
+    #move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
+    # move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
+    # move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
+    # move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
+    # move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
     time.sleep(0.5)
     print("Part 5")
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 100, 80, 2, True)   # Motor 1 Backward
-
+    
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     print("Starting Motor 2 sequence with ramp...")
     # Motor moves are sent below in a batch
     commands = [
-        (5, 80, 20, 1, 400),
-        (80, 100, 20, 1, 400),
-        (100, 120, 20, 1, 400),
+        (5, 80, 10, 1, 400),
+        (80, 100, 10, 1, 400),
+        (100, 120, 20, 1, 600),
         #(120, 140, 20, 1, 400),
         #(140, 150, 20, 1, 600),
         #(100, 5, 20, 1, 500),
@@ -333,6 +352,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         stop_motors()
         print('\nTesting has concluded')
+        atexit.register(stop_motors)
 
 # Create Tkinter GUI
 #root = tk.Tk()
