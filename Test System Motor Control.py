@@ -4,6 +4,7 @@ import threading
 import math
 import sys
 import serial
+import queue
 
 pi = pigpio.pi()
 
@@ -15,7 +16,7 @@ pi = pigpio.pi()
 # Password currently:  MRP! 
 
 class ArduinoMotorController:
-    def __init__(self, port='/dev/ttyACM0', baudrate=115200, timeout=2):
+    def __init__(self, port='/dev/ttyACM0', baudrate=115200, timeout=0.1):
         self.ser = serial.Serial(port, baudrate, timeout=timeout)
         time.sleep(2)  # Wait for Arduino to reset
 
@@ -30,7 +31,7 @@ class ArduinoMotorController:
                 cmd_parts.append(str(c[4]))
             parts.append(",".join(cmd_parts))
 
-        batch_cmd = "BATCH\n" + "\n".join(parts)
+        batch_cmd = "BATCH:\n" + "\n".join(parts)
         print(f"Sending batch command to Arduino:\n{batch_cmd}")
         self.ser.write(batch_cmd.encode())  # REMOVE the extra + "\n"
         self.ser.flush()
@@ -39,16 +40,18 @@ class ArduinoMotorController:
     def close(self):
         self.ser.close()
 
-def read_arduino_serial(controller):
+def read_arduino_serial(controller, q):
     while True:
         if controller.ser.in_waiting > 0:
             try:
                 line = controller.ser.readline().decode('utf-8', errors='replace').strip()
                 if line:
+                    q.put(line)
                     print(f"[Arduino] {line}")
             except Exception as e:
                 print(f"[Serial Read Error] {e}")
         time.sleep(0.05)
+
 
 # check if 
 #if os.environ.get('DISPLAY','') == '':
@@ -94,8 +97,10 @@ motor2 = ArduinoMotorController('/dev/ttyACM0')
 motor2.send_pulses_per_rev(PULSES_PER_REV)
 
 # Start serial reader thread for debug output
-serial_thread = threading.Thread(target=read_arduino_serial, args=(motor2,), daemon=True)
+serial_queue = queue.Queue()
+serial_thread = threading.Thread(target=read_arduino_serial, args=(motor2, serial_queue), daemon=True)
 serial_thread.start()
+
 
 # Function for motor movement with slow ramp for motor control
 def interpolate_delay_sine(progress, start_delay, end_delay):
@@ -103,7 +108,7 @@ def interpolate_delay_sine(progress, start_delay, end_delay):
 
 # Function for motor movement with linear ramp  
 def interpolate_delay_linear(progress, start_delay, end_delay):
-    return start_delay - (start_delay - end_delay) * progressv
+    return start_delay - (start_delay - end_delay) * progress
 
 # Create pigpio step waveform
 def generate_steps_with_pigpio(step_pin, delays):
@@ -256,22 +261,28 @@ def Motor2_sequence():
         (5, 80, 20, 1, 400),
         (80, 100, 20, 1, 400),
         (100, 120, 20, 1, 400),
-        (120, 140, 20, 1, 400),
-        (140, 150, 20, 1, 600),
-        (150, 30, 20, 1, 500),
+        #(120, 140, 20, 1, 400),
+        #(140, 150, 20, 1, 600),
+        #(100, 5, 20, 1, 500),
     ]
 
     motor2.send_move_batch(commands)
     
-    # Optionally wait here for Arduino to finish batch execution by listening for "DONE"
-    while True:
-        line = motor2.ser.readline().decode().strip()
-        if line == "DONE":
-            print("Motor 2 batch complete")
-            break
-        elif line != "":
-            print(f"Arduino: {line}")
-        time.sleep(0.1)
+    # Listen for completion or interrupt
+    start_time = time.time()
+    while run_flag:
+        try:
+            line = serial_queue.get(timeout=0.1)
+            if line == "DONE":
+                print("Motor 2 batch complete")
+                break
+            else:
+                print(f"[Arduino-M2] {line}")
+        except queue.Empty:
+            pass  # No message, continue checking
+
+    if not run_flag:
+        print("Motor 2 sequence interrupted")
     
     
 #####################################################
@@ -294,10 +305,6 @@ def start_motors():
 
     # Synchronize both motors' start
     #start_event.set()
-
-    # Wait for both threads to finish
-    motor1_thread.join()
-    motor2_thread.join()
 
     # Wait for both threads to finish
     try:
