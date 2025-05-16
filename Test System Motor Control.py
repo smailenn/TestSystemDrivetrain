@@ -1,3 +1,10 @@
+# Test System Drivetrain Motor control
+# Look at test system drivetrain.xlsx in Engineering\Equipment\Drivetrain Tester Project folder for more information including motion analysis and variables
+# Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
+# ssh 192.168.1.134 ip of Raspberry Pi
+# typical is mailman@SeanPi.local
+# Password currently:  MRP! 
+
 import pigpio
 import time
 import threading
@@ -6,16 +13,57 @@ import sys
 import serial
 import queue
 import atexit
+import tkinter as tk
+import serial
+import threading
+import time
+import re
 
+PORT = '/dev/ttyACM0' # on Linux/Mac
+BAUD = 115200
+ser = serial.Serial(PORT, BAUD, timeout=1)
 
 pi = pigpio.pi()
 
-# Test System Drivetrain Motor control
-# Look at test system drivetrain.xlsx in Engineering\Equipment\Drivetrain Tester Project folder for more information including motion analysis and variables
-# Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
-# ssh 192.168.1.134 ip of Raspberry Pi
-# typical is mailman@SeanPi.local
-# Password currently:  MRP! 
+
+class SerialMonitor:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Motor RPM Monitor")
+
+        self.rpm_label = tk.Label(root, text="RPM: --", font=("Helvetica", 32))
+        self.rpm_label.pack(padx=20, pady=20)
+
+        self.running = True
+        self.thread = threading.Thread(target=self.read_serial)
+        self.thread.start()
+
+        self.root.protocol("WM_DELETE_WINDOW", self.close)
+
+    def read_serial(self):
+        rpm_pattern = re.compile(r"RPM[:\s]+(\d+(\.\d+)?)")
+        while self.running:
+            if ser.in_waiting > 0:
+                line = ser.readline().decode('utf-8', errors='ignore').strip()
+                match = rpm_pattern.search(line)
+                if match:
+                    rpm = match.group(1)
+                    self.update_rpm(rpm)
+            time.sleep(0.05)
+
+    def update_rpm(self, rpm):
+        self.rpm_label.config(text=f"RPM: {rpm}")
+
+    def close(self):
+        self.running = False
+        self.thread.join()
+        ser.close()
+        self.root.destroy()
+
+# if __name__ == '__main__':
+#     root = tk.Tk()
+#     app = SerialMonitor(root)
+#     root.mainloop()
 
 class ArduinoMotorController:
     def __init__(self, port='/dev/ttyACM0', baudrate=115200, timeout=0.1):
@@ -192,7 +240,7 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
     cruise_steps = total_steps - 2 * ramp_steps
     MIN_DELAY = 0.00001
     
-    print(f"{Motor_ID}: {start_RPM}->{target_RPM} RPM, {run_time}s, {total_steps} steps")
+    #print(f"{Motor_ID}: {start_RPM}->{target_RPM} RPM, {run_time}s, {total_steps} steps")
 
     delays = []
 
@@ -229,60 +277,92 @@ def test_motor_constant_speed(step_pin, delay, steps):
 # Function for Motor 1 Drivetrain Movement
 def Motor1_sequence():
     print("Starting Motor 1 sequence...")
-    time.sleep(20)
+    time.sleep(25)
     print("Drivetrain Cycle 1")
     Drivetrain_Cycle()
-    time.sleep(10)
+    time.sleep(2)
     print("Drivetrain Cycle 2")
     Drivetrain_Cycle()
-    time.sleep(10)
+    time.sleep(2)
     print("Drivetrain Cycle 3")
     Drivetrain_Cycle()
+    time.sleep(2)
+    print("Drivetrain Cycle 4")
+    Drivetrain_Cycle()
+    time.sleep(2)
+    print("Drivetrain Cycle 5")
+    Drivetrain_Cycle()
+    time.sleep(2)
+    print("Drivetrain Cycle 6")
+    Drivetrain_Cycle()
+    time.sleep(2)
+    print("Drivetrain Cycle 7")
+    Drivetrain_Cycle()
+    time.sleep(2)
+    print("Drivetrain Cycle 8")
+    Drivetrain_Cycle()
+    time.sleep(2)
+    print("Drivetrain Cycle 9")
+    Drivetrain_Cycle()
+    print("Testing Completed.  The Chain Survived!")
 
 def Drivetrain_Cycle():
+    # Currently 23 run time
+    print("Starting Drivetrain Cycle with ramp...")
     move_motor_with_ramp(DIR1, STEP1, 5, 80, 6, False)
     move_motor_with_ramp(DIR1, STEP1, 80, 140, 2, False)
     time.sleep(0.5)
-    print("Part 2")
+    #print("Part 2")
     move_motor_with_ramp(DIR1, STEP1, 80, 80, 1, True)
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, True)
     time.sleep(0.5)
-    print("Part 3")
+    #print("Part 3")
     move_motor_with_ramp(DIR1, STEP1, 80, 110, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 100, 140, 2, True)
     move_motor_with_ramp(DIR1, STEP1, 60, 80, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, True)
     time.sleep(0.5)
-    print("Part 4")
+    #print("Part 4")
     move_motor_with_ramp(DIR1, STEP1, 85, 70, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 100, 150, 1, True)
-    move_motor_with_ramp(DIR1, STEP1, 85, 70, 0.7, False)
-    move_motor_with_ramp(DIR1, STEP1, 100, 150, 0.7, True)
+    move_motor_with_ramp(DIR1, STEP1, 130, 150, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 85, 70, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 130, 150, 1, True)
     move_motor_with_ramp(DIR1, STEP1, 85, 70, 0.5, False)
-    move_motor_with_ramp(DIR1, STEP1, 100, 150, 0.5, True)
-    print("Abusive")
-    #move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
-    #move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
-    # move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
-    # move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
-    # move_motor_with_ramp(DIR1, STEP1, 85, 85, 0.3, False)
-    # move_motor_with_ramp(DIR1, STEP1, 140, 140, 0.3, True)
+    move_motor_with_ramp(DIR1, STEP1, 130, 150, 0.5, True)
+    #print("Abusive")
+    move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 140, 140, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 140, 140, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 140, 140, 1, True)
     time.sleep(0.5)
-    print("Part 5")
+    #print("Part 5")
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 100, 80, 2, True)   # Motor 1 Backward
-    
+    print("Drivetrain Cycle complete")
+
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     print("Starting Motor 2 sequence with ramp...")
     # Motor moves are sent below in a batch
+    # Initially get up to speed for first ramp, 20 seconds total
+    # Step 1:  100 rpm for 25 seconds
+    # Ramp up again to speed for 10 seconds
+    # Step 2-9: ramp up 4 rpm per step  
     commands = [
-        (5, 80, 10, 1, 400),
-        (80, 100, 10, 1, 400),
-        (100, 120, 20, 1, 600),
-        #(120, 140, 20, 1, 400),
-        #(140, 150, 20, 1, 600),
-        #(100, 5, 20, 1, 500),
+        (5, 80, 10, 0, 1000),
+        (80, 100, 10, 0, 8000),
+        (100, 108, 36, 0, 10000),   #1
+        (108, 112, 36, 0, 10000),   #2
+        (112, 116, 36, 0, 10000),   #3
+        (116, 120, 36, 0, 10000),   #4
+        (120, 122, 36, 0, 10000),   #5
+        (122, 124, 36, 0, 10000),   #6
+        (124, 126, 36, 0, 10000),   #7
+        (126, 128, 36, 0, 10000),   #8
+        (128, 130, 36, 0, 10000),   #9
+        #(100, 5, 20, 0, 500),
     ]
 
     motor2.send_move_batch(commands)
@@ -353,20 +433,3 @@ if __name__ == "__main__":
         stop_motors()
         print('\nTesting has concluded')
         atexit.register(stop_motors)
-
-# Create Tkinter GUI
-#root = tk.Tk()
-#root.title("Motor Controller")
-
-# start_button = tk.Button(root, text="Start", command=start_motors, height=2, width=10, bg="green", fg="white")
-# start_button.pack(pady=10)
-
-# stop_button = tk.Button(root, text="Stop", command=stop_motors, height=2, width=10, bg="red", fg="white")
-# stop_button.pack(pady=10)
-
-# Run Tkinter event loop
-# root.mainloop()
-
-
-
-
