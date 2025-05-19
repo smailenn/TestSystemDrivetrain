@@ -18,6 +18,7 @@ import serial
 import threading
 import time
 import re
+import logging
 
 PORT = '/dev/ttyACM0' # on Linux/Mac
 BAUD = 115200
@@ -82,7 +83,7 @@ class ArduinoMotorController:
             parts.append(",".join(cmd_parts))
 
         batch_cmd = "BATCH:\n" + "\n".join(parts)
-        print(f"Sending batch command to Arduino:\n{batch_cmd}")
+        logging.info(f"Sending batch command to Arduino:\n{batch_cmd}")
         # self.ser.write(batch_cmd.encode())  # REMOVE the extra + "\n"
         self.ser.write((batch_cmd + "\n").encode())  # <- Add the newline here if Arduino expects it
         self.ser.flush()
@@ -90,9 +91,9 @@ class ArduinoMotorController:
     def send_reset(self):
         try:
             self.ser.write(b"RESET\n")
-            print("Sent RESET command to Arduino")
+            logging.info("Sent RESET command to Arduino")
         except Exception as e:
-            print(f"Failed to send RESET to Arduino: {e}")
+            logging.info(f"Failed to send RESET to Arduino: {e}")
 
     def close(self):
         self.ser.close()
@@ -104,15 +105,32 @@ def read_arduino_serial(controller, q):
                 line = controller.ser.readline().decode('utf-8', errors='replace').strip()
                 if line:
                     q.put(line)
-                    print(f"[Arduino] {line}")
+                    logging.info(f"[Arduino] {line}")
             except Exception as e:
-                print(f"[Serial Read Error] {e}")
+                logging.info(f"[Serial Read Error] {e}")
         time.sleep(0.05)
 
+# Basic config for logging to a file and console
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[
+        logging.FileHandler("Drivetrain_Shaker_MRPwave1_test1.log"),
+        logging.StreamHandler()  # This still lets you see output live in your SSH terminal
+    ]
+)
+
+# --- Tracking variables ---
+motor1_total_pulses = 0
+motor1_total_revolutions = 0.0
+motor1_total_run_time = 0.0  # seconds
+
+motor1_running = False
+motor1_run_start_time = None
 
 # check if 
 #if os.environ.get('DISPLAY','') == '':
-#    print('no display found. Using :0.0')
+#    logging.info('no display found. Using :0.0')
 #    os.environ.__setitem__('DISPLAY', ':0.0')
 
 # Pin configuration for motor 1 - Drivetrain
@@ -144,7 +162,7 @@ Pulses_rev = 400 #Pulses per revolution, Motor 1 (Drivetrain), set on driver
 PULSES_PER_REV = 400 #Pulses per revolution, Motor 2 (Shaker), set on driver
 
 if not pi.connected:
-    print("Failed to connect to pigpio daemon. Make sure it's running.")
+    logging.error("Failed to connect to pigpio daemon. Make sure it's running.")
     sys.exit(1)
 
 #Global flag for stopping motors
@@ -178,7 +196,7 @@ def generate_steps_with_pigpio(step_pin, delays):
             delay_chunk = delays[i:i + 1000]
             
             if len(delay_chunk) == 0:
-                print("Warning: No delays in this chunk, skipping...")
+                logging.error("Warning: No delays in this chunk, skipping...")
                 continue  # Skip empty chunks
             
             pi.wave_clear()
@@ -186,31 +204,31 @@ def generate_steps_with_pigpio(step_pin, delays):
 
             for delay in delay_chunk:
                 if delay <= 0:
-                    print(f"Skipping invalid delay: {delay}")
+                    logging.error(f"Skipping invalid delay: {delay}")
                     continue  # Skip invalid delays
 
                 micros = int(delay * 1_000_000)  # Convert seconds to microseconds
-                #print(f"Creating pulse with delay {micros} micros")
+                #logging.info(f"Creating pulse with delay {micros} micros")
                 pulses.append(pigpio.pulse(1 << step_pin, 0, micros))  # High
                 pulses.append(pigpio.pulse(0, 1 << step_pin, micros))  # Low
 
             if not pulses:
-                print("Warning: No pulses generated, skipping wave creation.")
+                logging.debug("Warning: No pulses generated, skipping wave creation.")
                 continue  # Skip empty pulse lists
 
-            #print(f"Generated {len(pulses)} pulses.")
+            #logging.info(f"Generated {len(pulses)} pulses.")
             pi.wave_add_generic(pulses)
             wave_id = pi.wave_create()
             if wave_id < 0:
-                print("Failed to create waveform")
+                logging.error("Failed to create waveform")
                 return
             #else:
-                #print(f"Created waveform with ID {wave_id}")
+                #logging.info(f"Created waveform with ID {wave_id}")
 
-            #print(f"Sending waveform with ID {wave_id}")
+            #logging.info(f"Sending waveform with ID {wave_id}")
             
             #if wave_id == 0:
-                #print("Warning: Wave ID is 0, which may indicate an issue with waveform creation.")
+                #logging.info("Warning: Wave ID is 0, which may indicate an issue with waveform creation.")
 
             pi.wave_send_once(wave_id)
 
@@ -220,16 +238,29 @@ def generate_steps_with_pigpio(step_pin, delays):
             pi.wave_delete(wave_id)
 
     except Exception as e:
-        print(f"Error while sending wave: {e}")
+        logging.error(f"Error while sending wave: {e}")
 
 
 # Function for motor movement
 # Combined ramp-up, cruise, and ramp-down
 def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_time, direction, ramp_steps=100):
     global run_flag
-    pi.write(direction_pin, direction)
-    Motor_ID = "Motor 1" if direction_pin == DIR1 else "Motor 2"
+    global motor1_total_pulses, motor1_total_revolutions, motor1_total_run_time
+    global motor1_running, motor1_run_start_time
 
+    pi.write(direction_pin, direction)
+    
+    # --- Identify motor by step pin ---
+    if step_pin == STEP1:
+        pulses_per_rev = Pulses_rev  # Motor 1 drivetrain
+        motor_id = "Motor 1"
+    elif step_pin == STEP2:
+        pulses_per_rev = PULSES_PER_REV  # Motor 2 (only if running directly on Pi)
+        motor_id = "Motor 2"
+    else:
+        logging.error("Unknown step pin, cannot determine motor")
+        return
+    
     start_delay = 60 / (2 * Pulses_rev * start_RPM)
     target_delay = 60 / (2 * Pulses_rev * target_RPM)
     total_steps = int(Pulses_rev * target_RPM / 60 * run_time)
@@ -240,7 +271,7 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
     cruise_steps = total_steps - 2 * ramp_steps
     MIN_DELAY = 0.00001
     
-    #print(f"{Motor_ID}: {start_RPM}->{target_RPM} RPM, {run_time}s, {total_steps} steps")
+    #logging.info(f"{Motor_ID}: {start_RPM}->{target_RPM} RPM, {run_time}s, {total_steps} steps")
 
     delays = []
 
@@ -263,8 +294,17 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
         d = interpolate_delay_sine(p, target_delay, start_delay)
         delays.append(max(d, MIN_DELAY))
 
-    #print("Generated delays:", delays)
+    # --- Track motor 1 specific data ---
+    if step_pin == STEP1:
+        motor1_total_pulses += len(delays)
+        motor1_total_revolutions += len(delays) / pulses_per_rev
+        motor1_total_run_time += run_time
+        motor1_running = True
+        motor1_run_start_time = time.time()
+
+    #logging.info("Generated delays:", delays)
     generate_steps_with_pigpio(step_pin, delays)
+    log_motor1_stats()
 
 def test_motor_constant_speed(step_pin, delay, steps):
     for _ in range(steps):
@@ -273,63 +313,82 @@ def test_motor_constant_speed(step_pin, delay, steps):
         pi.write(step_pin, 0)
         time.sleep(delay)
 
+def log_motor1_stats():
+    logging.info(f"[Motor 1] Total pulses: {motor1_total_pulses}")
+    logging.info(f"[Motor 1] Total revolutions: {motor1_total_pulses / Pulses_rev:.2f}")
+    logging.info(f"[Motor 1] Total run time: {motor1_total_run_time:.2f} seconds")
+
+def log_motor1_summary():
+    logging.info("="*40)
+    logging.info("MOTOR 1 SESSION SUMMARY")
+    logging.info(f"Total pulses: {motor1_total_pulses}")
+    logging.info(f"Total revolutions: {motor1_total_pulses / Pulses_rev:.2f}")
+    logging.info(f"Total run time: {motor1_total_run_time:.2f} seconds")
+
+    if motor1_total_run_time > 0:
+        average_rpm = (motor1_total_pulses / Pulses_rev) / (motor1_total_run_time / 60)
+        logging.info(f"Average RPM: {average_rpm:.2f}")
+    else:
+        logging.info("Average RPM: N/A (no runtime)")
+    
+    logging.info("="*40)
 
 # Function for Motor 1 Drivetrain Movement
 def Motor1_sequence():
-    print("Starting Motor 1 sequence...")
+    logging.info("Starting Motor 1 sequence...")
     time.sleep(25)
-    print("Drivetrain Cycle 1")
+    logging.info("Drivetrain Cycle 1")
     Drivetrain_Cycle()
     time.sleep(2)
-    print("Drivetrain Cycle 2")
+    logging.info("Drivetrain Cycle 2")
     Drivetrain_Cycle()
     time.sleep(2)
-    print("Drivetrain Cycle 3")
+    logging.info("Drivetrain Cycle 3")
     Drivetrain_Cycle()
     time.sleep(2)
-    print("Drivetrain Cycle 4")
+    logging.info("Drivetrain Cycle 4")
     Drivetrain_Cycle()
     time.sleep(2)
-    print("Drivetrain Cycle 5")
+    logging.info("Drivetrain Cycle 5")
     Drivetrain_Cycle()
     time.sleep(2)
-    print("Drivetrain Cycle 6")
+    logging.info("Drivetrain Cycle 6")
     Drivetrain_Cycle()
     time.sleep(2)
-    print("Drivetrain Cycle 7")
+    logging.info("Drivetrain Cycle 7")
     Drivetrain_Cycle()
     time.sleep(2)
-    print("Drivetrain Cycle 8")
+    logging.info("Drivetrain Cycle 8")
     Drivetrain_Cycle()
     time.sleep(2)
-    print("Drivetrain Cycle 9")
+    logging.info("Drivetrain Cycle 9")
     Drivetrain_Cycle()
-    print("Testing Completed.  The Chain Survived!")
+    logging.info("Testing Completed.  The Chain Survived!")
 
 def Drivetrain_Cycle():
     # Currently 23 run time
-    print("Starting Drivetrain Cycle with ramp...")
+    logging.info("Starting Drivetrain Cycle with ramp...")
     move_motor_with_ramp(DIR1, STEP1, 5, 80, 6, False)
     move_motor_with_ramp(DIR1, STEP1, 80, 140, 2, False)
     time.sleep(0.5)
-    #print("Part 2")
+    #logging.info("Part 2")
     move_motor_with_ramp(DIR1, STEP1, 80, 80, 1, True)
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, True)
     time.sleep(0.5)
-    #print("Part 3")
+    #logging.info("Part 3")
     move_motor_with_ramp(DIR1, STEP1, 80, 110, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 100, 140, 2, True)
     move_motor_with_ramp(DIR1, STEP1, 60, 80, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, True)
     time.sleep(0.5)
-    #print("Part 4")
+    #logging.info("Part 4")
     move_motor_with_ramp(DIR1, STEP1, 85, 70, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 130, 150, 1, True)
     move_motor_with_ramp(DIR1, STEP1, 85, 70, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 130, 150, 1, True)
     move_motor_with_ramp(DIR1, STEP1, 85, 70, 0.5, False)
     move_motor_with_ramp(DIR1, STEP1, 130, 150, 0.5, True)
-    #print("Abusive")
+    #logging.info("Abusive")
     move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 140, 140, 1, True)
     move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, False)
@@ -337,14 +396,14 @@ def Drivetrain_Cycle():
     move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 140, 140, 1, True)
     time.sleep(0.5)
-    #print("Part 5")
+    #logging.info("Part 5")
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 100, 80, 2, True)   # Motor 1 Backward
-    print("Drivetrain Cycle complete")
+    logging.info("Drivetrain Cycle complete")
 
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
-    print("Starting Motor 2 sequence with ramp...")
+    logging.info("Starting Motor 2 sequence with ramp...")
     # Motor moves are sent below in a batch
     # Initially get up to speed for first ramp, 20 seconds total
     # Step 1:  100 rpm for 25 seconds
@@ -373,27 +432,27 @@ def Motor2_sequence():
         try:
             line = serial_queue.get(timeout=0.1)
             if line == "DONE":
-                print("Motor 2 batch complete")
+                logging.info("Motor 2 batch complete")
                 break
             else:
-                print(f"[Arduino-M2] {line}")
+                logging.info(f"[Arduino-M2] {line}")
         except queue.Empty:
             pass  # No message, continue checking
 
     if not run_flag:
-        print("Motor 2 sequence interrupted")
+        logging.debug("Motor 2 sequence interrupted")
     
     
 #####################################################
 def start_motors():
     global run_flag
     run_flag = True #Enable motor movement
-    print("Get Ready!  Moving motors in sequence...")
-    print("Press Ctrl+C to stop!!!")
+    logging.info("Get Ready!  Moving motors in sequence...")
+    logging.info("Press Ctrl+C to stop!!!")
     for i in range(3, 0, -1):
-        print(f"Moving in {i} . . .")
+        logging.info(f"Moving in {i} . . .")
         time.sleep(1)
-    print("Motors GO!")
+    logging.info("Motors GO!")
 
     motor1_thread = threading.Thread(target=Motor1_sequence)
     motor2_thread = threading.Thread(target=Motor2_sequence)
@@ -409,27 +468,45 @@ def start_motors():
     try:
         motor1_thread.join()
         motor2_thread.join()
-        print("Testing has concluded / Stopping Motors . . . ")  
-        print("///////")
-        print("///////")
-        print("///////")
+        logging.info("Testing has concluded / Stopping Motors . . . ")  
+        logging.info("///////")
+        logging.info("///////")
+        logging.info("///////")
     except KeyboardInterrupt:
-        print("\nKeyboardInterrupt detected!  Stopping motors . . . ")
-    stop_motors()
+        logging.info("\nKeyboardInterrupt detected!  Stopping motors . . . ")
+    finally:
+        stop_motors()
+        log_motor1_summary()
+        pi.stop()
 
 def stop_motors():
     global run_flag
     run_flag = False
-    print("Stopping Motors . . . ")  
+    logging.info("Stopping Motors . . . ")  
     try:
         motor2.ser.write(b"STOP\n")
     except Exception as e:
-        print(f"Failed to send STOP to Arduino: {e}")
+        logging.error(f"Failed to send STOP to Arduino: {e}")
+
+def log_motor1_summary():
+    logging.info("="*40)
+    logging.info("MOTOR 1 SESSION SUMMARY")
+    logging.info(f"Total pulses: {motor1_total_pulses}")
+    logging.info(f"Total revolutions: {motor1_total_pulses / Pulses_rev:.2f}")
+    logging.info(f"Total run time: {motor1_total_run_time:.2f} seconds")
+
+    if motor1_total_run_time > 0:
+        average_rpm = (motor1_total_pulses / Pulses_rev) / (motor1_total_run_time / 60)
+        logging.info(f"Average RPM: {average_rpm:.2f}")
+    else:
+        logging.info("Average RPM: N/A (no runtime)")
+    
+    logging.info("="*40)
 
 if __name__ == "__main__":
     try:
         start_motors()
     except KeyboardInterrupt:
         stop_motors()
-        print('\nTesting has concluded')
+        logging.info('\nTesting has concluded')
         atexit.register(stop_motors)
