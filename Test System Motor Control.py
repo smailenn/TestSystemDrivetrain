@@ -14,22 +14,19 @@ import serial
 import queue
 import atexit
 import tkinter as tk
-import serial
-import threading
-import time
 import re
 import logging
 
 PORT = '/dev/ttyACM0' # on Linux/Mac
 BAUD = 115200
-ser = serial.Serial(PORT, BAUD, timeout=1)
 
 pi = pigpio.pi()
 
 
 class SerialMonitor:
-    def __init__(self, root):
+    def __init__(self, root, serial_obj):
         self.root = root
+        self.ser = serial_obj
         self.root.title("Motor RPM Monitor")
 
         self.rpm_label = tk.Label(root, text="RPM: --", font=("Helvetica", 32))
@@ -44,8 +41,8 @@ class SerialMonitor:
     def read_serial(self):
         rpm_pattern = re.compile(r"RPM[:\s]+(\d+(\.\d+)?)")
         while self.running:
-            if ser.in_waiting > 0:
-                line = ser.readline().decode('utf-8', errors='ignore').strip()
+            if self.ser.in_waiting > 0:
+                line = self.ser.readline().decode('utf-8', errors='ignore').strip()
                 match = rpm_pattern.search(line)
                 if match:
                     rpm = match.group(1)
@@ -58,13 +55,10 @@ class SerialMonitor:
     def close(self):
         self.running = False
         self.thread.join()
-        ser.close()
+        self.ser.close()
         self.root.destroy()
 
-# if __name__ == '__main__':
-#     root = tk.Tk()
-#     app = SerialMonitor(root)
-#     root.mainloop()
+
 
 class ArduinoMotorController:
     def __init__(self, port='/dev/ttyACM0', baudrate=115200, timeout=0.1):
@@ -124,6 +118,7 @@ logging.basicConfig(
 motor1_total_pulses = 0
 motor1_total_revolutions = 0.0
 motor1_total_run_time = 0.0  # seconds
+current_drivetrain_cycle = "Idle"
 
 motor1_running = False
 motor1_run_start_time = None
@@ -261,9 +256,9 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
         logging.error("Unknown step pin, cannot determine motor")
         return
     
-    start_delay = 60 / (2 * Pulses_rev * start_RPM)
-    target_delay = 60 / (2 * Pulses_rev * target_RPM)
-    total_steps = int(Pulses_rev * target_RPM / 60 * run_time)
+    start_delay = 60 / (2 * pulses_per_rev * start_RPM)
+    target_delay = 60 / (2 * pulses_per_rev * target_RPM)
+    total_steps = int(pulses_per_rev * target_RPM / 60 * run_time)
 
     if ramp_steps * 2 > total_steps:
         ramp_steps = total_steps // 2
@@ -333,35 +328,53 @@ def log_motor1_summary():
     
     logging.info("="*40)
 
+# if __name__ == '__main__':
+#     motor2 = ArduinoMotorController('/dev/ttyACM0')
+#     motor2.send_reset()
+#     motor2.send_pulses_per_rev(PULSES_PER_REV)
+
+#     root = tk.Tk()
+#     app = SerialMonitor(root, motor2.ser)
+#     root.mainloop()
+
 # Function for Motor 1 Drivetrain Movement
 def Motor1_sequence():
     logging.info("Starting Motor 1 sequence...")
     time.sleep(25)
-    logging.info("Drivetrain Cycle 1")
+    current_drivetrain_cycle = "Drivetrain Cycle 1"
+    logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
     time.sleep(2)
-    logging.info("Drivetrain Cycle 2")
+    current_drivetrain_cycle = "Drivetrain Cycle 2"
+    logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
     time.sleep(2)
-    logging.info("Drivetrain Cycle 3")
+    current_drivetrain_cycle = "Drivetrain Cycle 3"
+    logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
     time.sleep(2)
-    logging.info("Drivetrain Cycle 4")
+    current_drivetrain_cycle = "Drivetrain Cycle 4"
+    logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
     time.sleep(2)
-    logging.info("Drivetrain Cycle 5")
+    current_drivetrain_cycle = "Drivetrain Cycle 5"
+    logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
     time.sleep(2)
-    logging.info("Drivetrain Cycle 6")
+    current_drivetrain_cycle = "Drivetrain Cycle 6"
+    logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
     time.sleep(2)
-    logging.info("Drivetrain Cycle 7")
+    current_drivetrain_cycle = "Drivetrain Cycle 7"
+    logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
     time.sleep(2)
-    logging.info("Drivetrain Cycle 8")
+    current_drivetrain_cycle = "Drivetrain Cycle 8"
+    logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
     time.sleep(2)
-    logging.info("Drivetrain Cycle 9")
+    current_drivetrain_cycle = "Drivetrain Cycle 9"
+    logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
     logging.info("Testing Completed.  The Chain Survived!")
 
@@ -474,6 +487,7 @@ def start_motors():
         logging.info("///////")
     except KeyboardInterrupt:
         logging.info("\nKeyboardInterrupt detected!  Stopping motors . . . ")
+        logging.info(f"Interrupted during drivetrain cycle: {current_drivetrain_cycle}")
     finally:
         stop_motors()
         log_motor1_summary()
@@ -491,6 +505,7 @@ def stop_motors():
 def log_motor1_summary():
     logging.info("="*40)
     logging.info("MOTOR 1 SESSION SUMMARY")
+    logging.info(f"Current drivetrain cycle: {current_drivetrain_cycle}")
     logging.info(f"Total pulses: {motor1_total_pulses}")
     logging.info(f"Total revolutions: {motor1_total_pulses / Pulses_rev:.2f}")
     logging.info(f"Total run time: {motor1_total_run_time:.2f} seconds")
