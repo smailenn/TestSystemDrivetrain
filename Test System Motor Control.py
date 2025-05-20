@@ -22,6 +22,7 @@ BAUD = 115200
 
 pi = pigpio.pi()
 
+file_name = "SRAM_X_sync_2_test1"
 
 class SerialMonitor:
     def __init__(self, root, serial_obj):
@@ -99,7 +100,7 @@ def read_arduino_serial(controller, q):
                 line = controller.ser.readline().decode('utf-8', errors='replace').strip()
                 if line:
                     q.put(line)
-                    logging.info(f"[Arduino] {line}")
+                    #logging.info(f"[Arduino] {line}")
             except Exception as e:
                 logging.info(f"[Serial Read Error] {e}")
         time.sleep(0.05)
@@ -109,7 +110,7 @@ logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s [%(levelname)s] %(message)s',
     handlers=[
-        logging.FileHandler("Drivetrain_Shaker_MRPwave1_test1.log"),
+        logging.FileHandler(f"Drivetrain_Shaker_{file_name}.log"),
         logging.StreamHandler()  # This still lets you see output live in your SSH terminal
     ]
 )
@@ -299,7 +300,7 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
 
     #logging.info("Generated delays:", delays)
     generate_steps_with_pigpio(step_pin, delays)
-    log_motor1_stats()
+    #log_motor1_stats()
 
 def test_motor_constant_speed(step_pin, delay, steps):
     for _ in range(steps):
@@ -339,6 +340,7 @@ def log_motor1_summary():
 
 # Function for Motor 1 Drivetrain Movement
 def Motor1_sequence():
+    global current_drivetrain_cycle
     logging.info("Starting Motor 1 sequence...")
     time.sleep(25)
     current_drivetrain_cycle = "Drivetrain Cycle 1"
@@ -490,19 +492,21 @@ def start_motors():
         logging.info(f"Interrupted during drivetrain cycle: {current_drivetrain_cycle}")
     finally:
         stop_motors()
-        log_motor1_summary()
         pi.stop()
 
 def stop_motors():
     global run_flag
     run_flag = False
     logging.info("Stopping Motors . . . ")  
+    log_motor1_summary()
     try:
         motor2.ser.write(b"STOP\n")
     except Exception as e:
         logging.error(f"Failed to send STOP to Arduino: {e}")
 
 def log_motor1_summary():
+    for handler in logging.getLogger().handlers:
+        handler.flush()
     logging.info("="*40)
     logging.info("MOTOR 1 SESSION SUMMARY")
     logging.info(f"Current drivetrain cycle: {current_drivetrain_cycle}")
@@ -523,5 +527,6 @@ if __name__ == "__main__":
         start_motors()
     except KeyboardInterrupt:
         stop_motors()
+        log_motor1_summary()
         logging.info('\nTesting has concluded')
         atexit.register(stop_motors)
