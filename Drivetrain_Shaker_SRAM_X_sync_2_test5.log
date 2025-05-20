@@ -300,3 +300,19 @@ BATCH:
 2025-05-20 14:23:16,770 [INFO] Starting Drivetrain Cycle with ramp...
 2025-05-20 14:23:50,901 [INFO] Drivetrain Cycle complete
 2025-05-20 14:23:50,902 [INFO] Testing Completed.  The Chain Survived!
+2025-05-20 14:24:48,318 [INFO] 
+KeyboardInterrupt detected!  Stopping motors . . . 
+2025-05-20 14:24:48,319 [INFO] Interrupted during drivetrain cycle: Drivetrain Cycle 9
+2025-05-20 14:24:48,331 [INFO] Stopping Motors . . . 
+2025-05-20 14:24:48,332 [INFO] Stopping Motors . . . 
+2025-05-20 14:24:48,333 [INFO] ========================================
+2025-05-20 14:24:48,334 [INFO] MOTOR 1 SESSION SUMMARY
+2025-05-20 14:24:48,334 [INFO] Current drivetrain cycle: Drivetrain Cycle 9
+2025-05-20 14:24:48,335 [INFO] Total pulses: 178713
+2025-05-20 14:24:48,335 [INFO] Total revolutions: 446.78
+2025-05-20 14:24:48,336 [INFO] Total run time: 261.00 seconds
+2025-05-20 14:24:48,336 [INFO] Average RPM: 102.71
+2025-05-20 14:24:48,337 [INFO] ========================================
+2025-05-20 14:24:48,337 [INFO] 
+Testing has concluded
+2025-05-20 14:24:48,338 [INFO] Stopping Motors . . . 
