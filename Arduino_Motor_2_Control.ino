@@ -1,7 +1,7 @@
 #define STEP_PIN 6
 #define DIR_PIN 5
 
-const byte QUEUE_SIZE = 10;
+const byte QUEUE_SIZE = 400;
 
 struct MotionCommand {
   float startRPM;     // Note: overridden internally for smooth transitions
@@ -35,6 +35,11 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(115200);
   while (!Serial);
+
+// Clear serial buffer
+  while (Serial.available()) {
+    Serial.read();
+  }
 
   Serial.println("Waiting for pulsesPerRev...");
   while (Serial.available() == 0);
@@ -98,23 +103,41 @@ void readSerialCommands() {
     if (c == '\n') {
       inputBuffer.trim();
       if (inputBuffer.length() > 0) {
+        Serial.print("Received line: '");
+        Serial.print(inputBuffer);
+        Serial.println("'");
+
         if (inputBuffer.startsWith("STOP")) {
           stopRequested = true;
           clearQueue();
           Serial.println("STOP received: queue cleared, stopping all motion.");
+
+        } else if (inputBuffer.startsWith("RESET")) {
+          stopRequested = false;
+          clearQueue();
+          currentRPM = 0;
+          Serial.println("RESET received: system reset.");
+
+        } else if (inputBuffer.startsWith("PPR:")) {
+          pulsesPerRev = inputBuffer.substring(4).toInt();
+          Serial.print("Updated pulsesPerRev to: ");
+          Serial.println(pulsesPerRev);
+
         } else if (inputBuffer.startsWith("BATCH:")) {
           String batchData = inputBuffer.substring(6);
           parseBatchCommands(batchData);
+
         } else {
           parseAndEnqueueCommand(inputBuffer);
         }
       }
-      inputBuffer = "";
+      inputBuffer = "";  // clear buffer for next line
     } else {
       inputBuffer += c;
     }
   }
 }
+
 
 void parseBatchCommands(String batchData) {
   int startIndex = 0;
@@ -146,8 +169,9 @@ void parseAndEnqueueCommand(String cmd) {
   int index3 = cmd.indexOf(',', index2 + 1);
 
   if (index1 == -1 || index2 == -1 || index3 == -1) {
-    Serial.println("ERR: Invalid command format");
-    return;
+  Serial.println("ERR: Invalid command format");
+  while (Serial.available()) Serial.read(); // Clear junk
+  return;
   }
 
   int index4 = cmd.indexOf(',', index3 + 1);

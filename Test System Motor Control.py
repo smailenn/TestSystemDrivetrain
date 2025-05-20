@@ -346,35 +346,35 @@ def Motor1_sequence():
     current_drivetrain_cycle = "Drivetrain Cycle 1"
     logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
-    time.sleep(2)
+    #time.sleep(1)
     current_drivetrain_cycle = "Drivetrain Cycle 2"
     logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
-    time.sleep(2)
+    #time.sleep(1)
     current_drivetrain_cycle = "Drivetrain Cycle 3"
     logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
-    time.sleep(2)
+    #time.sleep(1)
     current_drivetrain_cycle = "Drivetrain Cycle 4"
     logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
-    time.sleep(2)
+    #time.sleep(1)
     current_drivetrain_cycle = "Drivetrain Cycle 5"
     logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
-    time.sleep(2)
+    #time.sleep(1)
     current_drivetrain_cycle = "Drivetrain Cycle 6"
     logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
-    time.sleep(2)
+    #time.sleep(1)
     current_drivetrain_cycle = "Drivetrain Cycle 7"
     logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
-    time.sleep(2)
+    #time.sleep(1)
     current_drivetrain_cycle = "Drivetrain Cycle 8"
     logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
-    time.sleep(2)
+    #time.sleep(1)
     current_drivetrain_cycle = "Drivetrain Cycle 9"
     logging.info({current_drivetrain_cycle})
     Drivetrain_Cycle()
@@ -429,15 +429,15 @@ def Motor2_sequence():
     commands = [
         (5, 80, 10, 0, 1000),
         (80, 100, 10, 0, 8000),
-        (100, 108, 38, 0, 9000),   #1
-        (108, 112, 38, 0, 9000),   #2
-        (112, 116, 38, 0, 9000),   #3
-        (116, 120, 38, 0, 9000),   #4
-        (120, 122, 38, 0, 9000),   #5
-        (122, 124, 38, 0, 9000),   #6
-        (124, 125, 38, 0, 9000),   #7
-        (125, 126, 38, 0, 9000),   #8
-        (126, 127, 38, 0, 9000)    #9
+        (100, 108, 42, 0, 9000),   #1
+        (108, 112, 42, 0, 9000),   #2
+        (112, 116, 42, 0, 9000),   #3
+        (116, 120, 42, 0, 9000),   #4
+        (120, 122, 42, 0, 9000),   #5
+        (122, 124, 42, 0, 9000),   #6
+        (124, 125, 42, 0, 9000),   #7
+        (125, 126, 42, 0, 9000),   #8
+        (126, 127, 42, 0, 9000)    #9
     ]
 
     motor2.send_move_batch(commands)
