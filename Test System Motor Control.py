@@ -22,7 +22,7 @@ BAUD = 115200
 
 pi = pigpio.pi()
 
-file_name = "MRP_Wave_2_test1"
+file_name = "MRP_Wave_2_test4"
 
 class SerialMonitor:
     def __init__(self, root, serial_obj):
@@ -239,7 +239,7 @@ def generate_steps_with_pigpio(step_pin, delays):
 
 # Function for motor movement
 # Combined ramp-up, cruise, and ramp-down
-def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_time, direction, ramp_steps=100):
+def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_time, direction, ramp_steps=None):
     global run_flag
     global motor1_total_pulses, motor1_total_revolutions, motor1_total_run_time
     global motor1_running, motor1_run_start_time
@@ -261,13 +261,21 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
     target_delay = 60 / (2 * pulses_per_rev * target_RPM)
     total_steps = int(pulses_per_rev * target_RPM / 60 * run_time)
 
-    if ramp_steps * 2 > total_steps:
-        ramp_steps = total_steps // 2
+    # Only auto-calculate ramp_steps if not specified
+    if ramp_steps is None:
+        ramp_steps = max(1, total_steps // 10)  # or whatever your default logic is
+        # Optionally, ensure ramp_steps*2 <= total_steps
+        if ramp_steps * 2 > total_steps:
+            ramp_steps = total_steps // 2
+        logging.info(f"Auto-calculated ramp_steps: {ramp_steps}")
+    else:
+        pass
+        logging.info(f"Using user-specified ramp_steps: {ramp_steps}")
 
     cruise_steps = total_steps - 2 * ramp_steps
     MIN_DELAY = 0.00001
     
-    #logging.info(f"{Motor_ID}: {start_RPM}->{target_RPM} RPM, {run_time}s, {total_steps} steps")
+    logging.info(f"{motor_id}: {start_RPM}->{target_RPM} RPM, {run_time}s, {total_steps} steps")
 
     delays = []
 
@@ -389,31 +397,33 @@ def Drivetrain_Cycle():
     #logging.info("Part 2")
     move_motor_with_ramp(DIR1, STEP1, 80, 80, 1, True)
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, True)
-    time.sleep(0.5)
+    #time.sleep(0.5)
     #logging.info("Part 3")
     move_motor_with_ramp(DIR1, STEP1, 80, 110, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 100, 140, 2, True)
     move_motor_with_ramp(DIR1, STEP1, 60, 80, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, True)
-    time.sleep(0.5)
+    #time.sleep(0.5)
     #logging.info("Part 4")
-    move_motor_with_ramp(DIR1, STEP1, 85, 70, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 130, 150, 1, True)
-    move_motor_with_ramp(DIR1, STEP1, 85, 70, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 130, 150, 1, True)
-    move_motor_with_ramp(DIR1, STEP1, 85, 70, 0.5, False)
-    move_motor_with_ramp(DIR1, STEP1, 130, 150, 0.5, True)
+    move_motor_with_ramp(DIR1, STEP1, 65, 70, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 120, 140, 1, True, 100)
+    move_motor_with_ramp(DIR1, STEP1, 65, 70, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 120, 140, 1, True, 100)
+    move_motor_with_ramp(DIR1, STEP1, 65, 70, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 120, 140, 1, True, 100)
     #logging.info("Abusive")
-    move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 140, 140, 1, True)
-    move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 140, 140, 1, True)
-    move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 140, 140, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 120, 135, 1, True, 100)
+    move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 120, 135, 1, True, 100)
+    move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 120, 135, 1, True, 100)
+    move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 120, 135, 1, True, 100)
     time.sleep(0.5)
     #logging.info("Part 5")
-    move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 100, 80, 2, True)   # Motor 1 Backward
+    move_motor_with_ramp(DIR1, STEP1, 99, 100, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 100, 80, 2, True, 100)   # Motor 1 Backward
     logging.info("Drivetrain Cycle complete")
 
 # Function for Motor 2 Oscillation Movement

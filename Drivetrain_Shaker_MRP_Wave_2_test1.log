@@ -69,3 +69,19 @@ BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,42,0,9000;108,112,42,0,9000;112,11
 2025-05-20 16:15:35,571 [INFO] Drivetrain Cycle complete
 2025-05-20 16:15:35,572 [INFO] Testing Completed.  The Chain Survived!
 2025-05-20 16:15:42,180 [INFO] [Arduino-M2] Motor stopped smoothly.
+2025-05-20 16:22:04,937 [INFO] 
+KeyboardInterrupt detected!  Stopping motors . . . 
+2025-05-20 16:22:04,938 [INFO] Interrupted during drivetrain cycle: Drivetrain Cycle 9
+2025-05-20 16:22:04,939 [INFO] Stopping Motors . . . 
+2025-05-20 16:22:04,940 [INFO] Stopping Motors . . . 
+2025-05-20 16:22:04,942 [INFO] ========================================
+2025-05-20 16:22:04,943 [INFO] MOTOR 1 SESSION SUMMARY
+2025-05-20 16:22:04,943 [INFO] Current drivetrain cycle: Drivetrain Cycle 9
+2025-05-20 16:22:04,944 [INFO] Total pulses: 178713
+2025-05-20 16:22:04,945 [INFO] Total revolutions: 446.78
+2025-05-20 16:22:04,946 [INFO] Total run time: 261.00 seconds
+2025-05-20 16:22:04,952 [INFO] Average RPM: 102.71
+2025-05-20 16:22:04,953 [INFO] ========================================
+2025-05-20 16:22:04,955 [INFO] 
+Testing has concluded
+2025-05-20 16:22:04,956 [INFO] Stopping Motors . . . 
