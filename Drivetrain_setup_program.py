@@ -145,7 +145,7 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
         ramp_steps = total_steps // 2
 
     cruise_steps = total_steps - 2 * ramp_steps
-    MIN_DELAY = 0.00001
+    MIN_DELAY = 0.00002
     
     delays = []
 

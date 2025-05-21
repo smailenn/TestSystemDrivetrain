@@ -62,3 +62,19 @@ Testing has concluded
 2025-05-21 11:22:09,046 [INFO] [Arduino-M2] Emergency STOP triggered.
 2025-05-21 11:22:09,047 [DEBUG] Motor 2 sequence interrupted
 2025-05-21 11:22:09,047 [INFO] Stopping Motors . . . 
+2025-05-21 11:35:50,882 [INFO] 
+KeyboardInterrupt detected!  Stopping motors . . . 
+2025-05-21 11:35:50,882 [INFO] Interrupted during drivetrain cycle: Drivetrain Cycle 9
+2025-05-21 11:35:50,883 [INFO] Stopping Motors . . . 
+2025-05-21 11:35:50,885 [INFO] Stopping Motors . . . 
+2025-05-21 11:35:50,886 [INFO] ========================================
+2025-05-21 11:35:50,887 [INFO] MOTOR 1 SESSION SUMMARY
+2025-05-21 11:35:50,887 [INFO] Current drivetrain cycle: Drivetrain Cycle 9
+2025-05-21 11:35:50,888 [INFO] Total pulses: 182610
+2025-05-21 11:35:50,889 [INFO] Total revolutions: 456.52
+2025-05-21 11:35:50,890 [INFO] Total run time: 270.00 seconds
+2025-05-21 11:35:50,890 [INFO] Average RPM: 101.45
+2025-05-21 11:35:50,891 [INFO] ========================================
+2025-05-21 11:35:50,891 [INFO] 
+Testing has concluded
+2025-05-21 11:35:50,892 [INFO] Stopping Motors . . . 
