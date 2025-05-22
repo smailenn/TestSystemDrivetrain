@@ -1,0 +1,288 @@
+2025-05-21 12:19:19,576 [INFO] Stopping Motors . . . 
+2025-05-21 12:19:23,531 [INFO] Sent RESET command to Arduino
+2025-05-21 12:19:23,532 [INFO] Get Ready!  Moving motors in sequence...
+2025-05-21 12:19:23,533 [INFO] Press Ctrl+C to stop!!!
+2025-05-21 12:19:23,534 [INFO] Moving in 3 . . .
+2025-05-21 12:19:24,535 [INFO] Moving in 2 . . .
+2025-05-21 12:19:25,536 [INFO] Moving in 1 . . .
+2025-05-21 12:19:26,536 [INFO] Motors GO!
+2025-05-21 12:19:26,538 [INFO] Starting Motor 1 sequence...
+2025-05-21 12:19:26,538 [INFO] Starting Motor 2 sequence with ramp...
+2025-05-21 12:19:26,539 [INFO] Sending batch command to Arduino:
+BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,42,0,9000;108,112,42,0,9000;112,116,42,0,9000;116,120,42,0,9000;120,122,42,0,9000;122,124,42,0,9000;124,125,42,0,9000;125,126,42,0,9000;126,127,42,0,9000
+
+2025-05-21 12:19:26,539 [INFO] [Arduino-M2] Received line: 'RESET'
+2025-05-21 12:19:26,540 [INFO] [Arduino-M2] RESET received: system reset.
+2025-05-21 12:19:26,540 [INFO] [Arduino-M2] Received line: 'PPR:400'
+2025-05-21 12:19:26,540 [INFO] [Arduino-M2] Updated pulsesPerRev to: 400
+2025-05-21 12:19:26,547 [INFO] [Arduino-M2] Received line: 'BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,42,0,9000;108,112,42,0,9000;112,116,42,0,9000;116,120,42,0,9000;120,122,42,0,9000;122,124,42,0,9000;124,125,42,0,9000;125,126,42,0,9000;126,127,42,0,9000'
+2025-05-21 12:19:26,598 [INFO] [Arduino-M2] Batch commands enqueued.
+2025-05-21 12:19:26,650 [INFO] [Arduino-M2] Starting move: startRPM=0.00, targetRPM=80.00, runTime=10.00, direction=0
+2025-05-21 12:19:45,287 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:19:45,339 [INFO] [Arduino-M2] Starting move: startRPM=80.00, targetRPM=100.00, runTime=10.00, direction=0
+2025-05-21 12:19:51,538 [INFO] {'Drivetrain Cycle 1'}
+2025-05-21 12:19:51,539 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-21 12:19:51,540 [INFO] Motor 1: 20->80 RPM, 6s, 3200 steps
+2025-05-21 12:19:59,974 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:20:00,026 [INFO] [Arduino-M2] Starting move: startRPM=100.00, targetRPM=108.00, runTime=42.00, direction=0
+2025-05-21 12:20:00,939 [INFO] Motor 1: 80->140 RPM, 2s, 1866 steps
+2025-05-21 12:20:03,435 [INFO] Motor 1: 80->80 RPM, 1s, 533 steps
+2025-05-21 12:20:04,442 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:20:05,449 [INFO] Motor 1: 80->110 RPM, 1s, 733 steps
+2025-05-21 12:20:06,611 [INFO] Motor 1: 100->120 RPM, 2s, 1600 steps
+2025-05-21 12:20:08,671 [INFO] Motor 1: 60->80 RPM, 1s, 533 steps
+2025-05-21 12:20:09,800 [INFO] Motor 1: 85->85 RPM, 1s, 566 steps
+2025-05-21 12:20:10,802 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:20:11,814 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:20:12,835 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:20:13,849 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:20:14,872 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:20:15,885 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:20:16,905 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:20:17,909 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:20:18,914 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:20:19,917 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:20:20,922 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:20:21,926 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:20:22,947 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:20:23,954 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:20:24,976 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:20:25,985 [INFO] Motor 1: 100->80 RPM, 2s, 1066 steps
+2025-05-21 12:20:27,921 [INFO] Drivetrain Cycle complete
+2025-05-21 12:20:27,922 [INFO] {'Drivetrain Cycle 2'}
+2025-05-21 12:20:27,923 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-21 12:20:27,923 [INFO] Motor 1: 20->80 RPM, 6s, 3200 steps
+2025-05-21 12:20:32,010 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:20:32,062 [INFO] [Arduino-M2] Starting move: startRPM=108.00, targetRPM=112.00, runTime=42.00, direction=0
+2025-05-21 12:20:37,327 [INFO] Motor 1: 80->140 RPM, 2s, 1866 steps
+2025-05-21 12:20:39,830 [INFO] Motor 1: 80->80 RPM, 1s, 533 steps
+2025-05-21 12:20:40,832 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:20:41,836 [INFO] Motor 1: 80->110 RPM, 1s, 733 steps
+2025-05-21 12:20:42,994 [INFO] Motor 1: 100->120 RPM, 2s, 1600 steps
+2025-05-21 12:20:45,057 [INFO] Motor 1: 60->80 RPM, 1s, 533 steps
+2025-05-21 12:20:46,189 [INFO] Motor 1: 85->85 RPM, 1s, 566 steps
+2025-05-21 12:20:47,196 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:20:48,207 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:20:49,224 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:20:50,235 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:20:51,251 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:20:52,262 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:20:53,284 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:20:54,292 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:20:55,303 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:20:56,313 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:20:57,320 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:20:58,323 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:20:59,340 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:21:00,344 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:21:01,367 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:21:02,374 [INFO] Motor 1: 100->80 RPM, 2s, 1066 steps
+2025-05-21 12:21:04,240 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:21:04,292 [INFO] [Arduino-M2] Starting move: startRPM=112.00, targetRPM=116.00, runTime=42.00, direction=0
+2025-05-21 12:21:04,305 [INFO] Drivetrain Cycle complete
+2025-05-21 12:21:04,305 [INFO] {'Drivetrain Cycle 3'}
+2025-05-21 12:21:04,306 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-21 12:21:04,306 [INFO] Motor 1: 20->80 RPM, 6s, 3200 steps
+2025-05-21 12:21:13,711 [INFO] Motor 1: 80->140 RPM, 2s, 1866 steps
+2025-05-21 12:21:16,210 [INFO] Motor 1: 80->80 RPM, 1s, 533 steps
+2025-05-21 12:21:17,213 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:21:18,217 [INFO] Motor 1: 80->110 RPM, 1s, 733 steps
+2025-05-21 12:21:19,374 [INFO] Motor 1: 100->120 RPM, 2s, 1600 steps
+2025-05-21 12:21:21,438 [INFO] Motor 1: 60->80 RPM, 1s, 533 steps
+2025-05-21 12:21:22,569 [INFO] Motor 1: 85->85 RPM, 1s, 566 steps
+2025-05-21 12:21:23,576 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:21:24,590 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:21:25,613 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:21:26,637 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:21:27,654 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:21:28,665 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:21:29,682 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:21:30,684 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:21:31,690 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:21:32,692 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:21:33,698 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:21:34,701 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:21:35,719 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:21:36,723 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:21:36,931 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:21:36,983 [INFO] [Arduino-M2] Starting move: startRPM=116.00, targetRPM=120.00, runTime=42.00, direction=0
+2025-05-21 12:21:37,743 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:21:38,748 [INFO] Motor 1: 100->80 RPM, 2s, 1066 steps
+2025-05-21 12:21:40,678 [INFO] Drivetrain Cycle complete
+2025-05-21 12:21:40,679 [INFO] {'Drivetrain Cycle 4'}
+2025-05-21 12:21:40,679 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-21 12:21:40,680 [INFO] Motor 1: 20->80 RPM, 6s, 3200 steps
+2025-05-21 12:21:50,079 [INFO] Motor 1: 80->140 RPM, 2s, 1866 steps
+2025-05-21 12:21:52,582 [INFO] Motor 1: 80->80 RPM, 1s, 533 steps
+2025-05-21 12:21:53,590 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:21:54,593 [INFO] Motor 1: 80->110 RPM, 1s, 733 steps
+2025-05-21 12:21:55,750 [INFO] Motor 1: 100->120 RPM, 2s, 1600 steps
+2025-05-21 12:21:57,811 [INFO] Motor 1: 60->80 RPM, 1s, 533 steps
+2025-05-21 12:21:58,942 [INFO] Motor 1: 85->85 RPM, 1s, 566 steps
+2025-05-21 12:21:59,949 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:22:00,963 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:22:01,983 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:22:02,993 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:22:04,010 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:22:05,020 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:22:06,037 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:22:07,041 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:22:08,051 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:22:09,058 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:22:10,009 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:22:10,062 [INFO] [Arduino-M2] Starting move: startRPM=120.00, targetRPM=122.00, runTime=42.00, direction=0
+2025-05-21 12:22:10,068 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:22:11,076 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:22:12,097 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:22:13,100 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:22:14,117 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:22:15,120 [INFO] Motor 1: 100->80 RPM, 2s, 1066 steps
+2025-05-21 12:22:17,051 [INFO] Drivetrain Cycle complete
+2025-05-21 12:22:17,052 [INFO] {'Drivetrain Cycle 5'}
+2025-05-21 12:22:17,052 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-21 12:22:17,052 [INFO] Motor 1: 20->80 RPM, 6s, 3200 steps
+2025-05-21 12:22:26,454 [INFO] Motor 1: 80->140 RPM, 2s, 1866 steps
+2025-05-21 12:22:28,947 [INFO] Motor 1: 80->80 RPM, 1s, 533 steps
+2025-05-21 12:22:29,950 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:22:30,954 [INFO] Motor 1: 80->110 RPM, 1s, 733 steps
+2025-05-21 12:22:32,112 [INFO] Motor 1: 100->120 RPM, 2s, 1600 steps
+2025-05-21 12:22:34,172 [INFO] Motor 1: 60->80 RPM, 1s, 533 steps
+2025-05-21 12:22:35,300 [INFO] Motor 1: 85->85 RPM, 1s, 566 steps
+2025-05-21 12:22:36,302 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:22:37,312 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:22:38,329 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:22:39,340 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:22:40,357 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:22:41,367 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:22:42,384 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:22:43,235 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:22:43,287 [INFO] [Arduino-M2] Starting move: startRPM=122.00, targetRPM=124.00, runTime=42.00, direction=0
+2025-05-21 12:22:43,388 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:22:44,393 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:22:45,397 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:22:46,402 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:22:47,405 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:22:48,422 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:22:49,424 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:22:50,441 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:22:51,446 [INFO] Motor 1: 100->80 RPM, 2s, 1066 steps
+2025-05-21 12:22:53,377 [INFO] Drivetrain Cycle complete
+2025-05-21 12:22:53,378 [INFO] {'Drivetrain Cycle 6'}
+2025-05-21 12:22:53,378 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-21 12:22:53,379 [INFO] Motor 1: 20->80 RPM, 6s, 3200 steps
+2025-05-21 12:23:02,779 [INFO] Motor 1: 80->140 RPM, 2s, 1866 steps
+2025-05-21 12:23:05,276 [INFO] Motor 1: 80->80 RPM, 1s, 533 steps
+2025-05-21 12:23:06,279 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:23:07,283 [INFO] Motor 1: 80->110 RPM, 1s, 733 steps
+2025-05-21 12:23:08,440 [INFO] Motor 1: 100->120 RPM, 2s, 1600 steps
+2025-05-21 12:23:10,500 [INFO] Motor 1: 60->80 RPM, 1s, 533 steps
+2025-05-21 12:23:11,629 [INFO] Motor 1: 85->85 RPM, 1s, 566 steps
+2025-05-21 12:23:12,632 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:23:13,643 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:23:14,660 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:23:15,674 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:23:16,615 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:23:16,669 [INFO] [Arduino-M2] Starting move: startRPM=124.00, targetRPM=125.00, runTime=42.00, direction=0
+2025-05-21 12:23:16,697 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:23:17,711 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:23:18,744 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:23:19,751 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:23:20,757 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:23:21,761 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:23:22,766 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:23:23,769 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:23:24,787 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:23:25,790 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:23:26,807 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:23:27,811 [INFO] Motor 1: 100->80 RPM, 2s, 1066 steps
+2025-05-21 12:23:29,742 [INFO] Drivetrain Cycle complete
+2025-05-21 12:23:29,745 [INFO] {'Drivetrain Cycle 7'}
+2025-05-21 12:23:29,745 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-21 12:23:29,746 [INFO] Motor 1: 20->80 RPM, 6s, 3200 steps
+2025-05-21 12:23:39,145 [INFO] Motor 1: 80->140 RPM, 2s, 1866 steps
+2025-05-21 12:23:41,637 [INFO] Motor 1: 80->80 RPM, 1s, 533 steps
+2025-05-21 12:23:42,640 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:23:43,645 [INFO] Motor 1: 80->110 RPM, 1s, 733 steps
+2025-05-21 12:23:44,803 [INFO] Motor 1: 100->120 RPM, 2s, 1600 steps
+2025-05-21 12:23:46,868 [INFO] Motor 1: 60->80 RPM, 1s, 533 steps
+2025-05-21 12:23:48,000 [INFO] Motor 1: 85->85 RPM, 1s, 566 steps
+2025-05-21 12:23:49,006 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:23:50,020 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:23:50,056 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:23:50,110 [INFO] [Arduino-M2] Starting move: startRPM=125.00, targetRPM=126.00, runTime=42.00, direction=0
+2025-05-21 12:23:51,041 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:23:52,052 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:23:53,069 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:23:54,080 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:23:55,097 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:23:56,100 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:23:57,106 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:23:58,109 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:23:59,115 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:24:00,118 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:24:01,135 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:24:02,139 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:24:03,155 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:24:04,160 [INFO] Motor 1: 100->80 RPM, 2s, 1066 steps
+2025-05-21 12:24:06,092 [INFO] Drivetrain Cycle complete
+2025-05-21 12:24:06,093 [INFO] {'Drivetrain Cycle 8'}
+2025-05-21 12:24:06,094 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-21 12:24:06,094 [INFO] Motor 1: 20->80 RPM, 6s, 3200 steps
+2025-05-21 12:24:15,493 [INFO] Motor 1: 80->140 RPM, 2s, 1866 steps
+2025-05-21 12:24:17,985 [INFO] Motor 1: 80->80 RPM, 1s, 533 steps
+2025-05-21 12:24:18,988 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:24:19,992 [INFO] Motor 1: 80->110 RPM, 1s, 733 steps
+2025-05-21 12:24:21,150 [INFO] Motor 1: 100->120 RPM, 2s, 1600 steps
+2025-05-21 12:24:23,214 [INFO] Motor 1: 60->80 RPM, 1s, 533 steps
+2025-05-21 12:24:23,635 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:24:23,689 [INFO] [Arduino-M2] Starting move: startRPM=126.00, targetRPM=127.00, runTime=42.00, direction=0
+2025-05-21 12:24:24,346 [INFO] Motor 1: 85->85 RPM, 1s, 566 steps
+2025-05-21 12:24:25,352 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:24:26,363 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:24:27,381 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:24:28,393 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:24:29,410 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:24:30,421 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:24:31,443 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:24:32,450 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:24:33,456 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:24:34,459 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:24:35,465 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:24:36,469 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:24:37,488 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:24:38,495 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:24:39,515 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:24:40,525 [INFO] Motor 1: 100->80 RPM, 2s, 1066 steps
+2025-05-21 12:24:42,459 [INFO] Drivetrain Cycle complete
+2025-05-21 12:24:42,460 [INFO] {'Drivetrain Cycle 9'}
+2025-05-21 12:24:42,460 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-21 12:24:42,461 [INFO] Motor 1: 20->80 RPM, 6s, 3200 steps
+2025-05-21 12:24:51,865 [INFO] Motor 1: 80->140 RPM, 2s, 1866 steps
+2025-05-21 12:24:54,357 [INFO] Motor 1: 80->80 RPM, 1s, 533 steps
+2025-05-21 12:24:55,360 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:24:56,364 [INFO] Motor 1: 80->110 RPM, 1s, 733 steps
+2025-05-21 12:24:57,255 [INFO] [Arduino-M2] Command finished.
+2025-05-21 12:24:57,307 [INFO] [Arduino-M2] No more commands. Ramping motor down smoothly.
+2025-05-21 12:24:57,359 [INFO] [Arduino-M2] Stopping motor from RPM 127.00
+2025-05-21 12:24:57,527 [INFO] Motor 1: 100->120 RPM, 2s, 1600 steps
+2025-05-21 12:24:59,592 [INFO] Motor 1: 60->80 RPM, 1s, 533 steps
+2025-05-21 12:25:00,721 [INFO] Motor 1: 85->85 RPM, 1s, 566 steps
+2025-05-21 12:25:01,724 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:25:02,734 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:25:03,751 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:25:04,762 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:25:05,176 [INFO] [Arduino-M2] Motor stopped smoothly.
+2025-05-21 12:25:05,778 [INFO] Motor 1: 65->70 RPM, 1s, 466 steps
+2025-05-21 12:25:06,789 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:25:07,806 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:25:08,809 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:25:09,823 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:25:10,827 [INFO] Motor 1: 120->120 RPM, 1s, 800 steps
+2025-05-21 12:25:11,834 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:25:12,840 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:25:13,869 [INFO] Motor 1: 84->85 RPM, 1s, 566 steps
+2025-05-21 12:25:14,880 [INFO] Motor 1: 110->120 RPM, 1s, 800 steps
+2025-05-21 12:25:15,897 [INFO] Motor 1: 100->100 RPM, 1s, 666 steps
+2025-05-21 12:25:16,900 [INFO] Motor 1: 100->80 RPM, 2s, 1066 steps
+2025-05-21 12:25:18,832 [INFO] Drivetrain Cycle complete
+2025-05-21 12:25:18,833 [INFO] Testing Completed.  The Chain Survived!

@@ -22,7 +22,7 @@ BAUD = 115200
 
 pi = pigpio.pi()
 
-file_name = "MRP_Wave_2_test6"
+file_name = "MRP_Wave_2_32_Test_4" # Change this to the name of your log file
 
 class SerialMonitor:
     def __init__(self, root, serial_obj):
@@ -275,7 +275,7 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
     cruise_steps = total_steps - 2 * ramp_steps
     MIN_DELAY = 0.00001
     
-    logging.info(f"{motor_id}: {start_RPM}->{target_RPM} RPM, {run_time}s, {total_steps} steps")
+    #logging.info(f"{motor_id}: {start_RPM}->{target_RPM} RPM, {run_time}s, {total_steps} steps")
 
     delays = []
 
@@ -350,80 +350,44 @@ def log_motor1_summary():
 def Motor1_sequence():
     global current_drivetrain_cycle
     logging.info("Starting Motor 1 sequence...")
-    time.sleep(25)
-    current_drivetrain_cycle = "Drivetrain Cycle 1"
-    logging.info({current_drivetrain_cycle})
-    Drivetrain_Cycle()
-    #time.sleep(1)
-    current_drivetrain_cycle = "Drivetrain Cycle 2"
-    logging.info({current_drivetrain_cycle})
-    Drivetrain_Cycle()
-    #time.sleep(1)
-    current_drivetrain_cycle = "Drivetrain Cycle 3"
-    logging.info({current_drivetrain_cycle})
-    Drivetrain_Cycle()
-    #time.sleep(1)
-    current_drivetrain_cycle = "Drivetrain Cycle 4"
-    logging.info({current_drivetrain_cycle})
-    Drivetrain_Cycle()
-    #time.sleep(1)
-    current_drivetrain_cycle = "Drivetrain Cycle 5"
-    logging.info({current_drivetrain_cycle})
-    Drivetrain_Cycle()
-    #time.sleep(1)
-    current_drivetrain_cycle = "Drivetrain Cycle 6"
-    logging.info({current_drivetrain_cycle})
-    Drivetrain_Cycle()
-    #time.sleep(1)
-    current_drivetrain_cycle = "Drivetrain Cycle 7"
-    logging.info({current_drivetrain_cycle})
-    Drivetrain_Cycle()
-    #time.sleep(1)
-    current_drivetrain_cycle = "Drivetrain Cycle 8"
-    logging.info({current_drivetrain_cycle})
-    Drivetrain_Cycle()
-    #time.sleep(1)
-    current_drivetrain_cycle = "Drivetrain Cycle 9"
-    logging.info({current_drivetrain_cycle})
-    Drivetrain_Cycle()
+    time.sleep(20)
+    for i in range(1,10):  # 9 cycles
+        current_drivetrain_cycle = f"Drivetrain Cycle {i}"
+        logging.info({current_drivetrain_cycle})
+        Drivetrain_Cycle()
+        #time.sleep(1)
     logging.info("Testing Completed.  The Chain Survived!")
 
 def Drivetrain_Cycle():
-    # Currently 23 run time
     logging.info("Starting Drivetrain Cycle with ramp...")
-    move_motor_with_ramp(DIR1, STEP1, 20, 80, 6, False)
-    move_motor_with_ramp(DIR1, STEP1, 80, 140, 2, False)
+    move_motor_with_ramp(DIR1, STEP1, 20, 80, 6, False) # Motor 1 Forward
+    move_motor_with_ramp(DIR1, STEP1, 80, 140, 2, False) # Motor 1 Forward
     #time.sleep(0.5)
-    #logging.info("Part 2")
-    move_motor_with_ramp(DIR1, STEP1, 80, 80, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 80, 80, 1, True) # Motor 2 Backward
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, True)
     #time.sleep(0.5)
-    #logging.info("Part 3")
     move_motor_with_ramp(DIR1, STEP1, 80, 110, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 100, 120, 2, True)
     move_motor_with_ramp(DIR1, STEP1, 60, 80, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, True)
     #time.sleep(0.5)
-    #logging.info("Part 4")
-    move_motor_with_ramp(DIR1, STEP1, 65, 70, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 110, 120, 1, True)
-    move_motor_with_ramp(DIR1, STEP1, 65, 70, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 110, 120, 1, True)
-    move_motor_with_ramp(DIR1, STEP1, 65, 70, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 110, 120, 1, True)
-    #logging.info("Abusive")
+    move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
+    move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
+    move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
     move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 120, 120, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
     move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 120, 120, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
     move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 110, 120, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
     move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 110, 120, 1, True)
+    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
     #time.sleep(0.5)
-    #logging.info("Part 5")
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 100, 80, 2, True)   # Motor 1 Backward
+    move_motor_with_ramp(DIR1, STEP1, 100, 80, 2, True)
     logging.info("Drivetrain Cycle complete")
 
 # Function for Motor 2 Oscillation Movement
@@ -433,21 +397,18 @@ def Motor2_sequence():
     logging.info("Starting Motor 2 sequence with ramp...")
     # Motor moves are sent below in a batch
     # Initially get up to speed for first ramp, 20 seconds total
-    # Step 1:  100 rpm for 25 seconds
-    # Ramp up again to speed for 10 seconds
-    # Step 2-9: ramp up 4 rpm per step  
     commands = [
-        (5, 80, 10, 0, 1000),
-        (80, 100, 10, 0, 8000),
-        (100, 108, 42, 0, 9000),   #1
-        (108, 112, 42, 0, 9000),   #2
-        (112, 116, 42, 0, 9000),   #3
-        (116, 120, 42, 0, 9000),   #4
-        (120, 122, 42, 0, 9000),   #5
-        (122, 124, 42, 0, 9000),   #6
-        (124, 125, 42, 0, 9000),   #7
-        (125, 126, 42, 0, 9000),   #8
-        (126, 127, 42, 0, 9000)    #9
+        (5, 80, 10, 0, 1000),      #warm up
+        (80, 100, 10, 0, 8000),    #warm up
+        (100, 108, 54, 0, 9000),   #1
+        (108, 112, 54, 0, 9000),   #2
+        (112, 116, 54, 0, 9000),   #3
+        (116, 120, 54, 0, 9000),   #4
+        (120, 122, 54, 0, 9000),   #5
+        (122, 124, 54, 0, 9000),   #6
+        (124, 125, 54, 0, 9000),   #7
+        (125, 126, 54, 0, 9000),   #8
+        (126, 128, 60, 0, 9000)    #9
     ]
 
     motor2.send_move_batch(commands)
@@ -531,16 +492,16 @@ def log_motor1_summary():
     logging.info("="*40)
 
 if __name__ == "__main__":
+    atexit.register(log_motor1_summary)
+    atexit.register(stop_motors)
     try:
         start_motors()
     except KeyboardInterrupt:
         logging.info("KeyboardInterrupt detected! Stopping motors . . .")
         logging.info(f"Interrupted during drivetrain cycle: {current_drivetrain_cycle}")
     finally:
-        stop_motors()
-        log_motor1_summary()
         for handler in logging.getLogger().handlers:
             handler.flush()
         pi.stop()
         logging.info('\nTesting has concluded')
-        atexit.register(stop_motors)
+        
