@@ -50,7 +50,7 @@ KeyboardInterrupt detected!  Stopping motors . . .
 2025-05-23 13:28:16,357 [INFO] Total pulses: 30256
 2025-05-23 13:28:16,358 [DEBUG] Motor 2 sequence interrupted
 2025-05-23 13:28:16,359 [INFO] Total revolutions: 75.64
-2025-05-23 13:28:16,361 [INFO] Total run time: 49.00 seconds
+2025-05-23 13:28:16,361 [INFO] Total run time: 103.00 seconds
 2025-05-23 13:28:16,364 [INFO] Average RPM: 92.62
 2025-05-23 13:28:16,366 [INFO] ========================================
 2025-05-23 13:28:16,371 [INFO] 

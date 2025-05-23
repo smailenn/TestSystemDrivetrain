@@ -43,7 +43,7 @@ KeyboardInterrupt detected!  Stopping motors . . .
 2025-05-23 14:04:02,324 [INFO] Current drivetrain cycle: Drivetrain Cycle 3
 2025-05-23 14:04:02,329 [INFO] Total pulses: 22259
 2025-05-23 14:04:02,330 [INFO] Total revolutions: 55.65
-2025-05-23 14:04:02,331 [INFO] Total run time: 36.00 seconds
+2025-05-23 14:04:02,331 [INFO] Total run time: 144.00 seconds
 2025-05-23 14:04:02,332 [INFO] Average RPM: 92.75
 2025-05-23 14:04:02,334 [INFO] ========================================
 2025-05-23 14:04:02,336 [INFO] 

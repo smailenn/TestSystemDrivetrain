@@ -22,7 +22,7 @@ BAUD = 115200
 
 pi = pigpio.pi()
 
-file_name = "MRP_Wave_2_32_Test1_2" # Change this to the name of your log file
+file_name = "MRP_Wave_2_32_Test1_8" # Change this to the name of your log file
 
 # Basic config for logging to a file and console
 logging.basicConfig(
@@ -261,7 +261,9 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
     if step_pin == STEP1:
         motor1_total_pulses += pulses_sent
         motor1_total_revolutions += pulses_sent / Pulses_rev
-        motor1_total_run_time += elapsed
+        motor1_total_run_time += Run_time
+
+    logging.info(f"Run Time: {motor1_total_run_time}")
 
 # Combined ramp-up, cruise, and ramp-down
 def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_time, direction, ramp_steps=None):
@@ -335,11 +337,12 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
     if step_pin == STEP1:
         motor1_total_pulses += pulses_sent
         motor1_total_revolutions += pulses_sent / pulses_per_rev
-        motor1_total_run_time += elapsed
+        motor1_total_run_time += run_time
         motor1_running = True
         motor1_run_start_time = time.time()
 
     #logging.info("Generated delays:", delays)
+    logging.info(f"Run Time: {motor1_total_run_time}")
     generate_steps_with_pigpio(step_pin, delays)
     #log_motor1_stats()
 
@@ -452,7 +455,7 @@ def Motor2_sequence():
         (118, 119, 54, 0, 9000),   #6
         (119, 120, 54, 0, 9000),   #7
         (120, 121, 54, 0, 9000),   #8
-        (121, 122, 60, 0, 9000)    #9
+        (121, 121, 60, 0, 9000)    #9
     ]
 
     motor2.send_move_batch(commands)
@@ -506,9 +509,6 @@ def start_motors():
     except KeyboardInterrupt:
         logging.info("\nKeyboardInterrupt detected!  Stopping motors . . . ")
         logging.info(f"Interrupted during drivetrain cycle: {current_drivetrain_cycle}")
-    finally:
-        stop_motors()
-        pi.stop()
 
 def stop_motors():
     global run_flag
@@ -525,6 +525,7 @@ if __name__ == "__main__":
         start_motors()
     except KeyboardInterrupt:
         logging.info("KeyboardInterrupt detected! Stopping motors . . .")
+        stop_motors()
         logging.info(f"Interrupted during drivetrain cycle: {current_drivetrain_cycle}")
     finally:
         log_motor1_summary()
