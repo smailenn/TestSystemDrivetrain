@@ -1,0 +1,58 @@
+2025-05-23 13:19:42,777 [DEBUG] Motor 2 sequence interrupted
+2025-05-23 13:19:43,773 [INFO] Stopping Motors . . . 
+2025-05-23 13:25:15,763 [INFO] Sent RESET command to Arduino
+2025-05-23 13:25:15,765 [INFO] Get Ready!  Moving motors in sequence...
+2025-05-23 13:25:15,766 [INFO] Press Ctrl+C to stop!!!
+2025-05-23 13:25:15,767 [INFO] Moving in 3 . . .
+2025-05-23 13:25:16,767 [INFO] Moving in 2 . . .
+2025-05-23 13:25:17,768 [INFO] Moving in 1 . . .
+2025-05-23 13:25:18,769 [INFO] Motors GO!
+2025-05-23 13:25:18,771 [INFO] Starting Motor 1 sequence...
+2025-05-23 13:25:18,773 [INFO] Starting Motor 2 sequence with ramp...
+2025-05-23 13:25:18,774 [INFO] Sending batch command to Arduino:
+BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,122,60,0,9000
+
+2025-05-23 13:25:18,775 [INFO] [Arduino-M2] Received line: 'RESET'
+2025-05-23 13:25:18,776 [INFO] [Arduino-M2] RESET received: system reset.
+2025-05-23 13:25:18,777 [INFO] [Arduino-M2] Received line: 'PPR:400'
+2025-05-23 13:25:18,777 [INFO] [Arduino-M2] Updated pulsesPerRev to: 400
+2025-05-23 13:25:18,835 [INFO] [Arduino-M2] Received line: 'BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,122,60,0,9000'
+2025-05-23 13:25:18,886 [INFO] [Arduino-M2] Batch commands enqueued.
+2025-05-23 13:25:18,939 [INFO] [Arduino-M2] Starting move: startRPM=0.00, targetRPM=80.00, runTime=10.00, direction=0
+2025-05-23 13:25:37,478 [INFO] [Arduino-M2] Command finished.
+2025-05-23 13:25:37,532 [INFO] [Arduino-M2] Starting move: startRPM=80.00, targetRPM=100.00, runTime=10.00, direction=0
+2025-05-23 13:25:38,773 [INFO] {'Drivetrain Cycle 1'}
+2025-05-23 13:25:38,774 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-23 13:25:52,223 [INFO] [Arduino-M2] Command finished.
+2025-05-23 13:25:52,277 [INFO] [Arduino-M2] Starting move: startRPM=100.00, targetRPM=108.00, runTime=54.00, direction=0
+2025-05-23 13:26:22,577 [INFO] Drivetrain Cycle complete
+2025-05-23 13:26:22,578 [INFO] {'Drivetrain Cycle 2'}
+2025-05-23 13:26:22,579 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-23 13:26:36,382 [INFO] [Arduino-M2] Command finished.
+2025-05-23 13:26:36,436 [INFO] [Arduino-M2] Starting move: startRPM=108.00, targetRPM=112.00, runTime=54.00, direction=0
+2025-05-23 13:27:06,136 [INFO] Drivetrain Cycle complete
+2025-05-23 13:27:06,136 [INFO] {'Drivetrain Cycle 3'}
+2025-05-23 13:27:06,137 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-23 13:27:20,834 [INFO] [Arduino-M2] Command finished.
+2025-05-23 13:27:20,888 [INFO] [Arduino-M2] Starting move: startRPM=112.00, targetRPM=116.00, runTime=54.00, direction=0
+2025-05-23 13:27:49,801 [INFO] Drivetrain Cycle complete
+2025-05-23 13:27:49,802 [INFO] {'Drivetrain Cycle 4'}
+2025-05-23 13:27:49,803 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-23 13:28:05,687 [INFO] [Arduino-M2] Command finished.
+2025-05-23 13:28:05,741 [INFO] [Arduino-M2] Starting move: startRPM=116.00, targetRPM=117.00, runTime=54.00, direction=0
+2025-05-23 13:28:16,346 [INFO] 
+KeyboardInterrupt detected!  Stopping motors . . . 
+2025-05-23 13:28:16,348 [INFO] Interrupted during drivetrain cycle: Drivetrain Cycle 4
+2025-05-23 13:28:16,349 [INFO] Stopping Motors . . . 
+2025-05-23 13:28:16,351 [INFO] ========================================
+2025-05-23 13:28:16,354 [INFO] MOTOR 1 SESSION SUMMARY
+2025-05-23 13:28:16,356 [INFO] Current drivetrain cycle: Drivetrain Cycle 4
+2025-05-23 13:28:16,357 [INFO] Total pulses: 30256
+2025-05-23 13:28:16,358 [DEBUG] Motor 2 sequence interrupted
+2025-05-23 13:28:16,359 [INFO] Total revolutions: 75.64
+2025-05-23 13:28:16,361 [INFO] Total run time: 49.00 seconds
+2025-05-23 13:28:16,364 [INFO] Average RPM: 92.62
+2025-05-23 13:28:16,366 [INFO] ========================================
+2025-05-23 13:28:16,371 [INFO] 
+Testing has concluded
+2025-05-23 13:28:17,372 [INFO] Stopping Motors . . . 

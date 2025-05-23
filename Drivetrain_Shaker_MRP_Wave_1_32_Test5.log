@@ -1,0 +1,43 @@
+2025-05-23 13:49:48,672 [DEBUG] Motor 2 sequence interrupted
+2025-05-23 13:49:49,640 [INFO] Stopping Motors . . . 
+2025-05-23 13:51:53,517 [INFO] Sent RESET command to Arduino
+2025-05-23 13:51:53,519 [INFO] Get Ready!  Moving motors in sequence...
+2025-05-23 13:51:53,521 [INFO] Press Ctrl+C to stop!!!
+2025-05-23 13:51:53,522 [INFO] Moving in 3 . . .
+2025-05-23 13:51:54,523 [INFO] Moving in 2 . . .
+2025-05-23 13:51:55,524 [INFO] Moving in 1 . . .
+2025-05-23 13:51:56,525 [INFO] Motors GO!
+2025-05-23 13:51:56,527 [INFO] Starting Motor 1 sequence...
+2025-05-23 13:51:56,528 [INFO] Starting Motor 2 sequence with ramp...
+2025-05-23 13:51:56,529 [INFO] Sending batch command to Arduino:
+BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,122,60,0,9000
+
+2025-05-23 13:51:56,530 [INFO] [Arduino-M2] Received line: 'RESET'
+2025-05-23 13:51:56,531 [INFO] [Arduino-M2] RESET received: system reset.
+2025-05-23 13:51:56,531 [INFO] [Arduino-M2] Received line: 'PPR:400'
+2025-05-23 13:51:56,532 [INFO] [Arduino-M2] Updated pulsesPerRev to: 400
+2025-05-23 13:51:56,592 [INFO] [Arduino-M2] Received line: 'BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,122,60,0,9000'
+2025-05-23 13:51:56,643 [INFO] [Arduino-M2] Batch commands enqueued.
+2025-05-23 13:51:56,696 [INFO] [Arduino-M2] Starting move: startRPM=0.00, targetRPM=80.00, runTime=10.00, direction=0
+2025-05-23 13:52:15,238 [INFO] [Arduino-M2] Command finished.
+2025-05-23 13:52:15,292 [INFO] [Arduino-M2] Starting move: startRPM=80.00, targetRPM=100.00, runTime=10.00, direction=0
+2025-05-23 13:52:16,528 [INFO] {'Drivetrain Cycle 1'}
+2025-05-23 13:52:16,529 [INFO] Starting Drivetrain Cycle with ramp...
+2025-05-23 13:52:29,975 [INFO] [Arduino-M2] Command finished.
+2025-05-23 13:52:30,029 [INFO] [Arduino-M2] Starting move: startRPM=100.00, targetRPM=108.00, runTime=54.00, direction=0
+2025-05-23 13:52:55,537 [INFO] 
+KeyboardInterrupt detected!  Stopping motors . . . 
+2025-05-23 13:52:55,538 [INFO] Interrupted during drivetrain cycle: Drivetrain Cycle 1
+2025-05-23 13:52:55,540 [INFO] Stopping Motors . . . 
+2025-05-23 13:52:55,541 [INFO] ========================================
+2025-05-23 13:52:55,544 [INFO] MOTOR 1 SESSION SUMMARY
+2025-05-23 13:52:55,546 [INFO] Current drivetrain cycle: Drivetrain Cycle 1
+2025-05-23 13:52:55,549 [INFO] Total pulses: 6265
+2025-05-23 13:52:55,550 [INFO] Total revolutions: 15.66
+2025-05-23 13:52:55,552 [INFO] Total run time: 10.00 seconds
+2025-05-23 13:52:55,554 [INFO] Average RPM: 93.98
+2025-05-23 13:52:55,556 [INFO] ========================================
+2025-05-23 13:52:55,557 [INFO] 
+Testing has concluded
+2025-05-23 13:52:55,572 [DEBUG] Motor 2 sequence interrupted
+2025-05-23 13:52:56,560 [INFO] Stopping Motors . . . 

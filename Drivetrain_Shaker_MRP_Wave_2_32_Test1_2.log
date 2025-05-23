@@ -1,0 +1,23 @@
+2025-05-23 14:21:47,395 [INFO] Sent RESET command to Arduino
+2025-05-23 14:21:47,397 [INFO] Get Ready!  Moving motors in sequence...
+2025-05-23 14:21:47,397 [INFO] Press Ctrl+C to stop!!!
+2025-05-23 14:21:47,398 [INFO] Moving in 3 . . .
+2025-05-23 14:21:48,399 [INFO] Moving in 2 . . .
+2025-05-23 14:21:49,400 [INFO] Moving in 1 . . .
+2025-05-23 14:21:50,401 [INFO] Motors GO!
+2025-05-23 14:21:50,403 [INFO] Starting Motor 1 sequence...
+2025-05-23 14:21:50,404 [INFO] Starting Motor 2 sequence with ramp...
+2025-05-23 14:21:50,414 [INFO] Sending batch command to Arduino:
+BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,122,60,0,9000
+
+2025-05-23 14:21:50,416 [INFO] [Arduino-M2] Received line: 'RESET'
+2025-05-23 14:21:50,416 [INFO] [Arduino-M2] RESET received: system reset.
+2025-05-23 14:21:50,417 [INFO] [Arduino-M2] Received line: 'PPR:400'
+2025-05-23 14:21:50,417 [INFO] [Arduino-M2] Updated pulsesPerRev to: 400
+2025-05-23 14:21:50,469 [INFO] [Arduino-M2] Received line: 'BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,122,60,0,9000'
+2025-05-23 14:21:50,520 [INFO] [Arduino-M2] Batch commands enqueued.
+2025-05-23 14:21:50,574 [INFO] [Arduino-M2] Starting move: startRPM=0.00, targetRPM=80.00, runTime=10.00, direction=0
+2025-05-23 14:22:09,159 [INFO] [Arduino-M2] Command finished.
+2025-05-23 14:22:09,211 [INFO] [Arduino-M2] Starting move: startRPM=80.00, targetRPM=100.00, runTime=10.00, direction=0
+2025-05-23 14:22:10,414 [INFO] {'Drivetrain Cycle 1'}
+2025-05-23 14:22:10,415 [INFO] Starting Drivetrain Cycle with ramp...

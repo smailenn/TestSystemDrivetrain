@@ -22,7 +22,17 @@ BAUD = 115200
 
 pi = pigpio.pi()
 
-file_name = "MRP_Wave_2_32_Test_4" # Change this to the name of your log file
+file_name = "MRP_Wave_2_32_Test1_2" # Change this to the name of your log file
+
+# Basic config for logging to a file and console
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[
+        logging.FileHandler(f"Drivetrain_Shaker_{file_name}.log"),
+        logging.StreamHandler()  # This still lets you see output live in your SSH terminal
+    ]
+)
 
 class SerialMonitor:
     def __init__(self, root, serial_obj):
@@ -105,15 +115,6 @@ def read_arduino_serial(controller, q):
                 logging.info(f"[Serial Read Error] {e}")
         time.sleep(0.05)
 
-# Basic config for logging to a file and console
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s [%(levelname)s] %(message)s',
-    handlers=[
-        logging.FileHandler(f"Drivetrain_Shaker_{file_name}.log"),
-        logging.StreamHandler()  # This still lets you see output live in your SSH terminal
-    ]
-)
 
 # --- Tracking variables ---
 motor1_total_pulses = 0
@@ -238,11 +239,38 @@ def generate_steps_with_pigpio(step_pin, delays):
 
 
 # Function for motor movement
+
+def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
+    global motor1_total_pulses, motor1_total_revolutions, motor1_total_run_time
+    pi.write(direction_pin, direction)
+    STEP_DELAY = 60 / (2 * Pulses_rev * RPM)
+    steps = int(2 * 200 * RPM / 60 * Run_time)
+    move_start_time = time.time()
+    pulses_sent = 0
+
+    for _ in range(steps):
+        pi.write(step_pin, 1)
+        time.sleep(STEP_DELAY)
+        pi.write(step_pin, 0)
+        time.sleep(STEP_DELAY)
+        pulses_sent += 1
+
+    elapsed = time.time() - move_start_time
+
+    # Track totals for Motor 1 only
+    if step_pin == STEP1:
+        motor1_total_pulses += pulses_sent
+        motor1_total_revolutions += pulses_sent / Pulses_rev
+        motor1_total_run_time += elapsed
+
 # Combined ramp-up, cruise, and ramp-down
 def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_time, direction, ramp_steps=None):
     global run_flag
     global motor1_total_pulses, motor1_total_revolutions, motor1_total_run_time
     global motor1_running, motor1_run_start_time
+
+    move_start_time = time.time()
+    pulses_sent = 0
 
     pi.write(direction_pin, direction)
     
@@ -285,11 +313,13 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
         p = i / ramp_steps
         d = interpolate_delay_sine(p, start_delay, target_delay)
         delays.append(max(d, MIN_DELAY))
+        pulses_sent += 1
 
     # Cruise
     for _ in range(cruise_steps):
         if not run_flag: return
         delays.append(max(target_delay, MIN_DELAY))
+        pulses_sent += 1
 
     # Ramp-down
     for i in range(ramp_steps):
@@ -297,25 +327,21 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
         p = i / ramp_steps
         d = interpolate_delay_sine(p, target_delay, start_delay)
         delays.append(max(d, MIN_DELAY))
+        pulses_sent += 1
+
+    elapsed = time.time() - move_start_time
 
     # --- Track motor 1 specific data ---
     if step_pin == STEP1:
-        motor1_total_pulses += len(delays)
-        motor1_total_revolutions += len(delays) / pulses_per_rev
-        motor1_total_run_time += run_time
+        motor1_total_pulses += pulses_sent
+        motor1_total_revolutions += pulses_sent / pulses_per_rev
+        motor1_total_run_time += elapsed
         motor1_running = True
         motor1_run_start_time = time.time()
 
     #logging.info("Generated delays:", delays)
     generate_steps_with_pigpio(step_pin, delays)
     #log_motor1_stats()
-
-def test_motor_constant_speed(step_pin, delay, steps):
-    for _ in range(steps):
-        pi.write(step_pin, 1)
-        time.sleep(delay)
-        pi.write(step_pin, 0)
-        time.sleep(delay)
 
 def log_motor1_stats():
     logging.info(f"[Motor 1] Total pulses: {motor1_total_pulses}")
@@ -366,25 +392,43 @@ def Drivetrain_Cycle():
     move_motor_with_ramp(DIR1, STEP1, 80, 80, 1, True) # Motor 2 Backward
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, True)
     #time.sleep(0.5)
-    move_motor_with_ramp(DIR1, STEP1, 80, 110, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 100, 120, 2, True)
-    move_motor_with_ramp(DIR1, STEP1, 60, 80, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, True)
+    # move_motor_with_ramp(DIR1, STEP1, 80, 110, 1, False)
+    # move_motor_with_ramp(DIR1, STEP1, 100, 120, 2, True)
+    # move_motor_with_ramp(DIR1, STEP1, 60, 80, 1, False)
+    # move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, True)
+    move_motor(DIR1, STEP1, 110, 1, False)
+    move_motor(DIR1, STEP1, 140, 2, True)
+    move_motor(DIR1, STEP1, 80, 1, False)
+    move_motor(DIR1, STEP1, 140, 1, True)
     #time.sleep(0.5)
-    move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
+    # move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
+    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
+    # move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
+    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
+    # move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
+    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
+    # move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
+    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
+    # move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
+    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
+    # move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
+    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
+    # move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
+    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
+    move_motor(DIR1, STEP1, 180, 1, False)
+    move_motor(DIR1, STEP1, 180, 1, True)
+    move_motor(DIR1, STEP1, 180, 1, False)
+    move_motor(DIR1, STEP1, 180, 1, True)
+    move_motor(DIR1, STEP1, 180, 1, False)
+    move_motor(DIR1, STEP1, 180, 1, True)
+    move_motor(DIR1, STEP1, 180, 1, False)
+    move_motor(DIR1, STEP1, 180, 1, True)
+    move_motor(DIR1, STEP1, 180, 1, False)
+    move_motor(DIR1, STEP1, 180, 1, True)
+    move_motor(DIR1, STEP1, 180, 1, False)
+    move_motor(DIR1, STEP1, 180, 1, True)
+    move_motor(DIR1, STEP1, 180, 1, False)
+    move_motor(DIR1, STEP1, 180, 1, True)
     #time.sleep(0.5)
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, False)
     move_motor_with_ramp(DIR1, STEP1, 100, 80, 2, True)
@@ -403,12 +447,12 @@ def Motor2_sequence():
         (100, 108, 54, 0, 9000),   #1
         (108, 112, 54, 0, 9000),   #2
         (112, 116, 54, 0, 9000),   #3
-        (116, 120, 54, 0, 9000),   #4
-        (120, 122, 54, 0, 9000),   #5
-        (122, 124, 54, 0, 9000),   #6
-        (124, 125, 54, 0, 9000),   #7
-        (125, 126, 54, 0, 9000),   #8
-        (126, 128, 60, 0, 9000)    #9
+        (116, 117, 54, 0, 9000),   #4
+        (117, 118, 54, 0, 9000),   #5
+        (118, 119, 54, 0, 9000),   #6
+        (119, 120, 54, 0, 9000),   #7
+        (120, 121, 54, 0, 9000),   #8
+        (121, 122, 60, 0, 9000)    #9
     ]
 
     motor2.send_move_batch(commands)
@@ -475,24 +519,7 @@ def stop_motors():
     except Exception as e:
         logging.error(f"Failed to send STOP to Arduino: {e}")
 
-def log_motor1_summary():
-    logging.info("="*40)
-    logging.info("MOTOR 1 SESSION SUMMARY")
-    logging.info(f"Current drivetrain cycle: {current_drivetrain_cycle}")
-    logging.info(f"Total pulses: {motor1_total_pulses}")
-    logging.info(f"Total revolutions: {motor1_total_pulses / Pulses_rev:.2f}")
-    logging.info(f"Total run time: {motor1_total_run_time:.2f} seconds")
-
-    if motor1_total_run_time > 0:
-        average_rpm = (motor1_total_pulses / Pulses_rev) / (motor1_total_run_time / 60)
-        logging.info(f"Average RPM: {average_rpm:.2f}")
-    else:
-        logging.info("Average RPM: N/A (no runtime)")
-    
-    logging.info("="*40)
-
 if __name__ == "__main__":
-    atexit.register(log_motor1_summary)
     atexit.register(stop_motors)
     try:
         start_motors()
@@ -500,8 +527,9 @@ if __name__ == "__main__":
         logging.info("KeyboardInterrupt detected! Stopping motors . . .")
         logging.info(f"Interrupted during drivetrain cycle: {current_drivetrain_cycle}")
     finally:
+        log_motor1_summary()
+        logging.info('\nTesting has concluded')
+        time.sleep(1)
+        pi.stop()
         for handler in logging.getLogger().handlers:
             handler.flush()
-        pi.stop()
-        logging.info('\nTesting has concluded')
-        
