@@ -22,7 +22,8 @@ BAUD = 115200
 
 pi = pigpio.pi()
 
-file_name = "MRP_Wave_2_32_Test1_8" # Change this to the name of your log file
+file_name = "MRP_Wave_2_32_Test2_2" # Change this to the name of your log file
+Test_setup = "17T Cog, SLX RD no clutch, TRP Chain, 1st gear, Pivot Rear" # Change with setup changes
 
 # Basic config for logging to a file and console
 logging.basicConfig(
@@ -357,6 +358,8 @@ def log_motor1_summary():
     logging.info(f"Total pulses: {motor1_total_pulses}")
     logging.info(f"Total revolutions: {motor1_total_pulses / Pulses_rev:.2f}")
     logging.info(f"Total run time: {motor1_total_run_time:.2f} seconds")
+    logging.info(f"How did change drop if it did:")
+    logging.info(f"Drivetrain Shaker Test Setup: {Test_setup}")
 
     if motor1_total_run_time > 0:
         average_rpm = (motor1_total_pulses / Pulses_rev) / (motor1_total_run_time / 60)
@@ -389,35 +392,17 @@ def Motor1_sequence():
 
 def Drivetrain_Cycle():
     logging.info("Starting Drivetrain Cycle with ramp...")
-    move_motor_with_ramp(DIR1, STEP1, 20, 80, 6, False) # Motor 1 Forward
-    move_motor_with_ramp(DIR1, STEP1, 80, 140, 2, False) # Motor 1 Forward
+    move_motor_with_ramp(DIR1, STEP1, 80, 80, 6, False) # Motor 1 Forward
+    move_motor_with_ramp(DIR1, STEP1, 120, 140, 2, False) # Motor 1 Forward
     #time.sleep(0.5)
     move_motor_with_ramp(DIR1, STEP1, 80, 80, 1, True) # Motor 2 Backward
     move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, True)
     #time.sleep(0.5)
-    # move_motor_with_ramp(DIR1, STEP1, 80, 110, 1, False)
-    # move_motor_with_ramp(DIR1, STEP1, 100, 120, 2, True)
-    # move_motor_with_ramp(DIR1, STEP1, 60, 80, 1, False)
-    # move_motor_with_ramp(DIR1, STEP1, 85, 85, 1, True)
     move_motor(DIR1, STEP1, 110, 1, False)
     move_motor(DIR1, STEP1, 140, 2, True)
     move_motor(DIR1, STEP1, 80, 1, False)
     move_motor(DIR1, STEP1, 140, 1, True)
     #time.sleep(0.5)
-    # move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
-    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    # move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
-    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    # move_motor_with_ramp(DIR1, STEP1, 105, 110, 1, False)
-    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    # move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    # move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    # move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
-    # move_motor_with_ramp(DIR1, STEP1, 84, 85, 1, False)
-    # move_motor_with_ramp(DIR1, STEP1, 115, 120, 1, True, 1000)
     move_motor(DIR1, STEP1, 180, 1, False)
     move_motor(DIR1, STEP1, 180, 1, True)
     move_motor(DIR1, STEP1, 180, 1, False)
