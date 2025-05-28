@@ -449,13 +449,17 @@ def Motor2_sequence():
     start_time = time.time()
     while run_flag:
         try:
-            line = serial_queue.get(timeout=0.1)
+            line = serial_queue.get(timeout=0.05)
+            if not run_flag:
+                break
             if line == "DONE":
                 logging.info("Motor 2 batch complete")
                 break
             else:
                 logging.info(f"[Arduino-M2] {line}")
         except queue.Empty:
+            if not run_flag:
+                break
             pass  # No message, continue checking
 
     if not run_flag:
