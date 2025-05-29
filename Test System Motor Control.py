@@ -22,7 +22,7 @@ BAUD = 115200
 
 pi = pigpio.pi()
 
-file_name = "SRAM_XSYNC2_32_Test2_1" # Change this to the name of your log file
+file_name = "SRAM_XSYNC2_32_Test2_5" # Change this to the name of your log file
 Test_setup = "17T Cog, SLX RD no clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
 
 # Basic config for logging to a file and console
@@ -502,6 +502,7 @@ def start_motors():
     except KeyboardInterrupt:
         logging.info("\nKeyboardInterrupt detected!  Stopping motors . . . ")
         logging.info(f"Interrupted during drivetrain cycle: {current_drivetrain_cycle}")
+        stop_motors()
 
 def stop_motors():
     global run_flag
