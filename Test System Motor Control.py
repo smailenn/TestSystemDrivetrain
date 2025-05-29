@@ -22,8 +22,8 @@ BAUD = 115200
 
 pi = pigpio.pi()
 
-file_name = "MRP_Wave_2_32_Test2_2" # Change this to the name of your log file
-Test_setup = "17T Cog, SLX RD no clutch, TRP Chain, 1st gear, Pivot Rear" # Change with setup changes
+file_name = "MRP_Wave_2_32_Test2_4" # Change this to the name of your log file
+Test_setup = "17T Cog, SLX RD no clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
 
 # Basic config for logging to a file and console
 logging.basicConfig(
@@ -462,10 +462,11 @@ def Motor2_sequence():
                 break
             pass  # No message, continue checking
 
-    if not run_flag:
-        logging.debug("Motor 2 sequence interrupted")
-    
-    
+    if not run_flag and not (line == "DONE" if 'line' in locals() else False) : # Check if interrupted vs completed
+        logging.debug("Motor 2 sequence interrupted before completion or 'DONE' received.")
+    elif not (line == "DONE" if 'line' in locals() else False):
+         logging.warning("Motor 2 sequence finished but 'DONE' was not the reason (e.g. timeout).")
+
 #####################################################
 def start_motors():
     global run_flag
