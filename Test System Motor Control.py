@@ -22,7 +22,7 @@ BAUD = 115200
 
 pi = pigpio.pi()
 
-file_name = "MRP_Wave_2_32_Test2_4" # Change this to the name of your log file
+file_name = "SRAM_XSYNC2_32_Test2_1" # Change this to the name of your log file
 Test_setup = "17T Cog, SLX RD no clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
 
 # Basic config for logging to a file and console
@@ -264,7 +264,7 @@ def move_motor(direction_pin, step_pin, RPM, Run_time, direction):
         motor1_total_revolutions += pulses_sent / Pulses_rev
         motor1_total_run_time += Run_time
 
-    logging.info(f"Run Time: {motor1_total_run_time}")
+    #logging.info(f"Run Time: {motor1_total_run_time}")
 
 # Combined ramp-up, cruise, and ramp-down
 def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_time, direction, ramp_steps=None):
@@ -343,7 +343,7 @@ def move_motor_with_ramp(direction_pin, step_pin, start_RPM, target_RPM, run_tim
         motor1_run_start_time = time.time()
 
     #logging.info("Generated delays:", delays)
-    logging.info(f"Run Time: {motor1_total_run_time}")
+    #logging.info(f"Run Time: {motor1_total_run_time}")
     generate_steps_with_pigpio(step_pin, delays)
     #log_motor1_stats()
 
@@ -450,6 +450,9 @@ def Motor2_sequence():
     while run_flag:
         try:
             line = serial_queue.get(timeout=0.05)
+            if line == "FORCE_STOP":
+                logging.info("Motor 2 sequence interrupted by FORCE_STOP command.")
+                break
             if not run_flag:
                 break
             if line == "DONE":
@@ -508,6 +511,8 @@ def stop_motors():
         motor2.ser.write(b"STOP\n")
     except Exception as e:
         logging.error(f"Failed to send STOP to Arduino: {e}")
+    # Wake up Motor2_sequence if its blocked
+    serial_queue.put("FORCE_STOP")
 
 if __name__ == "__main__":
     atexit.register(stop_motors)
