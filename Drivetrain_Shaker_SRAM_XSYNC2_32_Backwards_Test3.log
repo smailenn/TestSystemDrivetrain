@@ -1,0 +1,56 @@
+2025-06-02 16:26:00,679 [INFO] Sent RESET command to Arduino
+2025-06-02 16:26:00,681 [INFO] Get Ready!  Moving motors in sequence...
+2025-06-02 16:26:00,682 [INFO] Press Ctrl+C to stop!!!
+2025-06-02 16:26:00,683 [INFO] Moving in 3 . . .
+2025-06-02 16:26:01,684 [INFO] Moving in 2 . . .
+2025-06-02 16:26:02,685 [INFO] Moving in 1 . . .
+2025-06-02 16:26:03,686 [INFO] Motors GO!
+2025-06-02 16:26:03,687 [INFO] Starting Motor 1 sequence...
+2025-06-02 16:26:03,688 [INFO] Starting Motor 2 sequence with ramp...
+2025-06-02 16:26:03,689 [INFO] Sending batch command to Arduino:
+BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,121,60,0,9000
+
+2025-06-02 16:26:03,690 [INFO] [Arduino-M2] Received line: 'RESET'
+2025-06-02 16:26:03,692 [INFO] [Arduino-M2] RESET received: system reset.
+2025-06-02 16:26:03,693 [INFO] [Arduino-M2] Received line: 'PPR:400'
+2025-06-02 16:26:03,693 [INFO] [Arduino-M2] Updated pulsesPerRev to: 400
+2025-06-02 16:26:03,746 [INFO] [Arduino-M2] Received line: 'BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,121,60,0,9000'
+2025-06-02 16:26:03,797 [INFO] [Arduino-M2] Batch commands enqueued.
+2025-06-02 16:26:03,849 [INFO] [Arduino-M2] Starting move: startRPM=0.00, targetRPM=80.00, runTime=10.00, direction=0
+2025-06-02 16:26:22,439 [INFO] [Arduino-M2] Command finished.
+2025-06-02 16:26:22,493 [INFO] [Arduino-M2] Starting move: startRPM=80.00, targetRPM=100.00, runTime=10.00, direction=0
+2025-06-02 16:26:23,689 [INFO] {'Drivetrain Cycle 1'}
+2025-06-02 16:26:23,690 [INFO] Starting Drivetrain Cycle with ramp...
+2025-06-02 16:26:37,183 [INFO] [Arduino-M2] Command finished.
+2025-06-02 16:26:37,237 [INFO] [Arduino-M2] Starting move: startRPM=100.00, targetRPM=108.00, runTime=54.00, direction=0
+2025-06-02 16:27:04,096 [INFO] Drivetrain Cycle complete
+2025-06-02 16:27:04,097 [INFO] {'Drivetrain Cycle 2'}
+2025-06-02 16:27:04,097 [INFO] Starting Drivetrain Cycle with ramp...
+2025-06-02 16:27:21,354 [INFO] [Arduino-M2] Command finished.
+2025-06-02 16:27:21,408 [INFO] [Arduino-M2] Starting move: startRPM=108.00, targetRPM=112.00, runTime=54.00, direction=0
+2025-06-02 16:27:43,363 [INFO] Drivetrain Cycle complete
+2025-06-02 16:27:43,363 [INFO] {'Drivetrain Cycle 3'}
+2025-06-02 16:27:43,364 [INFO] Starting Drivetrain Cycle with ramp...
+2025-06-02 16:28:05,856 [INFO] [Arduino-M2] Command finished.
+2025-06-02 16:28:05,908 [INFO] [Arduino-M2] Starting move: startRPM=112.00, targetRPM=116.00, runTime=54.00, direction=0
+2025-06-02 16:28:22,806 [INFO] Drivetrain Cycle complete
+2025-06-02 16:28:22,806 [INFO] {'Drivetrain Cycle 4'}
+2025-06-02 16:28:22,807 [INFO] Starting Drivetrain Cycle with ramp...
+2025-06-02 16:28:36,501 [INFO] 
+KeyboardInterrupt detected!  Stopping motors . . . 
+2025-06-02 16:28:36,502 [INFO] Interrupted during drivetrain cycle: Drivetrain Cycle 4
+2025-06-02 16:28:36,503 [INFO] Stopping Motors . . . 
+2025-06-02 16:28:36,504 [INFO] ========================================
+2025-06-02 16:28:36,505 [INFO] Motor 2 sequence interrupted by FORCE_STOP command.
+2025-06-02 16:28:36,505 [INFO] MOTOR 1 SESSION SUMMARY
+2025-06-02 16:28:36,508 [DEBUG] Motor 2 sequence interrupted before completion or 'DONE' received.
+2025-06-02 16:28:36,509 [INFO] Total pulses: 93584
+2025-06-02 16:28:36,513 [INFO] Total revolutions: 233.96
+2025-06-02 16:28:36,514 [INFO] Total run time: 107.00 seconds
+2025-06-02 16:28:36,515 [INFO] How did change drop if it did: bottom
+2025-06-02 16:28:36,516 [INFO] Drivetrain Shaker Test Setup: 17T Cog, SLX RD no clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring
+2025-06-02 16:28:36,516 [INFO] Average RPM: 131.19
+2025-06-02 16:28:36,517 [INFO] ========================================
+2025-06-02 16:28:36,518 [INFO] 
+Testing has concluded
+2025-06-02 16:28:37,520 [INFO] Stopping Motors . . . 

@@ -22,8 +22,8 @@ BAUD = 115200
 
 pi = pigpio.pi()
 
-file_name = "SRAM_XSYNC2_32_Test2_5" # Change this to the name of your log file
-Test_setup = "17T Cog, SLX RD no clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
+file_name = "TRP_M8050_32_Backwards_Clutch_Test3" # Change this to the name of your log file
+Test_setup = "17T Cog, SLX RD using clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
 
 # Basic config for logging to a file and console
 logging.basicConfig(
