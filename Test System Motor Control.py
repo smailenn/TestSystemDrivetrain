@@ -1,5 +1,6 @@
 # Test System Drivetrain Motor control
 # Look at test system drivetrain.xlsx in Engineering\Equipment\Drivetrain Tester Project folder for more information including motion analysis and variables
+# Look at the readme file for project information and programming walkthrough
 # Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
 # ssh 192.168.1.134 ip of Raspberry Pi
 # typical is mailman@SeanPi.local
@@ -21,6 +22,7 @@ import os
 PORT = '/dev/ttyACM0' # on Linux/Mac
 BAUD = 115200
 
+# Initialize pigpio library
 pi = pigpio.pi()
 
 # Ensure the results directory exists
@@ -42,6 +44,7 @@ logging.basicConfig(
     ]
 )
 
+# Serial monitor to troubleshoot issues with Arduino board if arise
 class SerialMonitor:
     def __init__(self, root, serial_obj):
         self.root = root
@@ -78,7 +81,7 @@ class SerialMonitor:
         self.root.destroy()
 
 
-
+# Class to manage Arduino motor control via serial
 class ArduinoMotorController:
     def __init__(self, port='/dev/ttyACM0', baudrate=115200, timeout=0.1):
         self.ser = serial.Serial(port, baudrate, timeout=timeout)
