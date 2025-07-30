@@ -18,6 +18,11 @@ The Python Code "Test_System_Motor_Control.py" is the main program to interact w
 The Python program is run directly on the Raspberry Pi and you can hook up a monitor and mouse and run it directly or run it 
 headless using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
 
+# Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
+# ssh 192.168.1.134 ip of Raspberry Pi
+# typical is mailman@SeanPi.local
+# Password currently:  MRP! 
+
 The Arduino is hooked up to the Raspberry Pi via a serial connection / USB
 You do not need to interact with the Arduino unless the code needs to be updated
 If you do need to update the code it runs the "Arduino_Motor_2_Control" and you must directly connect to the controlboard via USB and typically Arduino IDE to program
@@ -27,27 +32,42 @@ If you do need to update the code it runs the "Arduino_Motor_2_Control" and you 
 == Step 2: Assemble the circuit
 
 Motor 1 or 2 is wired to Driver and Power supply, they each have individual units
-Motor 1 setup:
+Motor 1 setup (Drivetrain):
 Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
 DM860T Stepper Driver
 Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
 400 Pulses per rev
+microstep 2, steps/rev 400
+2.4 A, 2.0 a
+Idle current - off 
+Control mode - on
+smoothing - off 
+
 
 Motor 2 setup:
 Nema 34, 1.8 deg (200 steps), 12 Nm, 6 A
 DM860T Stepper Driver
 Settings:  7.2A Peak, 6A Ref / 400 Pulse/Rev 
 400 Pulses per rev
-
+microstep 2, steps/rev 400
+2.4 A, 2.0 a
+Idle current - off 
+Control mode - on
+smoothing - off
 
 # Pin configuration for motor 1 - Drivetrain
+Hooked up to raspberry pi
 DIR1 = 27   # Direction pin for motor 1
 STEP1 = 22  # Step pin for motor 1
 
 # Pin configuration for motor 2 - Oscillator
 # Hooked up to Adafruit Feather ESP32
-DIR1 = 27   # Direction pin for motor 2
-STEP1 = 22  # Step pin for motor 2
+Hooked up via raspberry pi USB to feather serial micro
+From feather to stepper Driver
+#define STEP_PIN 6
+#define DIR_PIN 5
+
+All ground wires from motors, microcontrollers, stepper controllers, and power units wired together to reduce noise
 
 == Step 3: Load the code
 

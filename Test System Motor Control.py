@@ -26,13 +26,13 @@ BAUD = 115200
 pi = pigpio.pi()
 
 # Ensure the results directory exists
-os.makedirs("results", exist_ok=True)
+os.makedirs("Results", exist_ok=True)
 
-file_name = "TRP_M8050_32_Backwards_Clutch_Test3" # Change this to the name of your log file
+file_name = "SRAM_Xsync2_36__Test8" # Change this to the name of your log file
 Test_setup = "17T Cog, SLX RD using clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
 
 # Update the log file path to use the results folder
-log_path = f"results/Drivetrain_Shaker_{file_name}.log"
+log_path = f"Results/Drivetrain_Shaker_{file_name}.log"
 
 # Basic config for logging to a file and console
 logging.basicConfig(
