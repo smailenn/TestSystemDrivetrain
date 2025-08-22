@@ -14,7 +14,7 @@ precise while an Adafruit Feather ESP32 with much higher timing requirements dri
 Also see the Drivetrain_Tester_Design.xlsx in the Engineering Folder / Projects
 
 == Step 1: Installation
-The Python Code "Test_System_Motor_Control.py" is the main program to interact with the drivetrain Tester
+The Python Code "Drivetrain Shaker Test.py" is the main program to interact with the drivetrain Tester
 The Python program is run directly on the Raspberry Pi and you can hook up a monitor and mouse and run it directly or run it 
 headless using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
 
@@ -89,7 +89,7 @@ you update the name then if you do multiple runs it will just save all data to t
 === Folder structure
 ....
  Test System Drivetrain   => Python Folder
-  ├── Test System Motor Control.py
+  ├── Drivetrain Shaker Test.py
   |-- Drivetrain_setup_program.py
   |-- Results
   |-- Results - Archive
