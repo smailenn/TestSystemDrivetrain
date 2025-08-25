@@ -1,5 +1,5 @@
-# Drivetrain Shaker Test
-# Look at test system drivetrain.xlsx in Engineering\Equipment\Drivetrain Tester Project folder for more information including motion analysis and variables
+# Wear Test
+# Look at informaiton in Engineering\Equipment\Drivetrain Tester Project folder for more information including motion analysis and variables
 # Look at the readme file for project information and programming walkthrough
 # Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
 # ssh 192.168.1.134 ip of Raspberry Pi
@@ -28,11 +28,12 @@ pi = pigpio.pi()
 # Ensure the results directory exists
 os.makedirs("Results", exist_ok=True)
 
-file_name = "Praxis_NW_32__Test8" # Change this to the name of your log file
-Test_setup = "17T Cog, SLX RD using clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
+file_name = "Bling_Ring_Block_1" # Change this to the name of your log file
+Test_Gear = "5th Gear / 36T"
+Test_setup = "SRAM 10-50T Cassette, GX RD using clutch, TRP Chain, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
 
 # Update the log file path to use the results folder
-log_path = f"Results/Drivetrain_Shaker_{file_name}.log"
+log_path = f"Results/Wear_Test_{file_name}.log"
 
 # Basic config for logging to a file and console
 logging.basicConfig(
@@ -365,10 +366,9 @@ def log_motor1_stats():
 def log_motor1_summary():
     logging.info("="*40)
     logging.info("MOTOR 1 SESSION SUMMARY")
-    logging.info(f"Total pulses: {motor1_total_pulses}")
     logging.info(f"Total revolutions: {motor1_total_pulses / Pulses_rev:.2f}")
     logging.info(f"Total run time: {motor1_total_run_time:.2f} seconds")
-    logging.info(f"How did change drop if it did:")
+    logging.info(f"Cassette Gear Tested: {Test_Gear}")
     logging.info(f"Drivetrain Shaker Test Setup: {Test_setup}")
 
     if motor1_total_run_time > 0:
@@ -392,45 +392,40 @@ def log_motor1_summary():
 def Motor1_sequence():
     global current_drivetrain_cycle
     logging.info("Starting Motor 1 sequence...")
-    time.sleep(20)
-    for i in range(1,10):  # 9 cycles
+    time.sleep(5)
+    for i in range(1,60):  # 60 cycles / 300 minutes / 5 hours
         current_drivetrain_cycle = f"Drivetrain Cycle {i}"
         logging.info({current_drivetrain_cycle})
         Drivetrain_Cycle()
         #time.sleep(1)
-    logging.info("Testing Completed.  The Chain Survived!")
+    logging.info("Block Testing Completed")
 
 def Drivetrain_Cycle():
-    logging.info("Starting Drivetrain Cycle with ramp...")
-    move_motor_with_ramp(DIR1, STEP1, 80, 80, 6, False) # Motor 1 Forward
-    move_motor_with_ramp(DIR1, STEP1, 120, 140, 2, False) # Motor 1 Forward
-    #time.sleep(0.5)
-    move_motor_with_ramp(DIR1, STEP1, 80, 80, 1, True) # Motor 2 Backward
-    move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, True)
-    #time.sleep(0.5)
-    move_motor(DIR1, STEP1, 110, 1, False)
+    move_motor_with_ramp(DIR1, STEP1, 10, 80, 30, False) # Motor 1 Forward
+    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 70, 70, 30, False) # Motor 1 Forward
+    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 90, 90, 60, False) # Motor 1 Forward
+    move_motor(DIR1, STEP1, 110, 2, False)
     move_motor(DIR1, STEP1, 140, 2, True)
-    move_motor(DIR1, STEP1, 80, 1, False)
-    move_motor(DIR1, STEP1, 140, 1, True)
-    #time.sleep(0.5)
-    move_motor(DIR1, STEP1, 180, 1, False)
-    move_motor(DIR1, STEP1, 180, 1, True)
-    move_motor(DIR1, STEP1, 180, 1, False)
-    move_motor(DIR1, STEP1, 180, 1, True)
-    move_motor(DIR1, STEP1, 180, 1, False)
-    move_motor(DIR1, STEP1, 180, 1, True)
-    move_motor(DIR1, STEP1, 180, 1, False)
-    move_motor(DIR1, STEP1, 180, 1, True)
-    move_motor(DIR1, STEP1, 180, 1, False)
-    move_motor(DIR1, STEP1, 180, 1, True)
-    move_motor(DIR1, STEP1, 180, 1, False)
-    move_motor(DIR1, STEP1, 180, 1, True)
-    move_motor(DIR1, STEP1, 180, 1, False)
-    move_motor(DIR1, STEP1, 180, 1, True)
-    #time.sleep(0.5)
-    move_motor_with_ramp(DIR1, STEP1, 100, 100, 1, False)
-    move_motor_with_ramp(DIR1, STEP1, 100, 80, 2, True)
-    logging.info("Drivetrain Cycle complete")
+    move_motor(DIR1, STEP1, 80, 2, False)
+    move_motor(DIR1, STEP1, 140, 2, True)
+    move_motor(DIR1, STEP1, 80, 2, False)
+    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False)
+    
+    move_motor_with_ramp(DIR1, STEP1, 10, 80, 30, False) # Motor 1 Forward
+    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 70, 70, 30, False) # Motor 1 Forward
+    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 90, 90, 60, False) # Motor 1 Forward
+    move_motor(DIR1, STEP1, 110, 2, False)
+    move_motor(DIR1, STEP1, 140, 2, True)
+    move_motor(DIR1, STEP1, 80, 2, False)
+    move_motor(DIR1, STEP1, 140, 2, True)
+    move_motor(DIR1, STEP1, 80, 2, False)
+    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False)
 
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
@@ -442,15 +437,7 @@ def Motor2_sequence():
     commands = [
         (5, 80, 10, 0, 1000),      #warm up
         (80, 100, 10, 0, 8000),    #warm up
-        (100, 108, 54, 0, 9000),   #1
-        (108, 112, 54, 0, 9000),   #2
-        (112, 116, 54, 0, 9000),   #3
-        (116, 117, 54, 0, 9000),   #4
-        (117, 118, 54, 0, 9000),   #5
-        (118, 119, 54, 0, 9000),   #6
-        (119, 120, 54, 0, 9000),   #7
-        (120, 121, 54, 0, 9000),   #8
-        (121, 121, 60, 0, 9000)    #9
+        (100, 108, 17980, 0, 9000),   #1
     ]
 
     motor2.send_move_batch(commands)
