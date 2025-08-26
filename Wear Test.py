@@ -28,8 +28,9 @@ pi = pigpio.pi()
 # Ensure the results directory exists
 os.makedirs("Results", exist_ok=True)
 
-file_name = "Bling_Ring_Block_1" # Change this to the name of your log file
-Test_Gear = "5th Gear / 36T"
+file_name = "Bling_Ring_32T_Block_1" # Change this to the name of your log file
+# 10-50T:  10, 12, 14, 16, 18, 21, 24, 28, 32, 36, 42, 50
+Test_Gear = "8th Gear / 18T"
 Test_setup = "SRAM 10-50T Cassette, GX RD using clutch, TRP Chain, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
 
 # Update the log file path to use the results folder
@@ -402,29 +403,28 @@ def Motor1_sequence():
 
 def Drivetrain_Cycle():
     move_motor_with_ramp(DIR1, STEP1, 10, 80, 30, False) # Motor 1 Forward
-    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 70, 70, 30, False) # Motor 1 Forward
-    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 90, 90, 60, False) # Motor 1 Forward
     move_motor(DIR1, STEP1, 110, 2, False)
-    move_motor(DIR1, STEP1, 140, 2, True)
+    move_motor(DIR1, STEP1, 50, 2, False)
     move_motor(DIR1, STEP1, 80, 2, False)
-    move_motor(DIR1, STEP1, 140, 2, True)
+    move_motor(DIR1, STEP1, 50, 2, False)
     move_motor(DIR1, STEP1, 80, 2, False)
-    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False)
-    
     move_motor_with_ramp(DIR1, STEP1, 10, 80, 30, False) # Motor 1 Forward
-    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 70, 70, 30, False) # Motor 1 Forward
-    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 90, 90, 60, False) # Motor 1 Forward
     move_motor(DIR1, STEP1, 110, 2, False)
-    move_motor(DIR1, STEP1, 140, 2, True)
+    move_motor(DIR1, STEP1, 40, 2, True)
     move_motor(DIR1, STEP1, 80, 2, False)
-    move_motor(DIR1, STEP1, 140, 2, True)
+    move_motor(DIR1, STEP1, 40, 2, True)
     move_motor(DIR1, STEP1, 80, 2, False)
-    time.sleep(5)
+    move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False)
 
 # Function for Motor 2 Oscillation Movement
@@ -436,8 +436,7 @@ def Motor2_sequence():
     # Initially get up to speed for first ramp, 20 seconds total
     commands = [
         (5, 80, 10, 0, 1000),      #warm up
-        (80, 100, 10, 0, 8000),    #warm up
-        (100, 108, 17980, 0, 9000),   #1
+        (80, 80, 17990, 0, 8000),    #1
     ]
 
     motor2.send_move_batch(commands)
