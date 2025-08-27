@@ -179,7 +179,7 @@ def Motor1_sequence():
 
 def Drivetrain_Cycle():
     logging.info("Starting Drivetrain Cycle with ramp...")
-    move_motor_with_ramp(DIR1, STEP1, 5, 40, 120, False)
+    move_motor_with_ramp(DIR1, STEP1, 5, 20, 120, False)
     logging.info("Drivetrain Cycle complete")
 
 #####################################################

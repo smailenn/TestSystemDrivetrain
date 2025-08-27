@@ -30,7 +30,7 @@ os.makedirs("Results", exist_ok=True)
 
 file_name = "Bling_Ring_32T_Block_1" # Change this to the name of your log file
 # 10-50T:  10, 12, 14, 16, 18, 21, 24, 28, 32, 36, 42, 50
-Test_Gear = "8th Gear / 18T"
+Test_Gear = "5 Gear / 28T"
 Test_setup = "SRAM 10-50T Cassette, GX RD using clutch, TRP Chain, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
 
 # Update the log file path to use the results folder
@@ -397,6 +397,7 @@ def Motor1_sequence():
     for i in range(1,60):  # 60 cycles / 300 minutes / 5 hours
         current_drivetrain_cycle = f"Drivetrain Cycle {i}"
         logging.info({current_drivetrain_cycle})
+        logging.info(f"Total run time: {motor1_total_run_time:.2f} seconds")
         Drivetrain_Cycle()
         #time.sleep(1)
     logging.info("Block Testing Completed")
@@ -420,13 +421,13 @@ def Drivetrain_Cycle():
     move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 90, 90, 60, False) # Motor 1 Forward
     move_motor(DIR1, STEP1, 110, 2, False)
-    move_motor(DIR1, STEP1, 40, 2, True)
+    time.sleep(2)
     move_motor(DIR1, STEP1, 80, 2, False)
-    move_motor(DIR1, STEP1, 40, 2, True)
+    time.sleep(2)
     move_motor(DIR1, STEP1, 80, 2, False)
     move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False)
-
+    
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
     motor2.ser.reset_input_buffer()  # Clear any existing data in the input buffer
