@@ -61,7 +61,7 @@ DIR1 = 27   # Direction pin for motor 1
 STEP1 = 22  # Step pin for motor 1
 
 # Pin configuration for motor 2 - Oscillator
-# Hooked up to Adafruit Feather ESP32
+# Hooked up to Adafruit Feather M0 Express (ATSAMD21 Cortex M0)
 Hooked up via raspberry pi USB to feather serial micro
 From feather to stepper Driver
 #define STEP_PIN 6

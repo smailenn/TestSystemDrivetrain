@@ -28,10 +28,15 @@ pi = pigpio.pi()
 # Ensure the results directory exists
 os.makedirs("Results", exist_ok=True)
 
-file_name = "Bling_Ring_32T_Block_1" # Change this to the name of your log file
+file_name = "TRP_Wave3_32T_Block_3" # Change this to the name of your log file
 # 10-50T:  10, 12, 14, 16, 18, 21, 24, 28, 32, 36, 42, 50
-Test_Gear = "5 Gear / 28T"
+Test_Gear = "12 Gear / 10T"
 Test_setup = "SRAM 10-50T Cassette, GX RD using clutch, TRP Chain, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
+
+# Total run time for Test
+Total_run_time = 18000 - 3843  # in seconds, typical = 18000
+# Typical time for test is 60 cycles / 300 minutes / 5 hours
+Total_motor1_cycles = int(Total_run_time / 300) # cycles for Motor 1 to run
 
 # Update the log file path to use the results folder
 log_path = f"Results/Wear_Test_{file_name}.log"
@@ -370,7 +375,7 @@ def log_motor1_summary():
     logging.info(f"Total revolutions: {motor1_total_pulses / Pulses_rev:.2f}")
     logging.info(f"Total run time: {motor1_total_run_time:.2f} seconds")
     logging.info(f"Cassette Gear Tested: {Test_Gear}")
-    logging.info(f"Drivetrain Shaker Test Setup: {Test_setup}")
+    logging.info(f"Wear Test Setup: {Test_setup}")
 
     if motor1_total_run_time > 0:
         average_rpm = (motor1_total_pulses / Pulses_rev) / (motor1_total_run_time / 60)
@@ -394,7 +399,7 @@ def Motor1_sequence():
     global current_drivetrain_cycle
     logging.info("Starting Motor 1 sequence...")
     time.sleep(5)
-    for i in range(1,60):  # 60 cycles / 300 minutes / 5 hours
+    for i in range(1,Total_motor1_cycles):  
         current_drivetrain_cycle = f"Drivetrain Cycle {i}"
         logging.info({current_drivetrain_cycle})
         logging.info(f"Total run time: {motor1_total_run_time:.2f} seconds")
@@ -420,13 +425,14 @@ def Drivetrain_Cycle():
     move_motor_with_ramp(DIR1, STEP1, 70, 70, 30, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 90, 90, 60, False) # Motor 1 Forward
-    move_motor(DIR1, STEP1, 110, 2, False)
+    move_motor(DIR1, STEP1, 85, 2, False)
     time.sleep(2)
     move_motor(DIR1, STEP1, 80, 2, False)
     time.sleep(2)
     move_motor(DIR1, STEP1, 80, 2, False)
     move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False) # Motor 1 Forward
     move_motor_with_ramp(DIR1, STEP1, 60, 60, 5, False)
+    # total time for cycle = 300 secs
     
 # Function for Motor 2 Oscillation Movement
 def Motor2_sequence():
@@ -437,7 +443,7 @@ def Motor2_sequence():
     # Initially get up to speed for first ramp, 20 seconds total
     commands = [
         (5, 80, 10, 0, 1000),      #warm up
-        (80, 80, 17990, 0, 8000),    #1
+        (80, 80, Total_run_time -10, 0, 8000),    #1
     ]
 
     motor2.send_move_batch(commands)
