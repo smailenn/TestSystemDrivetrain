@@ -28,13 +28,13 @@ pi = pigpio.pi()
 # Ensure the results directory exists
 os.makedirs("Results", exist_ok=True)
 
-file_name = "TRP_Wave3_32T_Block_3" # Change this to the name of your log file
+file_name = "TRP_Wave3_32T_Block_5" # Change this to the name of your log file
 # 10-50T:  10, 12, 14, 16, 18, 21, 24, 28, 32, 36, 42, 50
-Test_Gear = "12 Gear / 10T"
+Test_Gear = "8 Gear / 18T"
 Test_setup = "SRAM 10-50T Cassette, GX RD using clutch, TRP Chain, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
 
 # Total run time for Test
-Total_run_time = 18000 - 3843  # in seconds, typical = 18000
+Total_run_time = 3000  # in seconds, typical = 18000
 # Typical time for test is 60 cycles / 300 minutes / 5 hours
 Total_motor1_cycles = int(Total_run_time / 300) # cycles for Motor 1 to run
 
