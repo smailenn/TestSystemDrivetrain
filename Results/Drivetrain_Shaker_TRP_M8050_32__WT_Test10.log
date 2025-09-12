@@ -1,0 +1,56 @@
+2025-09-12 16:04:00,756 [INFO] Sent RESET command to Arduino
+2025-09-12 16:04:00,758 [INFO] Get Ready!  Moving motors in sequence...
+2025-09-12 16:04:00,758 [INFO] Press Ctrl+C to stop!!!
+2025-09-12 16:04:00,759 [INFO] Moving in 3 . . .
+2025-09-12 16:04:01,759 [INFO] Moving in 2 . . .
+2025-09-12 16:04:02,760 [INFO] Moving in 1 . . .
+2025-09-12 16:04:03,761 [INFO] Motors GO!
+2025-09-12 16:04:03,762 [INFO] Starting Motor 1 sequence...
+2025-09-12 16:04:03,763 [INFO] Starting Motor 2 sequence with ramp...
+2025-09-12 16:04:03,768 [INFO] Sending batch command to Arduino:
+BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,121,60,0,9000
+
+2025-09-12 16:04:03,769 [INFO] [Arduino-M2] Received line: 'RESET'
+2025-09-12 16:04:03,769 [INFO] [Arduino-M2] RESET received: system reset.
+2025-09-12 16:04:03,769 [INFO] [Arduino-M2] Received line: 'PPR:400'
+2025-09-12 16:04:03,770 [INFO] [Arduino-M2] Updated pulsesPerRev to: 400
+2025-09-12 16:04:03,823 [INFO] [Arduino-M2] Received line: 'BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,121,60,0,9000'
+2025-09-12 16:04:03,874 [INFO] [Arduino-M2] Batch commands enqueued.
+2025-09-12 16:04:03,925 [INFO] [Arduino-M2] Starting move: startRPM=0.00, targetRPM=80.00, runTime=10.00, direction=0
+2025-09-12 16:04:22,515 [INFO] [Arduino-M2] Command finished.
+2025-09-12 16:04:22,569 [INFO] [Arduino-M2] Starting move: startRPM=80.00, targetRPM=100.00, runTime=10.00, direction=0
+2025-09-12 16:04:23,768 [INFO] {'Drivetrain Cycle 1'}
+2025-09-12 16:04:23,768 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-12 16:04:37,269 [INFO] [Arduino-M2] Command finished.
+2025-09-12 16:04:37,321 [INFO] [Arduino-M2] Starting move: startRPM=100.00, targetRPM=108.00, runTime=54.00, direction=0
+2025-09-12 16:05:03,180 [INFO] Drivetrain Cycle complete
+2025-09-12 16:05:03,180 [INFO] {'Drivetrain Cycle 2'}
+2025-09-12 16:05:03,181 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-12 16:05:21,531 [INFO] [Arduino-M2] Command finished.
+2025-09-12 16:05:21,585 [INFO] [Arduino-M2] Starting move: startRPM=108.00, targetRPM=112.00, runTime=54.00, direction=0
+2025-09-12 16:05:42,987 [INFO] Drivetrain Cycle complete
+2025-09-12 16:05:42,987 [INFO] {'Drivetrain Cycle 3'}
+2025-09-12 16:05:42,988 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-12 16:06:06,036 [INFO] [Arduino-M2] Command finished.
+2025-09-12 16:06:06,090 [INFO] [Arduino-M2] Starting move: startRPM=112.00, targetRPM=116.00, runTime=54.00, direction=0
+2025-09-12 16:06:22,293 [INFO] Drivetrain Cycle complete
+2025-09-12 16:06:22,294 [INFO] {'Drivetrain Cycle 4'}
+2025-09-12 16:06:22,295 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-12 16:06:45,488 [INFO] 
+KeyboardInterrupt detected!  Stopping motors . . . 
+2025-09-12 16:06:45,488 [INFO] Interrupted during drivetrain cycle: Drivetrain Cycle 4
+2025-09-12 16:06:45,489 [INFO] Stopping Motors . . . 
+2025-09-12 16:06:45,490 [INFO] ========================================
+2025-09-12 16:06:45,491 [INFO] Motor 2 sequence interrupted by FORCE_STOP command.
+2025-09-12 16:06:45,492 [INFO] MOTOR 1 SESSION SUMMARY
+2025-09-12 16:06:45,492 [DEBUG] Motor 2 sequence interrupted before completion or 'DONE' received.
+2025-09-12 16:06:45,493 [INFO] Total pulses: 101716
+2025-09-12 16:06:45,494 [INFO] Total revolutions: 254.29
+2025-09-12 16:06:45,495 [INFO] Total run time: 115.00 seconds
+2025-09-12 16:06:45,496 [INFO] How did change drop if it did:
+2025-09-12 16:06:45,497 [INFO] Drivetrain Shaker Test Setup: 17T Cog, SLX RD using clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring.  Part of wear testing.This is after block 6 of wear testing
+2025-09-12 16:06:45,498 [INFO] Average RPM: 132.67
+2025-09-12 16:06:45,499 [INFO] ========================================
+2025-09-12 16:06:45,500 [INFO] 
+Testing has concluded
+2025-09-12 16:06:46,502 [INFO] Stopping Motors . . . 

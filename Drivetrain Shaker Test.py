@@ -28,9 +28,9 @@ pi = pigpio.pi()
 # Ensure the results directory exists
 os.makedirs("Results", exist_ok=True)
 
-file_name = "TRP_M8050_32__WT_Test5" # Change this to the name of your log file
+file_name = "TRP_M8050_32__WT_Test10" # Change this to the name of your log file
 Test_setup = "17T Cog, SLX RD using clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring.  Part of wear testing." \
-"This is after block 3 of wear testing" # Change with setup changes
+"This is after block 6 of wear testing" # Change with setup changes
 
 # Update the log file path to use the results folder
 log_path = f"Results/Drivetrain_Shaker_{file_name}.log"

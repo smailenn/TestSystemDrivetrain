@@ -28,13 +28,13 @@ pi = pigpio.pi()
 # Ensure the results directory exists
 os.makedirs("Results", exist_ok=True)
 
-file_name = "TRP_Wave3_32T_Block_5" # Change this to the name of your log file
+file_name = "TRP_Wave3_32T_Block_7" # Change this to the name of your log file
 # 10-50T:  10, 12, 14, 16, 18, 21, 24, 28, 32, 36, 42, 50
-Test_Gear = "8 Gear / 18T"
+Test_Gear = "7 Gear / 21T"
 Test_setup = "SRAM 10-50T Cassette, GX RD using clutch, TRP Chain, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes
 
 # Total run time for Test
-Total_run_time = 3000  # in seconds, typical = 18000
+Total_run_time = 18000  # in seconds, typical = 18000
 # Typical time for test is 60 cycles / 300 minutes / 5 hours
 Total_motor1_cycles = int(Total_run_time / 300) # cycles for Motor 1 to run
 
@@ -399,12 +399,14 @@ def Motor1_sequence():
     global current_drivetrain_cycle
     logging.info("Starting Motor 1 sequence...")
     time.sleep(5)
-    for i in range(1,Total_motor1_cycles):  
-        current_drivetrain_cycle = f"Drivetrain Cycle {i}"
+    start_time = time.time()
+    cycle_num = 1
+    while (time.time() - start_time) < Total_run_time:    
+        current_drivetrain_cycle = f"Drivetrain Cycle {cycle_num}"
         logging.info({current_drivetrain_cycle})
         logging.info(f"Total run time: {motor1_total_run_time:.2f} seconds")
         Drivetrain_Cycle()
-        #time.sleep(1)
+        cycle_num += 1
     logging.info("Block Testing Completed")
 
 def Drivetrain_Cycle():
