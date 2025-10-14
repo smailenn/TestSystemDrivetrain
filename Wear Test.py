@@ -28,7 +28,7 @@ pi = pigpio.pi()
 # Ensure the results directory exists
 os.makedirs("Results", exist_ok=True)
 
-file_name = "TRP_Wave3_32T_Block_7" # Change this to the name of your log file
+file_name = "MRP_W5_32T_Block_1" # Change this to the name of your log file
 # 10-50T:  10, 12, 14, 16, 18, 21, 24, 28, 32, 36, 42, 50
 Test_Gear = "7 Gear / 21T"
 Test_setup = "SRAM 10-50T Cassette, GX RD using clutch, TRP Chain, Pivot Rear, bumper, and 19 lbs/in spring" # Change with setup changes

@@ -1,0 +1,125 @@
+2025-09-24 14:52:43,800 [INFO] Sent RESET command to Arduino
+2025-09-24 14:52:43,802 [INFO] Get Ready!  Moving motors in sequence...
+2025-09-24 14:52:43,803 [INFO] Press Ctrl+C to stop!!!
+2025-09-24 14:52:43,804 [INFO] Moving in 3 . . .
+2025-09-24 14:52:44,805 [INFO] Moving in 2 . . .
+2025-09-24 14:52:45,806 [INFO] Moving in 1 . . .
+2025-09-24 14:52:46,806 [INFO] Motors GO!
+2025-09-24 14:52:46,807 [INFO] Starting Motor 1 sequence...
+2025-09-24 14:52:46,808 [INFO] Starting Motor 2 sequence with ramp...
+2025-09-24 14:52:46,808 [INFO] Sending batch command to Arduino:
+BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,121,60,0,9000
+
+2025-09-24 14:52:46,809 [INFO] [Arduino-M2] Received line: 'RESET'
+2025-09-24 14:52:46,811 [INFO] [Arduino-M2] RESET received: system reset.
+2025-09-24 14:52:46,811 [INFO] [Arduino-M2] Received line: 'PPR:400'
+2025-09-24 14:52:46,812 [INFO] [Arduino-M2] Updated pulsesPerRev to: 400
+2025-09-24 14:52:46,823 [INFO] [Arduino-M2] Received line: 'BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,121,60,0,9000'
+2025-09-24 14:52:46,874 [INFO] [Arduino-M2] Batch commands enqueued.
+2025-09-24 14:52:46,926 [INFO] [Arduino-M2] Starting move: startRPM=0.00, targetRPM=80.00, runTime=10.00, direction=0
+2025-09-24 14:53:05,567 [INFO] [Arduino-M2] Command finished.
+2025-09-24 14:53:05,621 [INFO] [Arduino-M2] Starting move: startRPM=80.00, targetRPM=100.00, runTime=10.00, direction=0
+2025-09-24 14:53:06,808 [INFO] {'Drivetrain Cycle 1'}
+2025-09-24 14:53:06,809 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-24 14:53:20,310 [INFO] [Arduino-M2] Command finished.
+2025-09-24 14:53:20,364 [INFO] [Arduino-M2] Starting move: startRPM=100.00, targetRPM=108.00, runTime=54.00, direction=0
+2025-09-24 14:53:46,762 [INFO] Drivetrain Cycle complete
+2025-09-24 14:53:46,763 [INFO] {'Drivetrain Cycle 2'}
+2025-09-24 14:53:46,764 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-24 14:54:04,572 [INFO] [Arduino-M2] Command finished.
+2025-09-24 14:54:04,626 [INFO] [Arduino-M2] Starting move: startRPM=108.00, targetRPM=112.00, runTime=54.00, direction=0
+2025-09-24 14:54:26,687 [INFO] Drivetrain Cycle complete
+2025-09-24 14:54:26,687 [INFO] {'Drivetrain Cycle 3'}
+2025-09-24 14:54:26,688 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-24 14:54:49,085 [INFO] [Arduino-M2] Command finished.
+2025-09-24 14:54:49,139 [INFO] [Arduino-M2] Starting move: startRPM=112.00, targetRPM=116.00, runTime=54.00, direction=0
+2025-09-24 14:55:06,587 [INFO] Drivetrain Cycle complete
+2025-09-24 14:55:06,587 [INFO] {'Drivetrain Cycle 4'}
+2025-09-24 14:55:06,588 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-24 14:55:23,075 [INFO] 
+KeyboardInterrupt detected!  Stopping motors . . . 
+2025-09-24 14:55:23,076 [INFO] Interrupted during drivetrain cycle: Drivetrain Cycle 4
+2025-09-24 14:55:23,077 [INFO] Stopping Motors . . . 
+2025-09-24 14:55:23,079 [INFO] ========================================
+2025-09-24 14:55:23,079 [INFO] Motor 2 sequence interrupted by FORCE_STOP command.
+2025-09-24 14:55:23,080 [INFO] MOTOR 1 SESSION SUMMARY
+2025-09-24 14:55:23,081 [DEBUG] Motor 2 sequence interrupted before completion or 'DONE' received.
+2025-09-24 14:55:23,082 [INFO] Total pulses: 96916
+2025-09-24 14:55:23,084 [INFO] Total revolutions: 242.29
+2025-09-24 14:55:23,084 [INFO] Total run time: 111.00 seconds
+2025-09-24 14:55:23,085 [INFO] How did change drop if it did:
+2025-09-24 14:55:23,085 [INFO] Drivetrain Shaker Test Setup: 17T Cog, SLX RD using clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring.  Part of wear testing.This is after block 6 of wear testing
+2025-09-24 14:55:23,086 [INFO] Average RPM: 130.97
+2025-09-24 14:55:23,087 [INFO] ========================================
+2025-09-24 14:55:23,087 [INFO] 
+Testing has concluded
+2025-09-24 14:55:24,088 [INFO] Stopping Motors . . . 
+2025-09-29 11:26:11,461 [INFO] Sent RESET command to Arduino
+2025-09-29 11:26:11,464 [INFO] Get Ready!  Moving motors in sequence...
+2025-09-29 11:26:11,464 [INFO] Press Ctrl+C to stop!!!
+2025-09-29 11:26:11,465 [INFO] Moving in 3 . . .
+2025-09-29 11:26:12,466 [INFO] Moving in 2 . . .
+2025-09-29 11:26:13,467 [INFO] Moving in 1 . . .
+2025-09-29 11:26:14,468 [INFO] Motors GO!
+2025-09-29 11:26:14,470 [INFO] Starting Motor 1 sequence...
+2025-09-29 11:26:14,470 [INFO] Starting Motor 2 sequence with ramp...
+2025-09-29 11:26:14,474 [INFO] Sending batch command to Arduino:
+BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,121,60,0,9000
+
+2025-09-29 11:26:14,475 [INFO] [Arduino-M2] Received line: 'RESET'
+2025-09-29 11:26:14,475 [INFO] [Arduino-M2] RESET received: system reset.
+2025-09-29 11:26:14,476 [INFO] [Arduino-M2] Received line: 'PPR:400'
+2025-09-29 11:26:14,476 [INFO] [Arduino-M2] Updated pulsesPerRev to: 400
+2025-09-29 11:26:14,486 [INFO] [Arduino-M2] Received line: 'BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,121,60,0,9000'
+2025-09-29 11:26:14,537 [INFO] [Arduino-M2] Batch commands enqueued.
+2025-09-29 11:26:14,589 [INFO] [Arduino-M2] Starting move: startRPM=0.00, targetRPM=80.00, runTime=10.00, direction=0
+2025-09-29 11:26:33,238 [INFO] [Arduino-M2] Command finished.
+2025-09-29 11:26:33,292 [INFO] [Arduino-M2] Starting move: startRPM=80.00, targetRPM=100.00, runTime=10.00, direction=0
+2025-09-29 11:26:34,474 [INFO] {'Drivetrain Cycle 1'}
+2025-09-29 11:26:34,475 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-29 11:26:47,974 [INFO] [Arduino-M2] Command finished.
+2025-09-29 11:26:48,028 [INFO] [Arduino-M2] Starting move: startRPM=100.00, targetRPM=108.00, runTime=54.00, direction=0
+2025-09-29 11:27:14,438 [INFO] Drivetrain Cycle complete
+2025-09-29 11:27:14,438 [INFO] {'Drivetrain Cycle 2'}
+2025-09-29 11:27:14,438 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-29 11:27:32,193 [INFO] [Arduino-M2] Command finished.
+2025-09-29 11:27:32,247 [INFO] [Arduino-M2] Starting move: startRPM=108.00, targetRPM=112.00, runTime=54.00, direction=0
+2025-09-29 11:27:53,930 [INFO] Drivetrain Cycle complete
+2025-09-29 11:27:53,930 [INFO] {'Drivetrain Cycle 3'}
+2025-09-29 11:27:53,931 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-29 11:28:16,655 [INFO] [Arduino-M2] Command finished.
+2025-09-29 11:28:16,709 [INFO] [Arduino-M2] Starting move: startRPM=112.00, targetRPM=116.00, runTime=54.00, direction=0
+2025-09-29 11:28:33,854 [INFO] Drivetrain Cycle complete
+2025-09-29 11:28:33,855 [INFO] {'Drivetrain Cycle 4'}
+2025-09-29 11:28:33,855 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-29 11:29:01,565 [INFO] [Arduino-M2] Command finished.
+2025-09-29 11:29:01,619 [INFO] [Arduino-M2] Starting move: startRPM=116.00, targetRPM=117.00, runTime=54.00, direction=0
+2025-09-29 11:29:13,807 [INFO] Drivetrain Cycle complete
+2025-09-29 11:29:13,808 [INFO] {'Drivetrain Cycle 5'}
+2025-09-29 11:29:13,808 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-29 11:29:46,523 [INFO] [Arduino-M2] Command finished.
+2025-09-29 11:29:46,577 [INFO] [Arduino-M2] Starting move: startRPM=117.00, targetRPM=118.00, runTime=54.00, direction=0
+2025-09-29 11:29:53,474 [INFO] Drivetrain Cycle complete
+2025-09-29 11:29:53,475 [INFO] {'Drivetrain Cycle 6'}
+2025-09-29 11:29:53,475 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-29 11:30:30,250 [INFO] 
+KeyboardInterrupt detected!  Stopping motors . . . 
+2025-09-29 11:30:30,250 [INFO] Interrupted during drivetrain cycle: Drivetrain Cycle 6
+2025-09-29 11:30:30,251 [INFO] Stopping Motors . . . 
+2025-09-29 11:30:30,253 [INFO] ========================================
+2025-09-29 11:30:30,253 [INFO] Motor 2 sequence interrupted by FORCE_STOP command.
+2025-09-29 11:30:30,254 [INFO] MOTOR 1 SESSION SUMMARY
+2025-09-29 11:30:30,255 [DEBUG] Motor 2 sequence interrupted before completion or 'DONE' received.
+2025-09-29 11:30:30,256 [INFO] Total pulses: 170240
+2025-09-29 11:30:30,257 [INFO] Total revolutions: 425.60
+2025-09-29 11:30:30,258 [INFO] Total run time: 188.00 seconds
+2025-09-29 11:30:30,259 [INFO] How did change drop if it did:
+2025-09-29 11:30:30,259 [INFO] Drivetrain Shaker Test Setup: 17T Cog, SLX RD using clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring.  Part of wear testing.This is after block 6 of wear testing
+2025-09-29 11:30:30,260 [INFO] Average RPM: 135.83
+2025-09-29 11:30:30,261 [INFO] ========================================
+2025-09-29 11:30:30,261 [INFO] 
+Testing has concluded
+2025-09-29 11:30:31,043 [INFO] Drivetrain Cycle complete
+2025-09-29 11:30:31,044 [INFO] {'Drivetrain Cycle 7'}
+2025-09-29 11:30:31,044 [INFO] Starting Drivetrain Cycle with ramp...
+2025-09-29 11:30:31,263 [INFO] Stopping Motors . . . 
