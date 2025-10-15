@@ -28,7 +28,7 @@ pi = pigpio.pi()
 # Ensure the results directory exists
 os.makedirs("Results", exist_ok=True)
 
-file_name = "MRP_W5_32_Test8" # Change this to the name of your log file
+file_name = "MRP_W5-B_32_Test8" # Change this to the name of your log file
 Test_setup = "17T Cog, SLX RD using clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring" 
 #"This is after block 6 of wear testing" # Change with setup changes
 
