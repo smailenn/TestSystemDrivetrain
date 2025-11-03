@@ -1,0 +1,97 @@
+2025-10-29 11:50:41,986 [INFO] Sent RESET command to Arduino
+2025-10-29 11:50:41,989 [INFO] Get Ready!  Moving motors in sequence...
+2025-10-29 11:50:41,993 [INFO] Press Ctrl+C to stop!!!
+2025-10-29 11:50:41,994 [INFO] Moving in 3 . . .
+2025-10-29 11:50:42,995 [INFO] Moving in 2 . . .
+2025-10-29 11:50:43,995 [INFO] Moving in 1 . . .
+2025-10-29 11:50:44,996 [INFO] Motors GO!
+2025-10-29 11:50:44,997 [INFO] Starting Motor 1 sequence...
+2025-10-29 11:50:44,998 [INFO] Starting Motor 2 sequence with ramp...
+2025-10-29 11:50:44,998 [INFO] Sending batch command to Arduino:
+BATCH:5,80,10,0,1000;80,80,18490,0,8000
+
+2025-10-29 11:50:44,999 [INFO] [Arduino-M2] Received line: 'RESET'
+2025-10-29 11:50:44,999 [INFO] [Arduino-M2] RESET received: system reset.
+2025-10-29 11:50:44,999 [INFO] [Arduino-M2] Received line: 'PPR:400'
+2025-10-29 11:50:45,000 [INFO] [Arduino-M2] Updated pulsesPerRev to: 400
+2025-10-29 11:50:45,007 [INFO] [Arduino-M2] Received line: 'BATCH:5,80,10,0,1000;80,80,18490,0,8000'
+2025-10-29 11:50:45,058 [INFO] [Arduino-M2] Batch commands enqueued.
+2025-10-29 11:50:45,110 [INFO] [Arduino-M2] Starting move: startRPM=0.00, targetRPM=80.00, runTime=10.00, direction=0
+2025-10-29 11:50:49,998 [INFO] {'Drivetrain Cycle 1'}
+2025-10-29 11:50:49,999 [INFO] Total run time: 0.00 seconds
+2025-10-29 11:51:03,764 [INFO] [Arduino-M2] Command finished.
+2025-10-29 11:51:03,816 [INFO] [Arduino-M2] Starting move: startRPM=80.00, targetRPM=80.00, runTime=18490.00, direction=0
+2025-10-29 11:56:13,309 [INFO] {'Drivetrain Cycle 2'}
+2025-10-29 11:56:13,310 [INFO] Total run time: 296.00 seconds
+2025-10-29 12:01:36,670 [INFO] {'Drivetrain Cycle 3'}
+2025-10-29 12:01:36,670 [INFO] Total run time: 592.00 seconds
+2025-10-29 12:07:00,075 [INFO] {'Drivetrain Cycle 4'}
+2025-10-29 12:07:00,076 [INFO] Total run time: 888.00 seconds
+2025-10-29 12:12:23,475 [INFO] {'Drivetrain Cycle 5'}
+2025-10-29 12:12:23,475 [INFO] Total run time: 1184.00 seconds
+2025-10-29 12:17:46,699 [INFO] {'Drivetrain Cycle 6'}
+2025-10-29 12:17:46,699 [INFO] Total run time: 1480.00 seconds
+2025-10-29 12:23:09,752 [INFO] {'Drivetrain Cycle 7'}
+2025-10-29 12:23:09,754 [INFO] Total run time: 1776.00 seconds
+2025-10-29 12:28:33,154 [INFO] {'Drivetrain Cycle 8'}
+2025-10-29 12:28:33,155 [INFO] Total run time: 2072.00 seconds
+2025-10-29 12:33:56,543 [INFO] {'Drivetrain Cycle 9'}
+2025-10-29 12:33:56,543 [INFO] Total run time: 2368.00 seconds
+2025-10-29 12:39:19,932 [INFO] {'Drivetrain Cycle 10'}
+2025-10-29 12:39:19,933 [INFO] Total run time: 2664.00 seconds
+2025-10-29 12:44:43,334 [INFO] {'Drivetrain Cycle 11'}
+2025-10-29 12:44:43,335 [INFO] Total run time: 2960.00 seconds
+2025-10-29 12:50:06,700 [INFO] {'Drivetrain Cycle 12'}
+2025-10-29 12:50:06,701 [INFO] Total run time: 3256.00 seconds
+2025-10-29 12:55:29,552 [INFO] {'Drivetrain Cycle 13'}
+2025-10-29 12:55:29,553 [INFO] Total run time: 3552.00 seconds
+2025-10-29 13:00:52,959 [INFO] {'Drivetrain Cycle 14'}
+2025-10-29 13:00:52,960 [INFO] Total run time: 3848.00 seconds
+2025-10-29 13:06:16,344 [INFO] {'Drivetrain Cycle 15'}
+2025-10-29 13:06:16,344 [INFO] Total run time: 4144.00 seconds
+2025-10-29 13:11:39,702 [INFO] {'Drivetrain Cycle 16'}
+2025-10-29 13:11:39,703 [INFO] Total run time: 4440.00 seconds
+2025-10-29 13:17:03,083 [INFO] {'Drivetrain Cycle 17'}
+2025-10-29 13:17:03,084 [INFO] Total run time: 4736.00 seconds
+2025-10-29 13:22:26,437 [INFO] {'Drivetrain Cycle 18'}
+2025-10-29 13:22:26,438 [INFO] Total run time: 5032.00 seconds
+2025-10-29 13:27:49,809 [INFO] {'Drivetrain Cycle 19'}
+2025-10-29 13:27:49,810 [INFO] Total run time: 5328.00 seconds
+2025-10-29 13:33:13,225 [INFO] {'Drivetrain Cycle 20'}
+2025-10-29 13:33:13,225 [INFO] Total run time: 5624.00 seconds
+2025-10-29 13:38:36,659 [INFO] {'Drivetrain Cycle 21'}
+2025-10-29 13:38:36,660 [INFO] Total run time: 5920.00 seconds
+2025-10-29 13:44:00,076 [INFO] {'Drivetrain Cycle 22'}
+2025-10-29 13:44:00,077 [INFO] Total run time: 6216.00 seconds
+2025-10-29 13:49:23,486 [INFO] {'Drivetrain Cycle 23'}
+2025-10-29 13:49:23,486 [INFO] Total run time: 6512.00 seconds
+2025-10-29 13:54:46,839 [INFO] {'Drivetrain Cycle 24'}
+2025-10-29 13:54:46,839 [INFO] Total run time: 6808.00 seconds
+2025-10-29 14:00:10,213 [INFO] {'Drivetrain Cycle 25'}
+2025-10-29 14:00:10,214 [INFO] Total run time: 7104.00 seconds
+2025-10-29 14:05:33,623 [INFO] {'Drivetrain Cycle 26'}
+2025-10-29 14:05:33,623 [INFO] Total run time: 7400.00 seconds
+2025-10-29 14:10:57,026 [INFO] {'Drivetrain Cycle 27'}
+2025-10-29 14:10:57,026 [INFO] Total run time: 7696.00 seconds
+2025-10-29 14:16:20,430 [INFO] {'Drivetrain Cycle 28'}
+2025-10-29 14:16:20,431 [INFO] Total run time: 7992.00 seconds
+2025-10-29 14:21:43,779 [INFO] {'Drivetrain Cycle 29'}
+2025-10-29 14:21:43,780 [INFO] Total run time: 8288.00 seconds
+2025-10-29 14:27:07,157 [INFO] {'Drivetrain Cycle 30'}
+2025-10-29 14:27:07,157 [INFO] Total run time: 8584.00 seconds
+2025-10-29 14:32:30,531 [INFO] {'Drivetrain Cycle 31'}
+2025-10-29 14:32:30,531 [INFO] Total run time: 8880.00 seconds
+2025-10-29 14:37:53,933 [INFO] {'Drivetrain Cycle 32'}
+2025-10-29 14:37:53,934 [INFO] Total run time: 9176.00 seconds
+2025-10-29 14:43:17,274 [INFO] {'Drivetrain Cycle 33'}
+2025-10-29 14:43:17,275 [INFO] Total run time: 9472.00 seconds
+2025-10-29 14:48:40,682 [INFO] {'Drivetrain Cycle 34'}
+2025-10-29 14:48:40,683 [INFO] Total run time: 9768.00 seconds
+2025-10-29 14:54:04,027 [INFO] {'Drivetrain Cycle 35'}
+2025-10-29 14:54:04,027 [INFO] Total run time: 10064.00 seconds
+2025-10-29 14:59:27,447 [INFO] {'Drivetrain Cycle 36'}
+2025-10-29 14:59:27,448 [INFO] Total run time: 10360.00 seconds
+2025-10-29 15:04:50,859 [INFO] {'Drivetrain Cycle 37'}
+2025-10-29 15:04:50,860 [INFO] Total run time: 10656.00 seconds
+2025-10-29 15:10:14,277 [INFO] {'Drivetrain Cycle 38'}
+2025-10-29 15:10:14,277 [INFO] Total run time: 10952.00 seconds

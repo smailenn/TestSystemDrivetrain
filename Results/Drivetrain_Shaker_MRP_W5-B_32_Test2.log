@@ -80,7 +80,7 @@ BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,11
 2025-10-15 12:06:37,747 [INFO] Total revolutions: 649.39
 2025-10-15 12:06:37,747 [INFO] Total run time: 288.00 seconds
 2025-10-15 12:06:37,747 [INFO] How did change drop if it did:
-2025-10-15 12:06:37,748 [INFO] Drivetrain Shaker Test Setup: 17T Cog, SLX RD using clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring
+2025-10-15 12:06:37,748 [INFO] Drivetrain Shaker Test Setup: 17T Cog, SLX RD using clutch, SRAM Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring
 2025-10-15 12:06:37,748 [INFO] Average RPM: 135.29
 2025-10-15 12:06:37,750 [INFO] ========================================
 2025-10-15 12:06:37,752 [INFO] 

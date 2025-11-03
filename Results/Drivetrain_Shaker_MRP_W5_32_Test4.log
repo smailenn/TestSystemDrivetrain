@@ -48,7 +48,7 @@ KeyboardInterrupt detected!  Stopping motors . . .
 2025-10-14 15:11:57,008 [INFO] Total revolutions: 245.29
 2025-10-14 15:11:57,009 [INFO] Total run time: 112.00 seconds
 2025-10-14 15:11:57,009 [INFO] How did change drop if it did:
-2025-10-14 15:11:57,010 [INFO] Drivetrain Shaker Test Setup: 17T Cog, SLX RD using clutch, TRP Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring
+2025-10-14 15:11:57,010 [INFO] Drivetrain Shaker Test Setup: 17T Cog, SLX RD using clutch, SRAM Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring
 2025-10-14 15:11:57,011 [INFO] Average RPM: 131.41
 2025-10-14 15:11:57,011 [INFO] ========================================
 2025-10-14 15:11:57,012 [INFO] 
