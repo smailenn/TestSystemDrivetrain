@@ -141,3 +141,104 @@ BATCH:5,80,10,0,1000;80,80,14024,0,8000
 2025-11-19 10:13:00,444 [INFO] Total run time: 592.00 seconds
 2025-11-19 10:18:23,854 [INFO] {'Drivetrain Cycle 4'}
 2025-11-19 10:18:23,854 [INFO] Total run time: 888.00 seconds
+2025-11-19 10:23:46,953 [INFO] {'Drivetrain Cycle 5'}
+2025-11-19 10:23:46,954 [INFO] Total run time: 1184.00 seconds
+2025-11-19 10:29:10,430 [INFO] {'Drivetrain Cycle 6'}
+2025-11-19 10:29:10,431 [INFO] Total run time: 1480.00 seconds
+2025-11-19 10:34:33,537 [INFO] {'Drivetrain Cycle 7'}
+2025-11-19 10:34:33,538 [INFO] Total run time: 1776.00 seconds
+2025-11-19 10:39:57,006 [INFO] {'Drivetrain Cycle 8'}
+2025-11-19 10:39:57,007 [INFO] Total run time: 2072.00 seconds
+2025-11-19 10:45:20,459 [INFO] {'Drivetrain Cycle 9'}
+2025-11-19 10:45:20,460 [INFO] Total run time: 2368.00 seconds
+2025-11-19 10:50:43,930 [INFO] {'Drivetrain Cycle 10'}
+2025-11-19 10:50:43,931 [INFO] Total run time: 2664.00 seconds
+2025-11-19 10:56:07,404 [INFO] {'Drivetrain Cycle 11'}
+2025-11-19 10:56:07,405 [INFO] Total run time: 2960.00 seconds
+2025-11-19 11:01:30,859 [INFO] {'Drivetrain Cycle 12'}
+2025-11-19 11:01:30,859 [INFO] Total run time: 3256.00 seconds
+2025-11-19 11:06:54,248 [INFO] {'Drivetrain Cycle 13'}
+2025-11-19 11:06:54,249 [INFO] Total run time: 3552.00 seconds
+2025-11-19 11:12:17,697 [INFO] {'Drivetrain Cycle 14'}
+2025-11-19 11:12:17,698 [INFO] Total run time: 3848.00 seconds
+2025-11-19 11:17:41,133 [INFO] {'Drivetrain Cycle 15'}
+2025-11-19 11:17:41,133 [INFO] Total run time: 4144.00 seconds
+2025-11-19 11:23:04,570 [INFO] {'Drivetrain Cycle 16'}
+2025-11-19 11:23:04,571 [INFO] Total run time: 4440.00 seconds
+2025-11-19 11:28:28,052 [INFO] {'Drivetrain Cycle 17'}
+2025-11-19 11:28:28,053 [INFO] Total run time: 4736.00 seconds
+2025-11-19 11:33:51,502 [INFO] {'Drivetrain Cycle 18'}
+2025-11-19 11:33:51,503 [INFO] Total run time: 5032.00 seconds
+2025-11-19 11:39:14,858 [INFO] {'Drivetrain Cycle 19'}
+2025-11-19 11:39:14,859 [INFO] Total run time: 5328.00 seconds
+2025-11-19 11:44:38,303 [INFO] {'Drivetrain Cycle 20'}
+2025-11-19 11:44:38,303 [INFO] Total run time: 5624.00 seconds
+2025-11-19 11:50:01,759 [INFO] {'Drivetrain Cycle 21'}
+2025-11-19 11:50:01,759 [INFO] Total run time: 5920.00 seconds
+2025-11-19 11:55:25,198 [INFO] {'Drivetrain Cycle 22'}
+2025-11-19 11:55:25,198 [INFO] Total run time: 6216.00 seconds
+2025-11-19 12:00:48,627 [INFO] {'Drivetrain Cycle 23'}
+2025-11-19 12:00:48,627 [INFO] Total run time: 6512.00 seconds
+2025-11-19 12:06:12,103 [INFO] {'Drivetrain Cycle 24'}
+2025-11-19 12:06:12,104 [INFO] Total run time: 6808.00 seconds
+2025-11-19 12:11:35,570 [INFO] {'Drivetrain Cycle 25'}
+2025-11-19 12:11:35,571 [INFO] Total run time: 7104.00 seconds
+2025-11-19 12:16:59,036 [INFO] {'Drivetrain Cycle 26'}
+2025-11-19 12:16:59,037 [INFO] Total run time: 7400.00 seconds
+2025-11-19 12:22:22,525 [INFO] {'Drivetrain Cycle 27'}
+2025-11-19 12:22:22,525 [INFO] Total run time: 7696.00 seconds
+2025-11-19 12:27:45,957 [INFO] {'Drivetrain Cycle 28'}
+2025-11-19 12:27:45,957 [INFO] Total run time: 7992.00 seconds
+2025-11-19 12:33:09,365 [INFO] {'Drivetrain Cycle 29'}
+2025-11-19 12:33:09,365 [INFO] Total run time: 8288.00 seconds
+2025-11-19 12:38:32,766 [INFO] {'Drivetrain Cycle 30'}
+2025-11-19 12:38:32,767 [INFO] Total run time: 8584.00 seconds
+2025-11-19 12:43:56,244 [INFO] {'Drivetrain Cycle 31'}
+2025-11-19 12:43:56,244 [INFO] Total run time: 8880.00 seconds
+2025-11-19 12:49:19,708 [INFO] {'Drivetrain Cycle 32'}
+2025-11-19 12:49:19,709 [INFO] Total run time: 9176.00 seconds
+2025-11-19 12:54:43,176 [INFO] {'Drivetrain Cycle 33'}
+2025-11-19 12:54:43,177 [INFO] Total run time: 9472.00 seconds
+2025-11-19 13:00:06,619 [INFO] {'Drivetrain Cycle 34'}
+2025-11-19 13:00:06,620 [INFO] Total run time: 9768.00 seconds
+2025-11-19 13:05:30,068 [INFO] {'Drivetrain Cycle 35'}
+2025-11-19 13:05:30,068 [INFO] Total run time: 10064.00 seconds
+2025-11-19 13:10:53,551 [INFO] {'Drivetrain Cycle 36'}
+2025-11-19 13:10:53,551 [INFO] Total run time: 10360.00 seconds
+2025-11-19 13:16:16,873 [INFO] {'Drivetrain Cycle 37'}
+2025-11-19 13:16:16,874 [INFO] Total run time: 10656.00 seconds
+2025-11-19 13:21:40,352 [INFO] {'Drivetrain Cycle 38'}
+2025-11-19 13:21:40,352 [INFO] Total run time: 10952.00 seconds
+2025-11-19 13:27:03,808 [INFO] {'Drivetrain Cycle 39'}
+2025-11-19 13:27:03,809 [INFO] Total run time: 11248.00 seconds
+2025-11-19 13:32:27,231 [INFO] {'Drivetrain Cycle 40'}
+2025-11-19 13:32:27,232 [INFO] Total run time: 11544.00 seconds
+2025-11-19 13:37:50,674 [INFO] {'Drivetrain Cycle 41'}
+2025-11-19 13:37:50,674 [INFO] Total run time: 11840.00 seconds
+2025-11-19 13:43:13,743 [INFO] {'Drivetrain Cycle 42'}
+2025-11-19 13:43:13,744 [INFO] Total run time: 12136.00 seconds
+2025-11-19 13:48:37,207 [INFO] {'Drivetrain Cycle 43'}
+2025-11-19 13:48:37,208 [INFO] Total run time: 12432.00 seconds
+2025-11-19 13:54:00,672 [INFO] {'Drivetrain Cycle 44'}
+2025-11-19 13:54:00,673 [INFO] Total run time: 12728.00 seconds
+2025-11-19 13:59:17,485 [INFO] [Arduino-M2] Command finished.
+2025-11-19 13:59:17,538 [INFO] [Arduino-M2] No more commands. Ramping motor down smoothly.
+2025-11-19 13:59:17,590 [INFO] [Arduino-M2] Stopping motor from RPM 80.00
+2025-11-19 13:59:24,088 [INFO] Block Testing Completed
+2025-11-19 13:59:25,463 [INFO] [Arduino-M2] Motor stopped smoothly.
+2025-11-19 13:59:25,513 [INFO] Motor 2 batch complete
+2025-11-19 13:59:25,515 [INFO] Testing has concluded / Stopping Motors . . . 
+2025-11-19 13:59:25,516 [INFO] ///////
+2025-11-19 13:59:25,516 [INFO] ///////
+2025-11-19 13:59:25,516 [INFO] ///////
+2025-11-19 13:59:25,517 [INFO] ========================================
+2025-11-19 13:59:25,517 [INFO] MOTOR 1 SESSION SUMMARY
+2025-11-19 13:59:25,518 [INFO] Total revolutions: 17181.45
+2025-11-19 13:59:25,518 [INFO] Total run time: 13024.00 seconds
+2025-11-19 13:59:25,518 [INFO] Cassette Gear Tested: 7 Gear / 21T
+2025-11-19 13:59:25,519 [INFO] Wear Test Setup: SRAM 10-50T Cassette, GX RD using clutch, TRP Chain, Pivot Rear, bumper, and 19 lbs/in spring
+2025-11-19 13:59:25,519 [INFO] Average RPM: 79.15
+2025-11-19 13:59:25,520 [INFO] ========================================
+2025-11-19 13:59:25,520 [INFO] 
+Testing has concluded
+2025-11-19 13:59:26,522 [INFO] Stopping Motors . . . 
