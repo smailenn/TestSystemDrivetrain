@@ -28,7 +28,7 @@ pi = pigpio.pi()
 # Ensure the results directory exists
 os.makedirs("Results", exist_ok=True)
 
-file_name = "TRP_Wave3+_32T_Test1" # Change this to the name of your log file
+file_name = "TRP_Wave3+_32T_Test8" # Change this to the name of your log file
 Test_setup = "17T Cog, SLX RD no clutch, SRAM Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring" 
 # Change with setup changes
 
