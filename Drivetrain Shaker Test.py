@@ -3,7 +3,7 @@
 # Look at the readme file for project information and programming walkthrough
 # Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
 # ssh 192.168.1.134 ip of Raspberry Pi
-# typical is mailman@SeanPi.local
+# username:  drivetraintester
 # Password currently:  MRP! 
 
 import pigpio
@@ -25,15 +25,17 @@ BAUD = 115200
 # Initialize pigpio library
 pi = pigpio.pi()
 
-# Ensure the results directory exists
-os.makedirs("Results", exist_ok=True)
-
-file_name = "TRP_Wave3+_32T_Test8" # Change this to the name of your log file
-Test_setup = "17T Cog, SLX RD no clutch, SRAM Chain, 1st gear, Pivot Rear, bumper, and 19 lbs/in spring" 
+file_name = "TRP_Wave5A05_32T_Test5" # Change this to the name of your log file
+Test_setup = "17T Cog, SLX RD no clutch, KMC Chain, 9th gear, Pivot Rear, bumper, and 19 lbs/in spring" 
 # Change with setup changes
 
 # Update the log file path to use the results folder
-log_path = f"Results/Drivetrain_Shaker_{file_name}.log"
+script_dir = os.path.dirname(os.path.abspath(__file__))
+log_path = os.path.join(script_dir, "Results", "TRP Wave5", f"Drivetrain_Shaker_{file_name}.log")
+log_dir = os.path.dirname(log_path)
+
+# Ensure the results directory exists
+os.makedirs(log_dir, exist_ok=True)
 
 # Basic config for logging to a file and console
 logging.basicConfig(
@@ -44,6 +46,7 @@ logging.basicConfig(
         logging.StreamHandler()  # This still lets you see output live in your SSH terminal
     ]
 )
+logging.info(f"Logging to {log_path}")
 
 # Serial monitor to troubleshoot issues with Arduino board if arise
 class SerialMonitor:

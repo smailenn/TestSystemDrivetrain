@@ -3,7 +3,7 @@
 # Look at the readme file for project information and programming walkthrough
 # Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
 # ssh 192.168.1.134 ip of Raspberry Pi
-# typical is mailman@SeanPi.local
+# typical is drivetraintester@MRPi.local
 # Password currently:  MRP! 
 
 import pigpio
@@ -25,9 +25,6 @@ BAUD = 115200
 # Initialize pigpio library
 pi = pigpio.pi()
 
-# Ensure the results directory exists
-os.makedirs("Results", exist_ok=True)
-
 file_name = "TRP_W5_32T_Block_6" # Change this to the name of your log file
 # 10-50T:  10, 12, 14, 16, 18, 21, 24, 28, 32, 36, 42, 50
 Test_Gear = "7 Gear / 21T"
@@ -40,6 +37,10 @@ Total_motor1_cycles = int(Total_run_time / 300) # cycles for Motor 1 to run
 
 # Update the log file path to use the results folder
 log_path = f"Results/Wear_Test_{file_name}.log"
+log_dir = os.path.dirname(log_path)
+
+# Ensure the results directory exists
+os.makedirs(log_dir, exist_ok=True)
 
 # Basic config for logging to a file and console
 logging.basicConfig(
@@ -50,6 +51,7 @@ logging.basicConfig(
         logging.StreamHandler()  # This still lets you see output live in your SSH terminal
     ]
 )
+logging.info(f"Logging to {log_path}")
 
 # Serial monitor to troubleshoot issues with Arduino board if arise
 class SerialMonitor:

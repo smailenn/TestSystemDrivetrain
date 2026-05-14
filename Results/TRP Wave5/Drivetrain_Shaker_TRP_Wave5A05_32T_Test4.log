@@ -1,0 +1,58 @@
+2026-05-14 14:29:23,451 [INFO] Sent RESET command to Arduino
+2026-05-14 14:29:23,454 [INFO] Get Ready!  Moving motors in sequence...
+2026-05-14 14:29:23,454 [INFO] Press Ctrl+C to stop!!!
+2026-05-14 14:29:23,455 [INFO] Moving in 3 . . .
+2026-05-14 14:29:24,455 [INFO] Moving in 2 . . .
+2026-05-14 14:29:25,455 [INFO] Moving in 1 . . .
+2026-05-14 14:29:26,456 [INFO] Motors GO!
+2026-05-14 14:29:26,459 [INFO] Starting Motor 1 sequence...
+2026-05-14 14:29:26,460 [INFO] Starting Motor 2 sequence with ramp...
+2026-05-14 14:29:26,461 [INFO] Sending batch command to Arduino:
+BATCH:5,80,10,0,1000;80,100,10,0,8000;100,108,54,0,9000;108,112,54,0,9000;112,116,54,0,9000;116,117,54,0,9000;117,118,54,0,9000;118,119,54,0,9000;119,120,54,0,9000;120,121,54,0,9000;121,121,60,0,9000
+
+2026-05-14 14:29:26,462 [INFO] [Arduino-M2] Motor stopped smoothly.
+2026-05-14 14:29:26,462 [INFO] Motor 2 batch complete
+2026-05-14 14:29:46,460 [INFO] {'Drivetrain Cycle 1'}
+2026-05-14 14:29:46,461 [INFO] Starting Drivetrain Cycle with ramp...
+2026-05-14 14:30:26,732 [INFO] Drivetrain Cycle complete
+2026-05-14 14:30:26,732 [INFO] {'Drivetrain Cycle 2'}
+2026-05-14 14:30:26,738 [INFO] Starting Drivetrain Cycle with ramp...
+2026-05-14 14:31:05,594 [INFO] Drivetrain Cycle complete
+2026-05-14 14:31:05,595 [INFO] {'Drivetrain Cycle 3'}
+2026-05-14 14:31:05,595 [INFO] Starting Drivetrain Cycle with ramp...
+2026-05-14 14:31:45,158 [INFO] Drivetrain Cycle complete
+2026-05-14 14:31:45,158 [INFO] {'Drivetrain Cycle 4'}
+2026-05-14 14:31:45,158 [INFO] Starting Drivetrain Cycle with ramp...
+2026-05-14 14:32:24,545 [INFO] Drivetrain Cycle complete
+2026-05-14 14:32:24,546 [INFO] {'Drivetrain Cycle 5'}
+2026-05-14 14:32:24,546 [INFO] Starting Drivetrain Cycle with ramp...
+2026-05-14 14:33:03,454 [INFO] Drivetrain Cycle complete
+2026-05-14 14:33:03,454 [INFO] {'Drivetrain Cycle 6'}
+2026-05-14 14:33:03,455 [INFO] Starting Drivetrain Cycle with ramp...
+2026-05-14 14:33:42,919 [INFO] Drivetrain Cycle complete
+2026-05-14 14:33:42,920 [INFO] {'Drivetrain Cycle 7'}
+2026-05-14 14:33:42,920 [INFO] Starting Drivetrain Cycle with ramp...
+2026-05-14 14:34:22,209 [INFO] Drivetrain Cycle complete
+2026-05-14 14:34:22,209 [INFO] {'Drivetrain Cycle 8'}
+2026-05-14 14:34:22,210 [INFO] Starting Drivetrain Cycle with ramp...
+2026-05-14 14:35:02,563 [INFO] Drivetrain Cycle complete
+2026-05-14 14:35:02,564 [INFO] {'Drivetrain Cycle 9'}
+2026-05-14 14:35:02,564 [INFO] Starting Drivetrain Cycle with ramp...
+2026-05-14 14:35:42,184 [INFO] Drivetrain Cycle complete
+2026-05-14 14:35:42,184 [INFO] Testing Completed.  The Chain Survived!
+2026-05-14 14:35:42,185 [INFO] Testing has concluded / Stopping Motors . . . 
+2026-05-14 14:35:42,185 [INFO] ///////
+2026-05-14 14:35:42,185 [INFO] ///////
+2026-05-14 14:35:42,186 [INFO] ///////
+2026-05-14 14:35:42,186 [INFO] ========================================
+2026-05-14 14:35:42,187 [INFO] MOTOR 1 SESSION SUMMARY
+2026-05-14 14:35:42,187 [INFO] Total pulses: 259758
+2026-05-14 14:35:42,187 [INFO] Total revolutions: 649.39
+2026-05-14 14:35:42,188 [INFO] Total run time: 288.00 seconds
+2026-05-14 14:35:42,188 [INFO] How did change drop if it did:
+2026-05-14 14:35:42,189 [INFO] Drivetrain Shaker Test Setup: 17T Cog, SLX RD no clutch, KMC Chain, 9th gear, Pivot Rear, bumper, and 19 lbs/in spring
+2026-05-14 14:35:42,189 [INFO] Average RPM: 135.29
+2026-05-14 14:35:42,189 [INFO] ========================================
+2026-05-14 14:35:42,190 [INFO] 
+Testing has concluded
+2026-05-14 14:35:43,192 [INFO] Stopping Motors . . . 

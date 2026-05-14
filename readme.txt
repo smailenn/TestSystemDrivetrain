@@ -13,8 +13,7 @@ precise while an Adafruit Feather ESP32 with much higher timing requirements dri
 Also see the Drivetrain_Tester_Design.xlsx in the Engineering Folder / Projects
 
 == Step 1: Installation
-The Python Code "Drivetrain Shaker Test.py" is the main program to interact with the drivetrain Tester.  This program runs the chain
-engagement testing.  
+The Python Code "Drivetrain Shaker Test.py" is the main program to interact with the drivetrain Tester.  This program runs the chain engagement testing.  
 The Python Code "Wear Test.py" is the program used for wear testing blocks.  
 The Python Code "Drivetrain_setup_program.py" is used for troubleshooting.  
 The Python program is run directly on the Raspberry Pi and you can hook up a monitor and mouse and run it directly or run it 
@@ -22,7 +21,7 @@ headless using VSC to ssh shell into Raspberry Pi 4 B headless to interact and r
 
 # Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
 # ssh 192.168.1.134 ip of Raspberry Pi
-# Username: drivetraintester
+# Username: drivetraintester or drivetraintester@MRPi.local
 # Password currently:  MRP! 
 
 The Arduino is hooked up to the Raspberry Pi via a serial connection / USB
