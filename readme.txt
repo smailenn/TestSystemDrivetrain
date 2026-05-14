@@ -1,7 +1,6 @@
 :Author: Sean Mailen
-:Email: sean@mrpbike.com
-:Date: 7/1/2025
-:Revision: A-00
+:Date: 5/14/2026
+:Revision: A-01
 :License: Public Domain
 
 = Project: Test System Drivetrain
@@ -14,20 +13,21 @@ precise while an Adafruit Feather ESP32 with much higher timing requirements dri
 Also see the Drivetrain_Tester_Design.xlsx in the Engineering Folder / Projects
 
 == Step 1: Installation
-The Python Code "Drivetrain Shaker Test.py" is the main program to interact with the drivetrain Tester
+The Python Code "Drivetrain Shaker Test.py" is the main program to interact with the drivetrain Tester.  This program runs the chain
+engagement testing.  
+The Python Code "Wear Test.py" is the program used for wear testing blocks.  
+The Python Code "Drivetrain_setup_program.py" is used for troubleshooting.  
 The Python program is run directly on the Raspberry Pi and you can hook up a monitor and mouse and run it directly or run it 
 headless using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
 
 # Using VSC to ssh shell into Raspberry Pi 4 B headless to interact and run code
 # ssh 192.168.1.134 ip of Raspberry Pi
-# typical is mailman@SeanPi.local
+# Username: drivetraintester
 # Password currently:  MRP! 
 
 The Arduino is hooked up to the Raspberry Pi via a serial connection / USB
 You do not need to interact with the Arduino unless the code needs to be updated
 If you do need to update the code it runs the "Arduino_Motor_2_Control" and you must directly connect to the controlboard via USB and typically Arduino IDE to program
-
-"Drivetrain_setup_program.py" is a program to do troubleshooting since its a simple program to run motors and check software and hardware 
 
 == Step 2: Assemble the circuit
 
@@ -91,6 +91,7 @@ you update the name then if you do multiple runs it will just save all data to t
  Test System Drivetrain   => Python Folder
   ├── Drivetrain Shaker Test.py
   |-- Drivetrain_setup_program.py
+  |-- Wear Test.py
   |-- Results
   |-- Results - Archive
   |-- Arduino_Motor_2_Control (hosted here but does not run here, on ESP32 microcontroller)
