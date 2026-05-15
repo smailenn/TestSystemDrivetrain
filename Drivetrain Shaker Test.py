@@ -25,7 +25,7 @@ BAUD = 115200
 # Initialize pigpio library
 pi = pigpio.pi()
 
-file_name = "TRP_Wave5A05_32T_Test5" # Change this to the name of your log file
+file_name = "TRP_Wave5A05_32T_11" # Change this to the name of your log file
 Test_setup = "17T Cog, SLX RD no clutch, KMC Chain, 9th gear, Pivot Rear, bumper, and 19 lbs/in spring" 
 # Change with setup changes
 
